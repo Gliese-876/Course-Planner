@@ -148,6 +148,37 @@ public sealed class RegistrationPriorityServiceTests
         Assert.False(RegistrationPriorityService.ApplyOrder(plan, new[] { "c", "a", "b" }));
     }
 
+    [Fact]
+    public void LockedCoursesAreExcludedAndUnlockedOrdersRemainDense()
+    {
+        var first = Course("first", "First", 1, 10, weekday: 1);
+        var locked = Course("locked", "Locked", 9, 10, weekday: 2);
+        var last = Course("last", "Last", 2, 10, weekday: 3);
+        var firstSnapshot = Snapshot("first-snapshot", first.OfferingId, 2);
+        var lockedSnapshot = Snapshot("locked-snapshot", locked.OfferingId, 0);
+        lockedSnapshot.IsLocked = true;
+        var lastSnapshot = Snapshot("last-snapshot", last.OfferingId, null);
+        var plan = new SelectionPlan
+        {
+            SemesterId = SemesterId,
+            Snapshots = { firstSnapshot, lockedSnapshot, lastSnapshot }
+        };
+
+        RegistrationPriorityService.NormalizeOrders(plan);
+        var analysis = RegistrationPriorityService.Analyze(plan, new[] { first, locked, last });
+
+        Assert.Null(lockedSnapshot.RegistrationOrder);
+        Assert.Equal(0, firstSnapshot.RegistrationOrder);
+        Assert.Equal(1, lastSnapshot.RegistrationOrder);
+        Assert.Equal(new[] { "first", "last" }, analysis.Select(item => item.OfferingId));
+        Assert.True(RegistrationPriorityService.ApplyOrder(
+            plan,
+            new[] { "last-snapshot", "first-snapshot" }));
+        Assert.Equal(1, firstSnapshot.RegistrationOrder);
+        Assert.Null(lockedSnapshot.RegistrationOrder);
+        Assert.Equal(0, lastSnapshot.RegistrationOrder);
+    }
+
     private const string SemesterId = "semester";
 
     private static SelectionPlan Plan(params CourseOffering[] courses)

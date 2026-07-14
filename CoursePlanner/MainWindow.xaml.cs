@@ -855,7 +855,7 @@ public sealed partial class MainWindow : Window
 
     private string PlanTabTitle(SelectionPlan plan, PlanTabMetrics metrics)
     {
-        var title = $"{plan.PlanName}  {metrics.TotalCredits:0.#} {_services.Localization.Localizer["CreditsShort"]}";
+        var title = $"{plan.PlanName}  {metrics.TotalCredits:0.##} {_services.Localization.Localizer["CreditsShort"]}";
         return metrics.ConflictSlots > 0
             ? $"{title}  {string.Format(_services.Localization.Localizer["PlanCreditsIncludeConflicts"], metrics.ConflictSlots)}"
             : title;

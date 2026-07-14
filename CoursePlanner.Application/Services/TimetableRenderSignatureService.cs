@@ -87,6 +87,7 @@ public static class TimetableRenderSignatureService
                     return new SnapshotSignature(
                         snapshot.SnapshotId,
                         snapshot.CourseOfferingId,
+                        snapshot.IsLocked,
                         snapshot.SnapshotAt.UtcTicks,
                         course is null ? null : CourseSignature.Create(course));
                 }).ToArray());
@@ -96,6 +97,7 @@ public static class TimetableRenderSignatureService
     private sealed record SnapshotSignature(
         string SnapshotId,
         string CourseOfferingId,
+        bool IsLocked,
         long SnapshotAtUtcTicks,
         CourseSignature? Course);
 

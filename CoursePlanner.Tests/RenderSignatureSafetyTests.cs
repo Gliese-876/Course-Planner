@@ -111,6 +111,58 @@ public sealed class RenderSignatureSafetyTests
     }
 
     [Fact]
+    public void TimetableAndLibrarySignaturesChangeWhenACourseLockChanges()
+    {
+        var semester = CreateSemester();
+        var course = CreateCourse([]);
+        var plan = CreatePlan("plan", "Plan");
+        plan.Snapshots.Add(new PlanCourseSnapshot
+        {
+            SnapshotId = "snapshot",
+            CourseOfferingId = course.OfferingId,
+            RegistrationOrder = 0
+        });
+        var timetableBefore = TimetableRenderSignatureService.Build(
+            semester,
+            plan,
+            null,
+            PlannerViewMode.Week,
+            1,
+            "Light",
+            [course]);
+        var libraryBefore = CourseLibraryRenderSignature.Build(
+            LanguageMode.English,
+            semester,
+            plan,
+            1,
+            [course],
+            [CreateGroup(course)]);
+
+        plan.Snapshots[0].IsLocked = true;
+        plan.Snapshots[0].RegistrationOrder = null;
+
+        Assert.NotEqual(
+            timetableBefore,
+            TimetableRenderSignatureService.Build(
+                semester,
+                plan,
+                null,
+                PlannerViewMode.Week,
+                1,
+                "Light",
+                [course]));
+        Assert.NotEqual(
+            libraryBefore,
+            CourseLibraryRenderSignature.Build(
+                LanguageMode.English,
+                semester,
+                plan,
+                1,
+                [course],
+                [CreateGroup(course)]));
+    }
+
+    [Fact]
     public void MaximumTimetableSignatureBuildIndexesCoursesOnceInsteadOfOncePerSnapshot()
     {
         var courses = Enumerable.Range(0, PlannerDataLimits.MaxCourses)

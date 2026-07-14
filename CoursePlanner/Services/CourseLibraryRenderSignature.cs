@@ -85,6 +85,7 @@ public static class CourseLibraryRenderSignature
                     return new SnapshotSignature(
                         snapshot.SnapshotId,
                         snapshot.CourseOfferingId,
+                        snapshot.IsLocked,
                         snapshot.SnapshotAt.UtcTicks,
                         course is null
                             ? null
@@ -98,6 +99,7 @@ public static class CourseLibraryRenderSignature
     private sealed record SnapshotSignature(
         string SnapshotId,
         string CourseOfferingId,
+        bool IsLocked,
         long SnapshotAtUtcTicks,
         CapacitySignature? Capacity);
 

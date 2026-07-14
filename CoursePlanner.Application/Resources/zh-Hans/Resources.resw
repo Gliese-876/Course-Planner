@@ -45,6 +45,15 @@
   <data name="CourseStatusInCurrentPlan" xml:space="preserve">
     <value>当前方案中的课程状态</value>
   </data>
+  <data name="CourseLocked" xml:space="preserve">
+    <value>已锁定</value>
+  </data>
+  <data name="CourseNotThisWeek" xml:space="preserve">
+    <value>非本周课程</value>
+  </data>
+  <data name="CourseNotThisWeekTitlePrefix" xml:space="preserve">
+    <value>非本周</value>
+  </data>
   <data name="NewCourse" xml:space="preserve">
     <value>新课程</value>
   </data>
@@ -272,6 +281,18 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>详情</value>
+  </data>
+  <data name="LockCourse" xml:space="preserve">
+    <value>锁定课程</value>
+  </data>
+  <data name="UnlockCourse" xml:space="preserve">
+    <value>解锁课程</value>
+  </data>
+  <data name="CourseLockedStatusFormat" xml:space="preserve">
+    <value>已锁定“{0}”，并从抢课顺序中隐藏。</value>
+  </data>
+  <data name="CourseUnlockedStatusFormat" xml:space="preserve">
+    <value>已解锁“{0}”，并恢复到抢课顺序。</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>

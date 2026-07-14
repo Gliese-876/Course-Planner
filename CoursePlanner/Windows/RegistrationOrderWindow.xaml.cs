@@ -578,7 +578,10 @@ public sealed partial class RegistrationOrderWindow : Window
         var displayedOrder = OrderedSnapshotIds;
         var retainPendingOrder = _persistence.CanRetainPending(
             plan,
-            plan.Snapshots.Select(snapshot => snapshot.SnapshotId).ToList());
+            plan.Snapshots
+                .Where(snapshot => !snapshot.IsLocked)
+                .Select(snapshot => snapshot.SnapshotId)
+                .ToList());
         if (!retainPendingOrder)
             _persistence.DiscardPending();
 
@@ -592,7 +595,10 @@ public sealed partial class RegistrationOrderWindow : Window
         var displayedOrder = OrderedSnapshotIds;
         var retainPendingOrder = plan is not null && _persistence.CanRetainPending(
             plan,
-            plan.Snapshots.Select(snapshot => snapshot.SnapshotId).ToList());
+            plan.Snapshots
+                .Where(snapshot => !snapshot.IsLocked)
+                .Select(snapshot => snapshot.SnapshotId)
+                .ToList());
         if (!retainPendingOrder)
             _persistence.DiscardPending();
 

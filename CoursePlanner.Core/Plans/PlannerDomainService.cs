@@ -94,6 +94,7 @@ public static class PlannerDomainService
         var result = new AddCourseResult();
         var existing = plan.Snapshots.FirstOrDefault(x => string.Equals(x.CourseOfferingId, source.OfferingId, StringComparison.Ordinal));
         var preservedRegistrationOrder = existing?.RegistrationOrder;
+        var preservedLockState = existing?.IsLocked ?? false;
         if (existing is not null)
         {
             if (duplicateResolution == DuplicateResolution.SkipExisting)
@@ -159,6 +160,7 @@ public static class PlannerDomainService
         {
             CourseOfferingId = source.OfferingId,
             RegistrationOrder = preservedRegistrationOrder,
+            IsLocked = preservedLockState,
             SnapshotAt = DateTimeOffset.UtcNow
         });
         RegistrationPriorityService.NormalizeOrders(plan);

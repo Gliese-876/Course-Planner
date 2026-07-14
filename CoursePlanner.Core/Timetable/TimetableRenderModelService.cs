@@ -9,14 +9,14 @@ public static class TimetableRenderModelService
         Semester semester,
         IEnumerable<int> weeks,
         IReadOnlyList<SlotDifference>? differences = null,
-        bool includeConflictLayout = true)
+        bool includeConflictLayout = true,
+        bool includeInactiveMeetings = false)
     {
         ArgumentNullException.ThrowIfNull(courses);
         ArgumentNullException.ThrowIfNull(semester);
         ArgumentNullException.ThrowIfNull(weeks);
 
         var requestedWeeks = weeks.Distinct().ToList();
-        var requestedWeekSet = requestedWeeks.ToHashSet();
         var pendingByWeek = requestedWeeks.ToDictionary(week => week, _ => new List<PendingBlock>());
         if (requestedWeeks.Count == 0)
             return new Dictionary<int, IReadOnlyList<TimetableCourseBlock>>();
@@ -26,7 +26,7 @@ public static class TimetableRenderModelService
         for (var courseIndex = 0; courseIndex < courseList.Count; courseIndex++)
         {
             var course = courseList[courseIndex];
-            var intervalsByOccurrence = new Dictionary<(int Week, int Weekday), List<PeriodInterval>>();
+            var activityByOccurrence = new Dictionary<(int Week, int Weekday), SlotActivity[]>();
             foreach (var meeting in course.MeetingTimes)
             {
                 if (meeting.Weekday is < 1 or > 7)
@@ -37,33 +37,50 @@ public static class TimetableRenderModelService
                 if (start > end)
                     continue;
 
-                foreach (var week in MeetingWeeksParser.Parse(
-                             meeting.Weeks,
-                             semester.WeekCount,
-                             meeting.WeekParity))
+                var activeWeeks = MeetingWeeksParser.Parse(
+                        meeting.Weeks,
+                        semester.WeekCount,
+                        meeting.WeekParity)
+                    .ToHashSet();
+                foreach (var week in requestedWeeks)
                 {
-                    if (!requestedWeekSet.Contains(week))
+                    var activity = activeWeeks.Contains(week)
+                        ? SlotActivity.Active
+                        : SlotActivity.Inactive;
+                    if (activity == SlotActivity.Inactive && !includeInactiveMeetings)
                         continue;
 
                     var key = (week, meeting.Weekday);
-                    if (!intervalsByOccurrence.TryGetValue(key, out var intervals))
+                    if (!activityByOccurrence.TryGetValue(key, out var periodActivity))
                     {
-                        intervals = new List<PeriodInterval>();
-                        intervalsByOccurrence[key] = intervals;
+                        periodActivity = new SlotActivity[maximumPeriod + 1];
+                        activityByOccurrence[key] = periodActivity;
                     }
 
-                    intervals.Add(new PeriodInterval(start, end));
+                    for (var period = start; period <= end; period++)
+                    {
+                        if (activity > periodActivity[period])
+                            periodActivity[period] = activity;
+                    }
                 }
             }
 
-            foreach (var (occurrence, intervals) in intervalsByOccurrence)
+            foreach (var (occurrence, periodActivity) in activityByOccurrence)
             {
                 PendingBlock? current = null;
-                foreach (var interval in intervals.OrderBy(interval => interval.Start).ThenBy(interval => interval.End))
+                for (var period = 1; period <= maximumPeriod; period++)
                 {
-                    if (current is not null && interval.Start <= current.EndPeriod)
+                    var activity = periodActivity[period];
+                    if (activity == SlotActivity.None)
                     {
-                        current.EndPeriod = Math.Max(current.EndPeriod, interval.End);
+                        current = null;
+                        continue;
+                    }
+
+                    if (current is not null &&
+                        current.IsInRequestedWeek == (activity == SlotActivity.Active))
+                    {
+                        current.EndPeriod = period;
                         continue;
                     }
 
@@ -72,8 +89,9 @@ public static class TimetableRenderModelService
                         courseIndex,
                         occurrence.Week,
                         occurrence.Weekday,
-                        interval.Start,
-                        interval.End);
+                        period,
+                        period,
+                        activity == SlotActivity.Active);
                     pendingByWeek[occurrence.Week].Add(current);
                 }
             }
@@ -155,14 +173,16 @@ public static class TimetableRenderModelService
         Semester semester,
         int week,
         IReadOnlyList<SlotDifference>? differences = null,
-        bool includeConflictLayout = true)
+        bool includeConflictLayout = true,
+        bool includeInactiveMeetings = false)
     {
         var blocks = BuildCourseBlocksByWeek(
             courses,
             semester,
             new[] { week },
             differences,
-            includeConflictLayout);
+            includeConflictLayout,
+            includeInactiveMeetings);
         return blocks[week];
     }
 
@@ -192,6 +212,8 @@ public static class TimetableRenderModelService
         EndPeriod = block.EndPeriod,
         ConflictCount = block.ConflictCount,
         ConflictIndex = block.ConflictIndex,
+        IsInRequestedWeek = block.IsInRequestedWeek,
+        HasConflictInRequestedWeek = block.HasConflictInRequestedWeek,
         Difference = block.Difference
     };
 
@@ -227,11 +249,13 @@ public static class TimetableRenderModelService
                     block.Week,
                     block.Weekday,
                     period,
-                    period)
+                    period,
+                    block.IsInRequestedWeek)
                 {
                     Difference = resolved.Value,
                     ConflictIndex = block.ConflictIndex,
-                    ConflictCount = block.ConflictCount
+                    ConflictCount = block.ConflictCount,
+                    HasConflictInRequestedWeek = block.HasConflictInRequestedWeek
                 };
                 result.Add(segment);
                 previous = resolved;
@@ -320,9 +344,31 @@ public static class TimetableRenderModelService
 
         foreach (var block in component)
             block.ConflictCount = laneCount;
+
+        var inWeekBlocks = component
+            .Where(block => block.IsInRequestedWeek)
+            .OrderBy(block => block.StartPeriod)
+            .ThenBy(block => block.EndPeriod)
+            .ThenBy(block => block.CourseIndex)
+            .ToList();
+        var maximumPreviousEnd = 0;
+        for (var index = 0; index < inWeekBlocks.Count; index++)
+        {
+            var block = inWeekBlocks[index];
+            var overlapsPrevious = maximumPreviousEnd >= block.StartPeriod;
+            var overlapsNext = index + 1 < inWeekBlocks.Count &&
+                               inWeekBlocks[index + 1].StartPeriod <= block.EndPeriod;
+            block.HasConflictInRequestedWeek = overlapsPrevious || overlapsNext;
+            maximumPreviousEnd = Math.Max(maximumPreviousEnd, block.EndPeriod);
+        }
     }
 
-    private readonly record struct PeriodInterval(int Start, int End);
+    private enum SlotActivity
+    {
+        None,
+        Inactive,
+        Active
+    }
 
     private readonly record struct ResolvedDifference(
         SlotDifference? Value,
@@ -547,7 +593,8 @@ public static class TimetableRenderModelService
         int week,
         int weekday,
         int startPeriod,
-        int endPeriod)
+        int endPeriod,
+        bool isInRequestedWeek)
     {
         public CourseOffering Course { get; } = course;
         public int CourseIndex { get; } = courseIndex;
@@ -555,6 +602,8 @@ public static class TimetableRenderModelService
         public int Weekday { get; } = weekday;
         public int StartPeriod { get; } = startPeriod;
         public int EndPeriod { get; set; } = endPeriod;
+        public bool IsInRequestedWeek { get; } = isInRequestedWeek;
+        public bool HasConflictInRequestedWeek { get; set; }
         public int ConflictIndex { get; set; }
         public int ConflictCount { get; set; } = 1;
         public SlotDifference? Difference { get; init; }

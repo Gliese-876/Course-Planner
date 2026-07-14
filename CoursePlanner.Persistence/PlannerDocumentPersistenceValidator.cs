@@ -153,12 +153,16 @@ internal static class PlannerDocumentPersistenceValidator
                 if (!string.Equals(plan.SemesterId, course.SemesterId, StringComparison.Ordinal))
                     issues.Add("Snapshot.Course.CrossSemester");
             }
-            var registrationOrders = plan.Snapshots
+            var unlockedSnapshots = plan.Snapshots
+                .Where(snapshot => !snapshot.IsLocked)
+                .ToList();
+            var registrationOrders = unlockedSnapshots
                 .Select(snapshot => snapshot.RegistrationOrder)
                 .OrderBy(order => order)
                 .ToArray();
             if (!registrationOrders.SequenceEqual(
-                    Enumerable.Range(0, plan.Snapshots.Count).Select(index => (int?)index)))
+                    Enumerable.Range(0, unlockedSnapshots.Count).Select(index => (int?)index)) ||
+                plan.Snapshots.Any(snapshot => snapshot.IsLocked && snapshot.RegistrationOrder is not null))
             {
                 issues.Add("Snapshot.RegistrationOrder.Invalid");
             }

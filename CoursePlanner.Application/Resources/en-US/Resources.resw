@@ -45,6 +45,15 @@
   <data name="CourseStatusInCurrentPlan" xml:space="preserve">
     <value>Course status in current plan</value>
   </data>
+  <data name="CourseLocked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="CourseNotThisWeek" xml:space="preserve">
+    <value>Not scheduled this week</value>
+  </data>
+  <data name="CourseNotThisWeekTitlePrefix" xml:space="preserve">
+    <value>Not this week</value>
+  </data>
   <data name="NewCourse" xml:space="preserve">
     <value>New Course</value>
   </data>
@@ -272,6 +281,18 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
+  </data>
+  <data name="LockCourse" xml:space="preserve">
+    <value>Lock course</value>
+  </data>
+  <data name="UnlockCourse" xml:space="preserve">
+    <value>Unlock course</value>
+  </data>
+  <data name="CourseLockedStatusFormat" xml:space="preserve">
+    <value>Locked “{0}” and hid it from registration order.</value>
+  </data>
+  <data name="CourseUnlockedStatusFormat" xml:space="preserve">
+    <value>Unlocked “{0}” and restored it to registration order.</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>

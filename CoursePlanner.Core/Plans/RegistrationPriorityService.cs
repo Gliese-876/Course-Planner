@@ -38,6 +38,9 @@ public static class RegistrationPriorityService
     {
         ArgumentNullException.ThrowIfNull(plan);
 
+        foreach (var snapshot in plan.Snapshots.Where(snapshot => snapshot.IsLocked))
+            snapshot.RegistrationOrder = null;
+
         var ordered = ResolveOrder(plan, currentSnapshotOrder: null);
         for (var index = 0; index < ordered.Count; index++)
             ordered[index].Snapshot.RegistrationOrder = index;
@@ -388,6 +391,7 @@ public static class RegistrationPriorityService
         IReadOnlyList<string>? currentSnapshotOrder)
     {
         var persistedOrder = plan.Snapshots
+            .Where(snapshot => !snapshot.IsLocked)
             .Select((snapshot, originalIndex) => new SnapshotEntry(snapshot, originalIndex))
             .OrderBy(entry => entry.Snapshot.RegistrationOrder is >= 0 ? 0 : 1)
             .ThenBy(entry => entry.Snapshot.RegistrationOrder ?? int.MaxValue)
