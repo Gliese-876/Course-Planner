@@ -1,0 +1,1599 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>选课助手</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>规划课程、比较课表并整理抢课顺序</value>
+  </data>
+  <data name="Planner" xml:space="preserve">
+    <value>规划</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="CourseLibrary" xml:space="preserve">
+    <value>课程库</value>
+  </data>
+  <data name="Plans" xml:space="preserve">
+    <value>方案</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>搜索课程</value>
+  </data>
+  <data name="AllSemesters" xml:space="preserve">
+    <value>全部学期</value>
+  </data>
+  <data name="CurrentSemester" xml:space="preserve">
+    <value>当前学期</value>
+  </data>
+  <data name="PlanCreditsIncludeConflicts" xml:space="preserve">
+    <value>含 {0} 个冲突时段</value>
+  </data>
+  <data name="CourseStatusInCurrentPlan" xml:space="preserve">
+    <value>当前方案中的课程状态</value>
+  </data>
+  <data name="NewCourse" xml:space="preserve">
+    <value>新课程</value>
+  </data>
+  <data name="NewPlan" xml:space="preserve">
+    <value>新方案</value>
+  </data>
+  <data name="NewSemester" xml:space="preserve">
+    <value>新学期</value>
+  </data>
+  <data name="DefaultSemesterName" xml:space="preserve">
+    <value>2026-2027 学年第一学期</value>
+  </data>
+  <data name="DefaultPlanName" xml:space="preserve">
+    <value>方案 1</value>
+  </data>
+  <data name="CopiedPlan" xml:space="preserve">
+    <value>复制方案</value>
+  </data>
+  <data name="CopiedPlanNameFormat" xml:space="preserve">
+    <value>{0} 副本</value>
+  </data>
+  <data name="OpenPlan" xml:space="preserve">
+    <value>打开方案</value>
+  </data>
+  <data name="RegistrationOrder" xml:space="preserve">
+    <value>抢课顺序</value>
+  </data>
+  <data name="RegistrationOrderDialogTitleFormat" xml:space="preserve">
+    <value>{0} · 抢课顺序</value>
+  </data>
+  <data name="RegistrationOrderDescription" xml:space="preserve">
+    <value>拖动课程调整尝试顺序，或让智能排序先给出可解释的建议。保存只会改变抢课优先级，不会改变课表布局。</value>
+  </data>
+  <data name="SmartSort" xml:space="preserve">
+    <value>智能排序</value>
+  </data>
+  <data name="PinWindow" xml:space="preserve">
+    <value>置顶窗口</value>
+  </data>
+  <data name="UnpinWindow" xml:space="preserve">
+    <value>取消置顶</value>
+  </data>
+  <data name="ResetWindowSize" xml:space="preserve">
+    <value>重置窗口尺寸</value>
+  </data>
+  <data name="MinimizeWindow" xml:space="preserve">
+    <value>最小化窗口</value>
+  </data>
+  <data name="CloseWindow" xml:space="preserve">
+    <value>关闭窗口</value>
+  </data>
+  <data name="BackgroundOperation" xml:space="preserve">
+    <value>当前操作</value>
+  </data>
+  <data name="CloseBlockedByBackgroundOperationTitle" xml:space="preserve">
+    <value>操作正在进行</value>
+  </data>
+  <data name="CloseBlockedByBackgroundOperationMessageFormat" xml:space="preserve">
+    <value>“{0}”进行期间无法关闭选课助手。请等待操作完成后重试。</value>
+  </data>
+  <data name="RuntimeOperationErrorTitle" xml:space="preserve">
+    <value>操作失败</value>
+  </data>
+  <data name="RuntimeOperationErrorMessage" xml:space="preserve">
+    <value>操作未能完成，刚才的更改可能尚未保存。请检查存储访问权限和可用磁盘空间，然后重试。</value>
+  </data>
+  <data name="RegistrationSmartSortHint" xml:space="preserve">
+    <value>根据名额、课程类型与修读类型自动优化顺序</value>
+  </data>
+  <data name="RegistrationOrderListHelp" xml:space="preserve">
+    <value>拖动课程排序；按 Alt+↑/↓ 微调。更改会自动保存。</value>
+  </data>
+  <data name="RegistrationCapacityCompactFormat" xml:space="preserve">
+    <value>{0}/{1}</value>
+  </data>
+  <data name="RegistrationPriorityRiskCompactFormat" xml:space="preserve">
+    <value>风险 {0}</value>
+  </data>
+  <data name="RegistrationPriorityRiskUnderOne" xml:space="preserve">
+    <value>&lt;1%</value>
+  </data>
+  <data name="RegistrationPriorityUnavailableCompact" xml:space="preserve">
+    <value>无余位</value>
+  </data>
+  <data name="RegistrationPriorityUnknownCompact" xml:space="preserve">
+    <value>待判断</value>
+  </data>
+  <data name="ResetOrder" xml:space="preserve">
+    <value>恢复打开时顺序</value>
+  </data>
+  <data name="AlgorithmHelp" xml:space="preserve">
+    <value>排序依据</value>
+  </data>
+  <data name="RegistrationAlgorithmTitle" xml:space="preserve">
+    <value>智能排序如何工作</value>
+  </data>
+  <data name="RegistrationAlgorithmDescription" xml:space="preserve">
+    <value>算法先用单侧 90% Wilson 上置信界修正小样本的占用压力，再估计剩余名额在一次操作延迟内全部消失的风险；随后按修读类型（核心、必修、选修）、课程类型（专业、通识、自由）、学分和可用平行班计算失败代价。自定义标签会通过常见中英文表述识别，无法可靠判断时按中性权重处理；数据不足时保留手动顺序。</value>
+  </data>
+  <data name="RegistrationOrderEmptyTitle" xml:space="preserve">
+    <value>当前方案没有课程</value>
+  </data>
+  <data name="RegistrationOrderEmptyMessage" xml:space="preserve">
+    <value>先向方案添加课程，再设置抢课顺序。</value>
+  </data>
+  <data name="RegistrationOrderSmartSorted" xml:space="preserve">
+    <value>已按预期失位损失重新排序；仍可拖动微调。</value>
+  </data>
+  <data name="RegistrationCapacityFormat" xml:space="preserve">
+    <value>{0}/{1} 已选 · 剩余 {2}</value>
+  </data>
+  <data name="RegistrationCapacityUnknown" xml:space="preserve">
+    <value>人数或容量数据不足</value>
+  </data>
+  <data name="RegistrationCapacityUnavailableFormat" xml:space="preserve">
+    <value>{0}/{1} 已选 · 当前无余位</value>
+  </data>
+  <data name="RegistrationPriorityRiskFormat" xml:space="preserve">
+    <value>延迟失位风险 {0}</value>
+  </data>
+  <data name="RegistrationPriorityRequiredReason" xml:space="preserve">
+    <value>课程类型与修读类型的失败代价已加权</value>
+  </data>
+  <data name="RegistrationPriorityAlternativeReasonFormat" xml:space="preserve">
+    <value>{0:0.#} 个有效平行班可缓冲失败</value>
+  </data>
+  <data name="RegistrationPriorityModelReason" xml:space="preserve">
+    <value>Wilson 小样本修正</value>
+  </data>
+  <data name="RegistrationPriorityUnavailableReason" xml:space="preserve">
+    <value>当前成功率为零，智能排序会将其置后</value>
+  </data>
+  <data name="RegistrationPriorityUnknownReason" xml:space="preserve">
+    <value>数据不足，智能排序保留手动顺序</value>
+  </data>
+  <data name="RegistrationPriorityMissingReference" xml:space="preserve">
+    <value>课程引用缺失</value>
+  </data>
+  <data name="SaveOrder" xml:space="preserve">
+    <value>保存顺序</value>
+  </data>
+  <data name="RegistrationOrderSaved" xml:space="preserve">
+    <value>抢课顺序已保存。</value>
+  </data>
+  <data name="NoOpenPlans" xml:space="preserve">
+    <value>没有打开的方案</value>
+  </data>
+  <data name="NoSemesters" xml:space="preserve">
+    <value>还没有学期</value>
+  </data>
+  <data name="NoCoursesInLibrary" xml:space="preserve">
+    <value>课程库中没有课程</value>
+  </data>
+  <data name="NoMatchingCourses" xml:space="preserve">
+    <value>没有匹配的课程</value>
+  </data>
+  <data name="NoPlanSelected" xml:space="preserve">
+    <value>未选择方案</value>
+  </data>
+  <data name="NoCourseSelected" xml:space="preserve">
+    <value>未选择课程</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>更多</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>备份</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="RefreshPlan" xml:space="preserve">
+    <value>刷新本方案</value>
+  </data>
+  <data name="RefreshAll" xml:space="preserve">
+    <value>刷新全部方案</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>撤销</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>重做</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>周课表</value>
+  </data>
+  <data name="SemesterOverview" xml:space="preserve">
+    <value>学期概览</value>
+  </data>
+  <data name="Compare" xml:space="preserve">
+    <value>比较</value>
+  </data>
+  <data name="DifferenceAdded" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="DifferenceRemoved" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="DifferenceModified" xml:space="preserve">
+    <value>变更</value>
+  </data>
+  <data name="PreviousWeek" xml:space="preserve">
+    <value>上一周</value>
+  </data>
+  <data name="NextWeek" xml:space="preserve">
+    <value>下一周</value>
+  </data>
+  <data name="SwapComparisonDirection" xml:space="preserve">
+    <value>交换比较方向</value>
+  </data>
+  <data name="CloseCourseLibrary" xml:space="preserve">
+    <value>关闭课程库</value>
+  </data>
+  <data name="CloseDetails" xml:space="preserve">
+    <value>关闭详情</value>
+  </data>
+  <data name="ClosePlanTab" xml:space="preserve">
+    <value>关闭方案标签</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>放弃</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>重试</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="ClearPlan" xml:space="preserve">
+    <value>清空当前方案</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>教师</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>地点</value>
+  </data>
+  <data name="Credits" xml:space="preserve">
+    <value>学分</value>
+  </data>
+  <data name="CreditsShort" xml:space="preserve">
+    <value>学分</value>
+  </data>
+  <data name="Courses" xml:space="preserve">
+    <value>门课程</value>
+  </data>
+  <data name="Capacity" xml:space="preserve">
+    <value>容量</value>
+  </data>
+  <data name="Enrolled" xml:space="preserve">
+    <value>已选</value>
+  </data>
+  <data name="GroupType" xml:space="preserve">
+    <value>课程类型</value>
+  </data>
+  <data name="StudyType" xml:space="preserve">
+    <value>修读类型</value>
+  </data>
+  <data name="Labels" xml:space="preserve">
+    <value>普通标签</value>
+  </data>
+  <data name="Meetings" xml:space="preserve">
+    <value>上课时间</value>
+  </data>
+  <data name="MeetingItemTitleFormat" xml:space="preserve">
+    <value>上课时间 {0}</value>
+  </data>
+  <data name="MeetingWeekday" xml:space="preserve">
+    <value>星期</value>
+  </data>
+  <data name="MeetingPeriods" xml:space="preserve">
+    <value>节次</value>
+  </data>
+  <data name="MeetingPeriodsFormat" xml:space="preserve">
+    <value>{0}-{1} 节</value>
+  </data>
+  <data name="MeetingStartPeriod" xml:space="preserve">
+    <value>开始节次</value>
+  </data>
+  <data name="MeetingEndPeriod" xml:space="preserve">
+    <value>结束节次</value>
+  </data>
+  <data name="MeetingWeeks" xml:space="preserve">
+    <value>周次</value>
+  </data>
+  <data name="MeetingWeeksDisplayFormat" xml:space="preserve">
+    <value>{0} 周</value>
+  </data>
+  <data name="MeetingParity" xml:space="preserve">
+    <value>单双周</value>
+  </data>
+  <data name="MeetingParityAll" xml:space="preserve">
+    <value>每周</value>
+  </data>
+  <data name="MeetingParityOdd" xml:space="preserve">
+    <value>单周</value>
+  </data>
+  <data name="MeetingParityEven" xml:space="preserve">
+    <value>双周</value>
+  </data>
+  <data name="AddMeetingTime" xml:space="preserve">
+    <value>添加时间</value>
+  </data>
+  <data name="RemoveMeetingTime" xml:space="preserve">
+    <value>删除时间</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="CourseColor" xml:space="preserve">
+    <value>课程色</value>
+  </data>
+  <data name="RecommendedColor" xml:space="preserve">
+    <value>推荐色</value>
+  </data>
+  <data name="CourseColorBrightnessWarning" xml:space="preserve">
+    <value>该颜色超出自动生成色的推荐亮度与背景距离范围；可以保存，但可能在浅色或深色模式下不够清晰。</value>
+  </data>
+  <data name="AdvancedFilters" xml:space="preserve">
+    <value>高级筛选</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>筛选</value>
+  </data>
+  <data name="LabelFilter" xml:space="preserve">
+    <value>普通标签（同字段 OR，逗号分隔）</value>
+  </data>
+  <data name="GroupFilter" xml:space="preserve">
+    <value>课程类型（OR）</value>
+  </data>
+  <data name="StudyFilter" xml:space="preserve">
+    <value>修读类型（OR）</value>
+  </data>
+  <data name="TeacherFilter" xml:space="preserve">
+    <value>教师（OR）</value>
+  </data>
+  <data name="LocationFilter" xml:space="preserve">
+    <value>地点（OR）</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>搜索设置</value>
+  </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>应用显示语言</value>
+  </data>
+  <data name="ThemeDescription" xml:space="preserve">
+    <value>颜色模式和系统主题行为</value>
+  </data>
+  <data name="FollowSystem" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
+  <data name="Chinese" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="SemesterManagement" xml:space="preserve">
+    <value>学期管理</value>
+  </data>
+  <data name="Semesters" xml:space="preserve">
+    <value>学期</value>
+  </data>
+  <data name="SemestersDescription" xml:space="preserve">
+    <value>选择要编辑的学期</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>开始日期</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>结束日期</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>年份</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>月份</value>
+  </data>
+  <data name="PreviousMonth" xml:space="preserve">
+    <value>上个月</value>
+  </data>
+  <data name="NextMonth" xml:space="preserve">
+    <value>下个月</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>分钟</value>
+  </data>
+  <data name="Weeks" xml:space="preserve">
+    <value>周数</value>
+  </data>
+  <data name="WeekStarts" xml:space="preserve">
+    <value>周起始日</value>
+  </data>
+  <data name="WeekStartMonday" xml:space="preserve">
+    <value>周一</value>
+  </data>
+  <data name="WeekStartSunday" xml:space="preserve">
+    <value>周日</value>
+  </data>
+  <data name="PeriodSchedule" xml:space="preserve">
+    <value>节次时间表</value>
+  </data>
+  <data name="PeriodScheduleDescription" xml:space="preserve">
+    <value>添加、删除每日节次并编辑每节起止时间</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>节次</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>开始</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>结束</value>
+  </data>
+  <data name="DataManagement" xml:space="preserve">
+    <value>数据管理</value>
+  </data>
+  <data name="DatabaseLocation" xml:space="preserve">
+    <value>数据库位置</value>
+  </data>
+  <data name="DatabaseLocationDescription" xml:space="preserve">
+    <value>用文件资源管理器打开本地数据文件夹</value>
+  </data>
+  <data name="OpenDatabaseFolder" xml:space="preserve">
+    <value>打开数据库文件夹</value>
+  </data>
+  <data name="BackupAndExchange" xml:space="preserve">
+    <value>备份与恢复</value>
+  </data>
+  <data name="BackupAndExchangeDescription" xml:space="preserve">
+    <value>创建或恢复包含全部选课数据的备份</value>
+  </data>
+  <data name="SoftwareInformation" xml:space="preserve">
+    <value>软件信息</value>
+  </data>
+  <data name="AppVersionFormat" xml:space="preserve">
+    <value>版本 {0}</value>
+  </data>
+  <data name="Publisher" xml:space="preserve">
+    <value>发布者</value>
+  </data>
+  <data name="OpenGitHubProfile" xml:space="preserve">
+    <value>打开 GitHub 主页</value>
+  </data>
+  <data name="OpenSourceLicense" xml:space="preserve">
+    <value>MIT 许可证</value>
+  </data>
+  <data name="OpenSourceLicenseDescriptionFormat" xml:space="preserve">
+    <value>{0} 采用 MIT 许可证开源</value>
+  </data>
+  <data name="ViewMitLicense" xml:space="preserve">
+    <value>查看 MIT 许可证</value>
+  </data>
+  <data name="MitLicenseTitle" xml:space="preserve">
+    <value>MIT 许可证</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>第三方许可证</value>
+  </data>
+  <data name="LicensesDescription" xml:space="preserve">
+    <value>查看应用使用的第三方组件许可证</value>
+  </data>
+  <data name="ViewLicenses" xml:space="preserve">
+    <value>查看许可证</value>
+  </data>
+  <data name="LicenseNoticeIntro" xml:space="preserve">
+    <value>本应用使用以下第三方组件。完整许可证以对应项目仓库或 NuGet 包为准。</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="SavePeriod" xml:space="preserve">
+    <value>保存节次</value>
+  </data>
+  <data name="AddPeriod" xml:space="preserve">
+    <value>添加节次</value>
+  </data>
+  <data name="DeletePeriod" xml:space="preserve">
+    <value>删除节次</value>
+  </data>
+  <data name="ResetDefault" xml:space="preserve">
+    <value>重置默认</value>
+  </data>
+  <data name="ClearCurrentSemesterCourses" xml:space="preserve">
+    <value>清空当前学期课程</value>
+  </data>
+  <data name="CannotSaveSemester" xml:space="preserve">
+    <value>无法保存学期</value>
+  </data>
+  <data name="DeleteSemester" xml:space="preserve">
+    <value>删除学期</value>
+  </data>
+  <data name="DeleteSemesterConfirm" xml:space="preserve">
+    <value>将创建自动备份，然后删除该学期、其课程库课程和方案。继续？</value>
+  </data>
+  <data name="ClearCourses" xml:space="preserve">
+    <value>清空课程</value>
+  </data>
+  <data name="ClearCoursesConfirm" xml:space="preserve">
+    <value>清空所选学期的所有课程库课程？使用这些课程的方案会同步移除对应课程引用。</value>
+  </data>
+  <data name="InvalidPeriod" xml:space="preserve">
+    <value>节次无效</value>
+  </data>
+  <data name="EndTimeAfterStart" xml:space="preserve">
+    <value>结束时间必须晚于开始时间。</value>
+  </data>
+  <data name="PeriodScheduleCannotExtend" xml:space="preserve">
+    <value>无法添加该节次，否则生成的时间表会跨越午夜。</value>
+  </data>
+  <data name="DeletePeriodConfirm" xml:space="preserve">
+    <value>删除第 {0} 节？使用该节次的课程可能变为超出范围。</value>
+  </data>
+  <data name="ResetPeriods" xml:space="preserve">
+    <value>重置节次</value>
+  </data>
+  <data name="ResetPeriodsConfirm" xml:space="preserve">
+    <value>将该学期重置为默认 12 节时间表？第 12 节之后的上课安排将被移除，跨越第 12 节的安排将被截短。</value>
+  </data>
+  <data name="LabelManagement" xml:space="preserve">
+    <value>标签</value>
+  </data>
+  <data name="LabelManagementDescription" xml:space="preserve">
+    <value>管理课程类型、修读类型和普通标签</value>
+  </data>
+  <data name="LabelName" xml:space="preserve">
+    <value>标签名称</value>
+  </data>
+  <data name="LabelKind" xml:space="preserve">
+    <value>标签类型</value>
+  </data>
+  <data name="LabelKindOrdinary" xml:space="preserve">
+    <value>普通标签</value>
+  </data>
+  <data name="LabelKindCourseGroup" xml:space="preserve">
+    <value>课程类型</value>
+  </data>
+  <data name="LabelKindStudy" xml:space="preserve">
+    <value>修读类型</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>上移</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>下移</value>
+  </data>
+  <data name="NewLabel" xml:space="preserve">
+    <value>新标签</value>
+  </data>
+  <data name="SaveLabel" xml:space="preserve">
+    <value>保存标签</value>
+  </data>
+  <data name="DeleteLabel" xml:space="preserve">
+    <value>删除标签</value>
+  </data>
+  <data name="CannotSaveLabel" xml:space="preserve">
+    <value>无法保存标签</value>
+  </data>
+  <data name="DeleteLabelConfirm" xml:space="preserve">
+    <value>删除标签 {0}？使用它的课程关联会被清除。</value>
+  </data>
+  <data name="BackupCreated" xml:space="preserve">
+    <value>备份已创建</value>
+  </data>
+  <data name="BackupFailed" xml:space="preserve">
+    <value>备份失败</value>
+  </data>
+  <data name="DeleteSemesterBackupFailed" xml:space="preserve">
+    <value>无法创建安全备份，因此未删除学期。请检查存储访问权限和可用磁盘空间后重试。</value>
+  </data>
+  <data name="RestoreBackup" xml:space="preserve">
+    <value>恢复备份</value>
+  </data>
+  <data name="RestoreConfirm" xml:space="preserve">
+    <value>恢复会在创建自动恢复前备份后覆盖当前数据。继续？</value>
+  </data>
+  <data name="RestoreComplete" xml:space="preserve">
+    <value>恢复完成</value>
+  </data>
+  <data name="RestoreFailed" xml:space="preserve">
+    <value>恢复失败</value>
+  </data>
+  <data name="RestoreCommittedRefreshRequired" xml:space="preserve">
+    <value>恢复已完成；应用需要刷新</value>
+  </data>
+  <data name="RestoreCommittedRefreshMessage" xml:space="preserve">
+    <value>恢复的数据已经提交，但应用的部分状态未能刷新。请立即重新加载已提交的数据。</value>
+  </data>
+  <data name="RestoreCommittedRefreshRecoveryCompleteMessage" xml:space="preserve">
+    <value>恢复的数据此前已成功提交，应用状态现已重新加载。</value>
+  </data>
+  <data name="RestoreCleanupWarningFormat" xml:space="preserve">
+    <value>恢复的数据已经提交，但无法删除临时恢复文件。稍后可从此位置手动删除：{0}</value>
+  </data>
+  <data name="RestoreRecoveryComplete" xml:space="preserve">
+    <value>恢复状态已安全处理</value>
+  </data>
+  <data name="RestoreRecoveryCompleteMessage" xml:space="preserve">
+    <value>中断的恢复事务已安全终结，文档也已重新加载。现在可以再次尝试恢复备份。</value>
+  </data>
+  <data name="PreRestoreBackup" xml:space="preserve">
+    <value>恢复前备份</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>有未保存更改</value>
+  </data>
+  <data name="Conflict" xml:space="preserve">
+    <value>时间冲突</value>
+  </data>
+  <data name="Full" xml:space="preserve">
+    <value>满员</value>
+  </data>
+  <data name="Tight" xml:space="preserve">
+    <value>紧张</value>
+  </data>
+  <data name="CompareSelected" xml:space="preserve">
+    <value>比较所选方案</value>
+  </data>
+  <data name="BaseCourse" xml:space="preserve">
+    <value>基准课程</value>
+  </data>
+  <data name="RestoreToBase" xml:space="preserve">
+    <value>恢复为基准方案</value>
+  </data>
+  <data name="RemoveFromCurrent" xml:space="preserve">
+    <value>从当前方案移除</value>
+  </data>
+  <data name="AddFromBase" xml:space="preserve">
+    <value>从基准方案添加</value>
+  </data>
+  <data name="CannotRenamePlan" xml:space="preserve">
+    <value>无法重命名方案</value>
+  </data>
+  <data name="PlanNameUnique" xml:space="preserve">
+    <value>同一学期内方案名必须唯一。</value>
+  </data>
+  <data name="ClearPlanConfirm" xml:space="preserve">
+    <value>清空方案 {0}？</value>
+  </data>
+  <data name="DeletePlanConfirm" xml:space="preserve">
+    <value>删除方案 {0}？</value>
+  </data>
+  <data name="DiscardUnsavedChanges" xml:space="preserve">
+    <value>放弃未保存更改？</value>
+  </data>
+  <data name="DontSave" xml:space="preserve">
+    <value>不保存</value>
+  </data>
+  <data name="DeleteFromLibraryConfirm" xml:space="preserve">
+    <value>从课程库删除 {0}？</value>
+  </data>
+  <data name="DeleteFromLibraryImpact" xml:space="preserve">
+    <value>这会从 {0} 个方案中移除该课程：{1}。</value>
+  </data>
+  <data name="RemoveFromCurrentPlanConfirm" xml:space="preserve">
+    <value>从当前方案移除 {0}？</value>
+  </data>
+  <data name="CopyToCurrentSemester" xml:space="preserve">
+    <value>复制到当前学期</value>
+  </data>
+  <data name="CopyAndAdd" xml:space="preserve">
+    <value>复制并加入</value>
+  </data>
+  <data name="DuplicateCourse" xml:space="preserve">
+    <value>重复课程</value>
+  </data>
+  <data name="AlreadyInCurrentPlan" xml:space="preserve">
+    <value>{0} 已在当前方案中。</value>
+  </data>
+  <data name="ReplaceExisting" xml:space="preserve">
+    <value>替换已有课程</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>跳过</value>
+  </data>
+  <data name="KeepConflict" xml:space="preserve">
+    <value>保留冲突</value>
+  </data>
+  <data name="RemoveConflictsThenAdd" xml:space="preserve">
+    <value>移除冲突课程后加入</value>
+  </data>
+  <data name="ConflictsWith" xml:space="preserve">
+    <value>冲突课程：{0}</value>
+  </data>
+  <data name="AddedCourse" xml:space="preserve">
+    <value>已加入 {0}。</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="OpenFileFailed" xml:space="preserve">
+    <value>无法使用系统默认应用打开该文件。</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="AddAllToCourseLibrary" xml:space="preserve">
+    <value>全部添加到课程库</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="AllStatuses" xml:space="preserve">
+    <value>全部状态</value>
+  </data>
+  <data name="SemesterFilter" xml:space="preserve">
+    <value>学期筛选</value>
+  </data>
+  <data name="SearchVisibleFields" xml:space="preserve">
+    <value>搜索可见字段</value>
+  </data>
+  <data name="ForceSemesterMergeConflicts" xml:space="preserve">
+    <value>强制合并学期冲突</value>
+  </data>
+  <data name="UpdateLocalSemesterSettings" xml:space="preserve">
+    <value>更新本地学期设置</value>
+  </data>
+  <data name="ForceImportOutOfRangeCourses" xml:space="preserve">
+    <value>强制导入超范围课程</value>
+  </data>
+  <data name="ImportDecisionWarning" xml:space="preserve">
+    <value>更新本地学期设置会改变该学期所有课程和方案的显示方式。强制合并会导入到现有本地学期名下。超范围课程默认跳过，必须显式强制才会导入。</value>
+  </data>
+  <data name="SaveReport" xml:space="preserve">
+    <value>保存报告</value>
+  </data>
+  <data name="ImportedPlan" xml:space="preserve">
+    <value>导入方案</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>下一步</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="CancelImport" xml:space="preserve">
+    <value>取消导入</value>
+  </data>
+  <data name="ImportCheckingFile" xml:space="preserve">
+    <value>正在检查导入文件…</value>
+  </data>
+  <data name="ImportCompleted" xml:space="preserve">
+    <value>已完成导入。</value>
+  </data>
+  <data name="ImportNotApplied" xml:space="preserve">
+    <value>未导入任何内容。请先解决预览中的冲突或必选操作，然后重试。</value>
+  </data>
+  <data name="ImportFailed" xml:space="preserve">
+    <value>导入失败</value>
+  </data>
+  <data name="ImportPreview" xml:space="preserve">
+    <value>导入预览</value>
+  </data>
+  <data name="ImportChangesTitle" xml:space="preserve">
+    <value>请检查将要进行的更改</value>
+  </data>
+  <data name="ImportCourseSyncPreviewWarning" xml:space="preserve">
+    <value>此方案包含课程库中尚不存在的课程。只有将这些课程同步到课程库，才能导入方案。</value>
+  </data>
+  <data name="ImportMissingCourses" xml:space="preserve">
+    <value>课程库中缺少的课程</value>
+  </data>
+  <data name="ImportCourseSyncTitleFormat" xml:space="preserve">
+    <value>同时将 {0} 门课程导入课程库？</value>
+  </data>
+  <data name="ImportCourseSyncRequired" xml:space="preserve">
+    <value>当前方案引用的以下 {0} 门课程不在课程库中。只有先同步这些课程，才能导入当前方案。</value>
+  </data>
+  <data name="ImportSyncAndApply" xml:space="preserve">
+    <value>同步课程并导入方案</value>
+  </data>
+  <data name="ExportChooseContent" xml:space="preserve">
+    <value>请先选择要导出的内容。</value>
+  </data>
+  <data name="ExportContentType" xml:space="preserve">
+    <value>导出内容</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>导出设置</value>
+  </data>
+  <data name="ExportContentCurrentWeek" xml:space="preserve">
+    <value>当前周</value>
+  </data>
+  <data name="ExportContentWeekRange" xml:space="preserve">
+    <value>周范围</value>
+  </data>
+  <data name="ExportContentDetailedSemester" xml:space="preserve">
+    <value>整个学期</value>
+  </data>
+  <data name="ExportContentCurrentPlan" xml:space="preserve">
+    <value>当前方案数据（JSON）</value>
+  </data>
+  <data name="ExportContentCourseLibrary" xml:space="preserve">
+    <value>课程库数据（JSON）</value>
+  </data>
+  <data name="ExportContentShareText" xml:space="preserve">
+    <value>分享文本</value>
+  </data>
+  <data name="ExportContentUnavailable" xml:space="preserve">
+    <value>请先选择学期并打开方案。</value>
+  </data>
+  <data name="ExportFormat" xml:space="preserve">
+    <value>导出格式</value>
+  </data>
+  <data name="ExportFormatPng" xml:space="preserve">
+    <value>PNG 图片</value>
+  </data>
+  <data name="ExportFormatPdf" xml:space="preserve">
+    <value>矢量 PDF</value>
+  </data>
+  <data name="ExportTheme" xml:space="preserve">
+    <value>导出主题</value>
+  </data>
+  <data name="ExportThemeFollowSystemFormat" xml:space="preserve">
+    <value>跟随系统（当前为 {0}）</value>
+  </data>
+  <data name="ExportClarity" xml:space="preserve">
+    <value>图片清晰度</value>
+  </data>
+  <data name="ExportClarityStandard" xml:space="preserve">
+    <value>标清</value>
+  </data>
+  <data name="ExportClarityHigh" xml:space="preserve">
+    <value>高清（推荐）</value>
+  </data>
+  <data name="ExportClarityUltra" xml:space="preserve">
+    <value>超清</value>
+  </data>
+  <data name="ExportClarityExtreme" xml:space="preserve">
+    <value>极清</value>
+  </data>
+  <data name="ExportClarityMaximum" xml:space="preserve">
+    <value>最高</value>
+  </data>
+  <data name="ExportCourseBlockContent" xml:space="preserve">
+    <value>课程块显示内容</value>
+  </data>
+  <data name="ExportFieldCourseName" xml:space="preserve">
+    <value>课程名称</value>
+  </data>
+  <data name="ExportCourseNameRequired" xml:space="preserve">
+    <value>课程名称始终包含在导出内容中。</value>
+  </data>
+  <data name="ExportSummaryVisualFormat" xml:space="preserve">
+    <value>{0} · {1} · {2} · 已选 {3} 项课程信息</value>
+  </data>
+  <data name="ExportRequiresSemester" xml:space="preserve">
+    <value>请先选择学期。</value>
+  </data>
+  <data name="ExportRequiresPlan" xml:space="preserve">
+    <value>请先打开方案。</value>
+  </data>
+  <data name="ShareTextCopied" xml:space="preserve">
+    <value>分享文本已复制到剪贴板。</value>
+  </data>
+  <data name="CannotExportInvalidName" xml:space="preserve">
+    <value>无法导出：{0} 名称无效</value>
+  </data>
+  <data name="ReadableText" xml:space="preserve">
+    <value>可读文本</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>格式</value>
+  </data>
+  <data name="IncludeNotes" xml:space="preserve">
+    <value>包含备注</value>
+  </data>
+  <data name="StartWeek" xml:space="preserve">
+    <value>开始周</value>
+  </data>
+  <data name="EndWeek" xml:space="preserve">
+    <value>结束周</value>
+  </data>
+  <data name="ExportedWeeklyPngFiles" xml:space="preserve">
+    <value>已导出周 PNG 文件到 {0}。</value>
+  </data>
+  <data name="SavedFile" xml:space="preserve">
+    <value>已保存 {0}</value>
+  </data>
+  <data name="ReportFormat" xml:space="preserve">
+    <value>报告格式</value>
+  </data>
+  <data name="SaveImportReport" xml:space="preserve">
+    <value>保存导入报告</value>
+  </data>
+  <data name="ExportPathTooLong" xml:space="preserve">
+    <value>导出路径过长</value>
+  </data>
+  <data name="ExportFailed" xml:space="preserve">
+    <value>导出失败</value>
+  </data>
+  <data name="ChooseShorterPath" xml:space="preserve">
+    <value>请选择更短的文件名或目录后重新导出。</value>
+  </data>
+  <data name="ChooseAnotherPath" xml:space="preserve">
+    <value>请选择其他位置或文件名后重新导出。</value>
+  </data>
+  <data name="SaveCourseEditBeforeChangingDetails" xml:space="preserve">
+    <value>当前课程更改尚未保存。是否先保存？</value>
+  </data>
+  <data name="ValidationFailed" xml:space="preserve">
+    <value>校验失败</value>
+  </data>
+  <data name="AddMenu" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="CurrentPlan" xml:space="preserve">
+    <value>当前方案</value>
+  </data>
+  <data name="AllOpenPlans" xml:space="preserve">
+    <value>所有打开方案</value>
+  </data>
+  <data name="OtherPlans" xml:space="preserve">
+    <value>其他方案……</value>
+  </data>
+  <data name="DeleteFromLibrary" xml:space="preserve">
+    <value>从课程库删除</value>
+  </data>
+  <data name="SearchPlans" xml:space="preserve">
+    <value>搜索方案</value>
+  </data>
+  <data name="SelectTargetPlans" xml:space="preserve">
+    <value>选择目标方案</value>
+  </data>
+  <data name="AddedToPlans" xml:space="preserve">
+    <value>已加入 {0}/{1} 个方案</value>
+  </data>
+  <data name="ReplacedDuplicates" xml:space="preserve">
+    <value>替换 {0} 个重复项</value>
+  </data>
+  <data name="SkippedCount" xml:space="preserve">
+    <value>跳过 {0} 个</value>
+  </data>
+  <data name="CancelledConflicted" xml:space="preserve">
+    <value>取消 {0} 个冲突方案</value>
+  </data>
+  <data name="RemovedConflicting" xml:space="preserve">
+    <value>移除 {0} 个冲突课程</value>
+  </data>
+  <data name="BulkAddCourse" xml:space="preserve">
+    <value>批量添加课程</value>
+  </data>
+  <data name="ApplyDuplicateHandlingToAll" xml:space="preserve">
+    <value>将重复处理应用到全部</value>
+  </data>
+  <data name="PerPlan" xml:space="preserve">
+    <value>逐方案处理</value>
+  </data>
+  <data name="SkipExistingAll" xml:space="preserve">
+    <value>全部跳过已有课程</value>
+  </data>
+  <data name="ReplaceExistingAll" xml:space="preserve">
+    <value>全部替换已有课程</value>
+  </data>
+  <data name="ApplyConflictHandlingToAll" xml:space="preserve">
+    <value>将冲突处理应用到全部</value>
+  </data>
+  <data name="CancelConflictedPlans" xml:space="preserve">
+    <value>取消冲突目标方案</value>
+  </data>
+  <data name="AddAndKeepConflicts" xml:space="preserve">
+    <value>加入并保留冲突</value>
+  </data>
+  <data name="CopyTo" xml:space="preserve">
+    <value>复制到 {0}</value>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>重复</value>
+  </data>
+  <data name="Conflicts" xml:space="preserve">
+    <value>冲突：{0}</value>
+  </data>
+  <data name="SkipExisting" xml:space="preserve">
+    <value>跳过已有课程</value>
+  </data>
+  <data name="ReplaceExistingCourse" xml:space="preserve">
+    <value>替换已有课程</value>
+  </data>
+  <data name="CancelAddForThisPlan" xml:space="preserve">
+    <value>取消加入此方案</value>
+  </data>
+  <data name="ApplyToAll" xml:space="preserve">
+    <value>应用到全部</value>
+  </data>
+  <data name="AddToCurrentPlanCaption" xml:space="preserve">
+    <value>加入当前方案</value>
+  </data>
+  <data name="EnterValidHexColorFirst" xml:space="preserve">
+    <value>请先输入有效的 #RRGGBB 颜色。</value>
+  </data>
+  <data name="OutOfRange" xml:space="preserve">
+    <value>超出范围</value>
+  </data>
+  <data name="SaveAnyway" xml:space="preserve">
+    <value>仍然保存？</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>已保存。</value>
+  </data>
+  <data name="CourseIdentityWillChange" xml:space="preserve">
+    <value>课程身份将改变</value>
+  </data>
+  <data name="CourseIdentityChangeText" xml:space="preserve">
+    <value>修改课程名、教师、地点、学期或上课时间会生成新的课程身份。保存后，所有使用该课程的方案会自动改为引用新的课程身份。</value>
+  </data>
+  <data name="WeekTitleFormat" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="WeekSelectorPrefix" xml:space="preserve">
+    <value>第</value>
+  </data>
+  <data name="WeekSelectorSuffix" xml:space="preserve">
+    <value>周</value>
+  </data>
+  <data name="ComparisonWeekTitleFormat" xml:space="preserve">
+    <value>{0} → {1} / {2}</value>
+  </data>
+  <data name="SemesterOverviewTitleFormat" xml:space="preserve">
+    <value>{0} / {1} / 第 1-{2} 周  {3} - {4}</value>
+  </data>
+  <data name="ExportWeekSubtitleFormat" xml:space="preserve">
+    <value>{0} / {1} / 第 {2} 周 / {3}</value>
+  </data>
+  <data name="ExportWeekRangeSubtitleFormat" xml:space="preserve">
+    <value>{0} / {1} / 第 {2}-{3} 周 / {4} - {5}</value>
+  </data>
+  <data name="ExportDetailedSemesterSubtitleFormat" xml:space="preserve">
+    <value>{0} / {1} / 整个学期 / 第 1-{2} 周 / {3} - {4}</value>
+  </data>
+  <data name="ExportWeekHeadingFormat" xml:space="preserve">
+    <value>第 {0} 周</value>
+  </data>
+  <data name="MondayShort" xml:space="preserve">
+    <value>周一</value>
+  </data>
+  <data name="TuesdayShort" xml:space="preserve">
+    <value>周二</value>
+  </data>
+  <data name="WednesdayShort" xml:space="preserve">
+    <value>周三</value>
+  </data>
+  <data name="ThursdayShort" xml:space="preserve">
+    <value>周四</value>
+  </data>
+  <data name="FridayShort" xml:space="preserve">
+    <value>周五</value>
+  </data>
+  <data name="SaturdayShort" xml:space="preserve">
+    <value>周六</value>
+  </data>
+  <data name="SundayShort" xml:space="preserve">
+    <value>周日</value>
+  </data>
+  <data name="BeforeSemester" xml:space="preserve">
+    <value>学期开始前</value>
+  </data>
+  <data name="AfterSemester" xml:space="preserve">
+    <value>学期结束后</value>
+  </data>
+  <data name="WeekCourseCount" xml:space="preserve">
+    <value>第 {0} 周：{1} · {2} 门课程</value>
+  </data>
+  <data name="CourseTypeGeneral" xml:space="preserve">
+    <value>通识</value>
+  </data>
+  <data name="CourseTypeMajor" xml:space="preserve">
+    <value>专业</value>
+  </data>
+  <data name="CourseTypeFree" xml:space="preserve">
+    <value>自由</value>
+  </data>
+  <data name="StudyTypeCore" xml:space="preserve">
+    <value>核心</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>必修</value>
+  </data>
+  <data name="Elective" xml:space="preserve">
+    <value>选修</value>
+  </data>
+  <data name="Morning" xml:space="preserve">
+    <value>上午</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>项目</value>
+  </data>
+  <data name="Uncategorized" xml:space="preserve">
+    <value>未分类</value>
+  </data>
+  <data name="UnsavedCourseEditReminder" xml:space="preserve">
+    <value>正在编辑课程。保存后会更新课程库，并同步到所有引用该课程的方案。</value>
+  </data>
+  <data name="DetailNotices" xml:space="preserve">
+    <value>详情提醒</value>
+  </data>
+  <data name="BulkAddSummary" xml:space="preserve">
+    <value>{0} 将加入 {1} 个目标方案。</value>
+  </data>
+  <data name="PlanPickerSummary" xml:space="preserve">
+    <value>{0}  ·  {1} 学分  ·  {2} 门课程  ·  {3}</value>
+  </data>
+  <data name="EditCourseInLibrary" xml:space="preserve">
+    <value>编辑课程库课程</value>
+  </data>
+  <data name="LibraryCourseSynced" xml:space="preserve">
+    <value>课程库课程已保存，并已同步到使用该课程的方案。</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="MeetingTimeFormat" xml:space="preserve">
+    <value>{0} {1}-{2} 节 {3}</value>
+  </data>
+  <data name="PlanTextWeekLine" xml:space="preserve">
+    <value>第 {0} 周：{1}</value>
+  </data>
+  <data name="PlanTextSummaryLine" xml:space="preserve">
+    <value>学分：{0:0.##}；课程：{1}</value>
+  </data>
+  <data name="PlanTextCourseHeader" xml:space="preserve">
+    <value>- {0}（{1:0.##} 学分）</value>
+  </data>
+  <data name="PlanTextTeacherLine" xml:space="preserve">
+    <value>  教师：{0}</value>
+  </data>
+  <data name="PlanTextLocationLine" xml:space="preserve">
+    <value>  地点：{0}</value>
+  </data>
+  <data name="PlanTextTimeLine" xml:space="preserve">
+    <value>  时间：{0}</value>
+  </data>
+  <data name="PlanTextCapacityLine" xml:space="preserve">
+    <value>  容量：{0}</value>
+  </data>
+  <data name="PlanTextNotesLine" xml:space="preserve">
+    <value>  备注：{0}</value>
+  </data>
+  <data name="ImportPreviewReportTitle" xml:space="preserve">
+    <value>导入预览：{0}，架构 {1}</value>
+  </data>
+  <data name="ImportPreviewVisibleItems" xml:space="preserve">
+    <value>可见条目：{0} / {1}</value>
+  </data>
+  <data name="ImportPreviewDisplayLimit" xml:space="preserve">
+    <value>预览仅显示 {1} 个匹配项中的前 {0} 个；保存报告可包含全部项目。</value>
+  </data>
+  <data name="ImportPreviewReportItem" xml:space="preserve">
+    <value>- {0}：{1}（{2}）</value>
+  </data>
+  <data name="ImportPreviewReportWarning" xml:space="preserve">
+    <value>  警告：{0}</value>
+  </data>
+  <data name="ImportPreviewReportError" xml:space="preserve">
+    <value>  错误：{0}</value>
+  </data>
+  <data name="ImportStatus.Added" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="ImportStatus.Updated" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="ImportStatus.Skipped" xml:space="preserve">
+    <value>跳过</value>
+  </data>
+  <data name="ImportStatus.Conflict" xml:space="preserve">
+    <value>冲突</value>
+  </data>
+  <data name="ImportStatus.Warning" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="ImportStatus.NotImportable" xml:space="preserve">
+    <value>不可导入</value>
+  </data>
+  <data name="ImportKind.courseLibrary" xml:space="preserve">
+    <value>课程库</value>
+  </data>
+  <data name="ImportKind.selectionPlan" xml:space="preserve">
+    <value>选课方案</value>
+  </data>
+  <data name="ImportKind.file" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="ImportKind.semester" xml:space="preserve">
+    <value>学期</value>
+  </data>
+  <data name="ImportKind.label" xml:space="preserve">
+    <value>标签</value>
+  </data>
+  <data name="ImportKind.course" xml:space="preserve">
+    <value>课程</value>
+  </data>
+  <data name="ImportKind.plan" xml:space="preserve">
+    <value>方案</value>
+  </data>
+  <data name="ImportKind.planCourse" xml:space="preserve">
+    <value>方案课程</value>
+  </data>
+  <data name="Import.UnknownJsonKind" xml:space="preserve">
+    <value>JSON kind 必须是 courseLibrary 或 selectionPlan。</value>
+  </data>
+  <data name="Import.InvalidJson" xml:space="preserve">
+    <value>该文件不是有效的 Course Planner JSON。</value>
+  </data>
+  <data name="Import.FileTooLarge" xml:space="preserve">
+    <value>导入文件过大。</value>
+  </data>
+  <data name="Import.UnsupportedSchemaVersion" xml:space="preserve">
+    <value>不支持该导入包版本。</value>
+  </data>
+  <data name="Import.PackageTooLarge" xml:space="preserve">
+    <value>导入包项目过多或字段过大。</value>
+  </data>
+  <data name="Import.SemesterIdentityConflict" xml:space="preserve">
+    <value>本地学期“{0}”拥有相同隐藏身份；强制合并会导入到该本地学期名下。</value>
+  </data>
+  <data name="Import.SemesterSettingsDiffer" xml:space="preserve">
+    <value>导入的学期设置与本地设置不同。</value>
+  </data>
+  <data name="Import.CourseMissingSemester" xml:space="preserve">
+    <value>课程引用的学期不存在。</value>
+  </data>
+  <data name="Import.CourseSemesterNameConflict" xml:space="preserve">
+    <value>该课程属于存在名称冲突的学期，需要强制合并。</value>
+  </data>
+  <data name="Import.PlanNameExists" xml:space="preserve">
+    <value>目标学期中已存在同名方案。</value>
+  </data>
+  <data name="Import.PlanSemesterNameConflict" xml:space="preserve">
+    <value>该方案属于存在名称冲突的学期，需要强制合并。</value>
+  </data>
+  <data name="Import.PlanCoursePackageIncomplete" xml:space="preserve">
+    <value>方案包缺少课程数据：{0}</value>
+  </data>
+  <data name="Import.PlanCourseNotImportable" xml:space="preserve">
+    <value>方案依赖了无法安全导入的课程数据：{0}</value>
+  </data>
+  <data name="Import.PlanSemesterInvalid" xml:space="preserve">
+    <value>方案所属学期无效。</value>
+  </data>
+  <data name="Validation.SemesterRequired" xml:space="preserve">
+    <value>必须选择一个学期。</value>
+  </data>
+  <data name="Validation.SemesterEditSourceMissing" xml:space="preserve">
+    <value>正在编辑的学期已不存在，请刷新列表后重试。</value>
+  </data>
+  <data name="Validation.SemesterNameRequired" xml:space="preserve">
+    <value>学期名称不能为空。</value>
+  </data>
+  <data name="Validation.SemesterNameDuplicate" xml:space="preserve">
+    <value>学期名称必须全局唯一。</value>
+  </data>
+  <data name="Validation.SemesterDateRange" xml:space="preserve">
+    <value>学期结束日期不能早于开始日期。</value>
+  </data>
+  <data name="Validation.SemesterDateSupportedRange" xml:space="preserve">
+    <value>学期日期必须位于 {0} 至 {1} 年之间。</value>
+  </data>
+  <data name="Validation.SemesterWeekCount" xml:space="preserve">
+    <value>周数必须至少为 1。</value>
+  </data>
+  <data name="Validation.PeriodScheduleRequired" xml:space="preserve">
+    <value>至少需要一个节次定义。</value>
+  </data>
+  <data name="Validation.SemesterEndDateWeekCountMismatch" xml:space="preserve">
+    <value>结束日期与周数不一致。</value>
+  </data>
+  <data name="Validation.PeriodNumber" xml:space="preserve">
+    <value>节次编号必须为正数。</value>
+  </data>
+  <data name="Validation.PeriodTimeRange" xml:space="preserve">
+    <value>节次结束时间必须晚于开始时间。</value>
+  </data>
+  <data name="Validation.PeriodNumberSequence" xml:space="preserve">
+    <value>节次必须从 1 开始连续编号。</value>
+  </data>
+  <data name="Validation.CourseNameRequired" xml:space="preserve">
+    <value>课程名称不能为空。</value>
+  </data>
+  <data name="Validation.CreditsNonNegative" xml:space="preserve">
+    <value>学分不能为负数。</value>
+  </data>
+  <data name="Validation.MeetingTimeRequired" xml:space="preserve">
+    <value>至少需要一个上课时间。</value>
+  </data>
+  <data name="Validation.InvalidCourseColor" xml:space="preserve">
+    <value>课程色必须是 #RRGGBB。</value>
+  </data>
+  <data name="Validation.InvalidCourseColorRegenerated" xml:space="preserve">
+    <value>无效课程色会自动替换为推荐色。</value>
+  </data>
+  <data name="Validation.InvalidWeekday" xml:space="preserve">
+    <value>星期必须为 1（周一）到 7（周日）。</value>
+  </data>
+  <data name="Validation.InvalidWeekParity" xml:space="preserve">
+    <value>单双周必须为每周、单周或双周。</value>
+  </data>
+  <data name="Validation.InvalidPeriodRange" xml:space="preserve">
+    <value>开始节次不能晚于结束节次。</value>
+  </data>
+  <data name="Validation.PeriodOutOfRange" xml:space="preserve">
+    <value>部分节次超出学期节次表。</value>
+  </data>
+  <data name="Validation.InvalidWeeks" xml:space="preserve">
+    <value>周次表达式无效：{0}</value>
+  </data>
+  <data name="Validation.WeeksOutOfRange" xml:space="preserve">
+    <value>部分上课周超出学期范围。</value>
+  </data>
+  <data name="Validation.WeeksParsingBounded" xml:space="preserve">
+    <value>周次表达式过大，已按安全上限解析。</value>
+  </data>
+  <data name="Validation.CourseCompletelyInvisible" xml:space="preserve">
+    <value>所有上课时间都不在可见学期周次或节次内。</value>
+  </data>
+  <data name="Validation.FileNameRequired" xml:space="preserve">
+    <value>名称不能为空。</value>
+  </data>
+  <data name="Validation.FileNameTrailing" xml:space="preserve">
+    <value>用于导出的名称不能以空格或句点结尾。</value>
+  </data>
+  <data name="Validation.FileNameIllegalCharacters" xml:space="preserve">
+    <value>用于导出的名称不能包含：&lt; &gt; : " / \ | ? *</value>
+  </data>
+  <data name="Validation.FileNameReserved" xml:space="preserve">
+    <value>该名称是 Windows 保留名称。</value>
+  </data>
+  <data name="Validation.FileNameTooLong" xml:space="preserve">
+    <value>用于导出的名称不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.LabelKindInUse" xml:space="preserve">
+    <value>已被课程使用的标签不能更改类别。请先移除课程中的对应引用。</value>
+  </data>
+  <data name="Validation.LabelEditSourceMissing" xml:space="preserve">
+    <value>正在编辑的标签已不存在，请刷新列表后重试。</value>
+  </data>
+  <data name="Validation.PeriodTimeOverlap" xml:space="preserve">
+    <value>课节时间必须按顺序排列，且不能与相邻课节重叠。</value>
+  </data>
+  <data name="Validation.MeetingTimesOverlap" xml:space="preserve">
+    <value>同一课程的上课时间不能相互重叠。</value>
+  </data>
+  <data name="Validation.InvalidWeekStartDay" xml:space="preserve">
+    <value>所选每周起始日无效。</value>
+  </data>
+  <data name="Validation.ReferencedCourseSemesterChange" xml:space="preserve">
+    <value>已被方案使用的课程不能移动到其他学期。请改为将课程复制到目标学期。</value>
+  </data>
+  <data name="Validation.CourseEditNotActive" xml:space="preserve">
+    <value>当前没有可保存的课程编辑。</value>
+  </data>
+  <data name="Validation.CourseEditSourceMissing" xml:space="preserve">
+    <value>正在编辑的课程已不存在。请重新打开课程库后再保存。</value>
+  </data>
+  <data name="Validation.CourseIdentityDuplicate" xml:space="preserve">
+    <value>已有另一门课程具备相同的学期、课程名、教师、地点和上课时间。</value>
+  </data>
+  <data name="Validation.LabelNameRequired" xml:space="preserve">
+    <value>标签名称不能为空。</value>
+  </data>
+  <data name="Validation.LabelNameDuplicate" xml:space="preserve">
+    <value>标签名称必须全局唯一。</value>
+  </data>
+  <data name="Validation.PlanNameUnique" xml:space="preserve">
+    <value>同一学期内方案名必须唯一。</value>
+  </data>
+  <data name="Validation.CreditsRequired" xml:space="preserve">
+    <value>学分必须是有限数值。</value>
+  </data>
+  <data name="Validation.CreditsMaximum" xml:space="preserve">
+    <value>学分不能超过 {0}。</value>
+  </data>
+  <data name="Validation.EnrolledNonNegative" xml:space="preserve">
+    <value>已选人数不能为负数。</value>
+  </data>
+  <data name="Validation.EnrolledMaximum" xml:space="preserve">
+    <value>已选人数不能超过 {0}。</value>
+  </data>
+  <data name="Validation.EnrolledWholeNumber" xml:space="preserve">
+    <value>已选人数必须是整数。</value>
+  </data>
+  <data name="Validation.CapacityNonNegative" xml:space="preserve">
+    <value>课容量不能为负数。</value>
+  </data>
+  <data name="Validation.CapacityMaximum" xml:space="preserve">
+    <value>课容量不能超过 {0}。</value>
+  </data>
+  <data name="Validation.CapacityWholeNumber" xml:space="preserve">
+    <value>课容量必须是整数。</value>
+  </data>
+  <data name="Validation.EnrolledExceedsCapacity" xml:space="preserve">
+    <value>已选人数超过了正数课容量。</value>
+  </data>
+  <data name="Validation.CourseNameTooLong" xml:space="preserve">
+    <value>课程名称不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.TeacherTooLong" xml:space="preserve">
+    <value>教师名称不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.LocationTooLong" xml:space="preserve">
+    <value>上课地点不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.CourseGroupTypeTooLong" xml:space="preserve">
+    <value>课程类别不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.StudyTypeTooLong" xml:space="preserve">
+    <value>修读性质不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.CourseNotesTooLong" xml:space="preserve">
+    <value>课程备注不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.CourseColorTooLong" xml:space="preserve">
+    <value>课程颜色文本不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.CourseLabelTooLong" xml:space="preserve">
+    <value>每个课程标签不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.CourseLabelsMaximum" xml:space="preserve">
+    <value>每门课程最多可包含 {0} 个普通标签。</value>
+  </data>
+  <data name="Validation.MeetingTimesMaximum" xml:space="preserve">
+    <value>每门课程最多可包含 {0} 个上课时间。</value>
+  </data>
+  <data name="Validation.MeetingWeeksTooLong" xml:space="preserve">
+    <value>上课周次表达式不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.SemesterNameTooLong" xml:space="preserve">
+    <value>学期名称不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.PeriodScheduleMaximum" xml:space="preserve">
+    <value>每个学期最多可包含 {0} 个节次。</value>
+  </data>
+  <data name="Validation.InvalidLabelKind" xml:space="preserve">
+    <value>所选标签类别无效。</value>
+  </data>
+  <data name="Validation.LabelNameTooLong" xml:space="preserve">
+    <value>标签名称不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.LabelCatalogMaximum" xml:space="preserve">
+    <value>标签库最多可包含 {0} 个标签。</value>
+  </data>
+  <data name="Validation.PlanNameRequired" xml:space="preserve">
+    <value>方案名称不能为空。</value>
+  </data>
+  <data name="Validation.PlanNameTooLong" xml:space="preserve">
+    <value>方案名称不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.PlanSnapshotsMaximum" xml:space="preserve">
+    <value>每个方案最多可包含 {0} 门课程。</value>
+  </data>
+  <data name="Validation.PlanCatalogMaximum" xml:space="preserve">
+    <value>方案库最多可包含 {0} 个方案。</value>
+  </data>
+  <data name="Validation.OpenPlanTabsMaximum" xml:space="preserve">
+    <value>最多只能同时打开 {0} 个方案标签。请先关闭一个方案标签再打开其他方案。</value>
+  </data>
+  <data name="Validation.PlanUnavailable" xml:space="preserve">
+    <value>所选方案已不可用。</value>
+  </data>
+  <data name="Validation.SemesterCatalogMaximum" xml:space="preserve">
+    <value>学期库最多可包含 {0} 个学期。</value>
+  </data>
+  <data name="Validation.CourseCatalogMaximum" xml:space="preserve">
+    <value>课程库最多可包含 {0} 门课程。</value>
+  </data>
+  <data name="Validation.TotalSnapshotsMaximum" xml:space="preserve">
+    <value>所有方案合计最多可包含 {0} 条课程引用。</value>
+  </data>
+  <data name="Validation.TotalLabelReferencesMaximum" xml:space="preserve">
+    <value>所有课程合计最多可包含 {0} 条标签引用。</value>
+  </data>
+  <data name="Validation.AggregateTextMaximum" xml:space="preserve">
+    <value>全部已存储文本合计不能超过 {0} 个字符。</value>
+  </data>
+  <data name="Validation.PlanMeetingRowsMaximum" xml:space="preserve">
+    <value>单个方案引用的去重课程合计最多只能包含 {0} 条上课时间。</value>
+  </data>
+  <data name="TimetableDenseModeTitle" xml:space="preserve">
+    <value>高密度课表 · 虚拟化列表</value>
+  </data>
+  <data name="TimetableDenseModeMessage" xml:space="preserve">
+    <value>下方完整列出当前可见的 {0} 个课程块。完整网格预计会创建约 {1} 个界面元素，因此改用虚拟化列表以保持响应，且不会省略课程。</value>
+  </data>
+  <data name="ExportLimit.CourseBlocks" xml:space="preserve">
+    <value>本次导出需要绘制 {0} 个课程块，安全上限为 {1} 个。请选择更小的周范围。</value>
+  </data>
+  <data name="ExportLimit.TextCharacters" xml:space="preserve">
+    <value>本次导出需要排版 {0} 个文本字符，安全上限为 {1} 个。请减少周数或课程字段。</value>
+  </data>
+  <data name="ExportLimit.ConflictLanes" xml:space="preserve">
+    <value>一个课表单元格需要 {0} 条冲突分栏，安全上限为 {1} 条。请选择密度较低的方案。</value>
+  </data>
+  <data name="ExportLimit.BitmapMemory" xml:space="preserve">
+    <value>PNG 位图与编码器的峰值内存约需 {0} 字节，安全上限为 {1} 字节。请降低清晰度或改用 PDF。</value>
+  </data>
+  <data name="ExportLimit.SurfaceDimension" xml:space="preserve">
+    <value>PNG 尺寸为 {0} 像素，支持的上限为 {1} 像素。请降低清晰度或改用 PDF。</value>
+  </data>
+  <data name="ExportLimit.VectorDimension" xml:space="preserve">
+    <value>课表尺寸为 {0} 个逻辑像素，支持的上限为 {1} 个。请减少周数或课程字段。</value>
+  </data>
+</root>

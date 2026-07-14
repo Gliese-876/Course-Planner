@@ -1,0 +1,273 @@
+name: Sign staged release
+
+run-name: Sign ${{ inputs.release_tag }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing vMAJOR.MINOR.PATCH tag with a draft release
+        required: true
+        type: string
+      staged_sha256:
+        description: SHA-256 of the locally built staged MSIX
+        required: true
+        type: string
+
+concurrency:
+  group: release-${{ inputs.release_tag }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sign:
+    runs-on: windows-latest
+    steps:
+      - name: Validate release request
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG_INPUT: ${{ inputs.release_tag }}
+          STAGED_SHA256_INPUT: ${{ inputs.staged_sha256 }}
+        run: |
+          if ($env:RELEASE_TAG_INPUT -notmatch '^v(?<version>\d+\.\d+\.\d+)$') {
+            throw "Release tags must use vMAJOR.MINOR.PATCH."
+          }
+          $packageVersion = "$($Matches.version).0"
+
+          if ($env:STAGED_SHA256_INPUT -notmatch '^[0-9a-fA-F]{64}$') {
+            throw "staged_sha256 must be a 64-character hexadecimal SHA-256 value."
+          }
+
+          $releaseJson = & gh release view $env:RELEASE_TAG_INPUT `
+            --repo $env:GITHUB_REPOSITORY `
+            --json isDraft,tagName
+          if ($LASTEXITCODE -ne 0) {
+            throw "The requested draft release does not exist."
+          }
+          $release = $releaseJson | ConvertFrom-Json
+          if (-not $release.isDraft -or $release.tagName -ne $env:RELEASE_TAG_INPUT) {
+            throw "Signing requires an existing draft release for the requested tag."
+          }
+
+          "RELEASE_TAG=$env:RELEASE_TAG_INPUT" >> $env:GITHUB_ENV
+          "PACKAGE_VERSION=$packageVersion" >> $env:GITHUB_ENV
+          "EXPECTED_STAGED_SHA256=$($env:STAGED_SHA256_INPUT.ToLowerInvariant())" >> $env:GITHUB_ENV
+          "STAGED_ASSET=CoursePlanner-$env:RELEASE_TAG_INPUT-x64.staged.msix" >> $env:GITHUB_ENV
+
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.release_tag }}
+
+      - name: Set up WinApp CLI
+        uses: microsoft/setup-WinAppCli@v0.1
+
+      - name: Download and verify locally built package
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $stagingDirectory = Join-Path $env:RUNNER_TEMP "CoursePlanner-Staged"
+          New-Item -ItemType Directory -Path $stagingDirectory -Force | Out-Null
+
+          & gh release download $env:RELEASE_TAG `
+            --repo $env:GITHUB_REPOSITORY `
+            --pattern $env:STAGED_ASSET `
+            --dir $stagingDirectory
+          if ($LASTEXITCODE -ne 0) { throw "Failed to download the staged MSIX." }
+
+          $stagedPath = Join-Path $stagingDirectory $env:STAGED_ASSET
+          $actualHash = (Get-FileHash -LiteralPath $stagedPath -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actualHash -ne $env:EXPECTED_STAGED_SHA256) {
+            throw "The staged MSIX SHA-256 does not match the locally supplied value."
+          }
+
+          [xml]$sourceManifest = Get-Content -LiteralPath ".\CoursePlanner\Package.appxmanifest"
+          $expectedName = [string]$sourceManifest.Package.Identity.Name
+          $expectedPublisher = [string]$sourceManifest.Package.Identity.Publisher
+
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $archive = [IO.Compression.ZipFile]::OpenRead($stagedPath)
+          try {
+            $entry = $archive.GetEntry("AppxManifest.xml")
+            if (-not $entry) { throw "The staged MSIX has no AppxManifest.xml." }
+            $reader = [IO.StreamReader]::new($entry.Open())
+            try { [xml]$manifest = $reader.ReadToEnd() }
+            finally { $reader.Dispose() }
+          }
+          finally { $archive.Dispose() }
+
+          $identity = $manifest.Package.Identity
+          if ($identity.Name -ne $expectedName -or
+              $identity.Publisher -ne $expectedPublisher -or
+              $identity.Version -ne $env:PACKAGE_VERSION -or
+              $identity.ProcessorArchitecture -ne "x64") {
+            throw "The staged package identity does not match the tag and repository manifest."
+          }
+
+          $stagedSignature = Get-AuthenticodeSignature -LiteralPath $stagedPath
+          if (-not $stagedSignature.SignerCertificate -or
+              $stagedSignature.SignatureType -ne "Authenticode" -or
+              $stagedSignature.SignerCertificate.Subject -ne $expectedPublisher) {
+            throw "The locally staged package does not have the expected temporary publisher signature."
+          }
+
+          "EXPECTED_PUBLISHER=$expectedPublisher" >> $env:GITHUB_ENV
+          "STAGED_MSIX_PATH=$stagedPath" >> $env:GITHUB_ENV
+
+      - name: Load signing certificate from repository secrets
+        shell: pwsh
+        env:
+          COURSE_PLANNER_PFX_BASE64: ${{ secrets.COURSE_PLANNER_PFX_BASE64 }}
+          COURSE_PLANNER_PFX_PASSWORD: ${{ secrets.COURSE_PLANNER_PFX_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:COURSE_PLANNER_PFX_BASE64)) {
+            throw "Repository secret COURSE_PLANNER_PFX_BASE64 is missing."
+          }
+          if ([string]::IsNullOrWhiteSpace($env:COURSE_PLANNER_PFX_PASSWORD)) {
+            throw "Repository secret COURSE_PLANNER_PFX_PASSWORD is missing."
+          }
+
+          $pfxPath = Join-Path $env:RUNNER_TEMP "CoursePlanner-Signing.pfx"
+          try {
+            [IO.File]::WriteAllBytes(
+              $pfxPath,
+              [Convert]::FromBase64String($env:COURSE_PLANNER_PFX_BASE64))
+          }
+          catch {
+            throw "COURSE_PLANNER_PFX_BASE64 is not valid Base64."
+          }
+
+          "COURSE_PLANNER_PFX_PATH=$pfxPath" >> $env:GITHUB_ENV
+
+      - name: Sign package and prepare public assets
+        shell: pwsh
+        env:
+          COURSE_PLANNER_PFX_PASSWORD: ${{ secrets.COURSE_PLANNER_PFX_PASSWORD }}
+        run: |
+          $certificate = [Security.Cryptography.X509Certificates.X509Certificate2]::new(
+            $env:COURSE_PLANNER_PFX_PATH,
+            $env:COURSE_PLANNER_PFX_PASSWORD,
+            [Security.Cryptography.X509Certificates.X509KeyStorageFlags]::EphemeralKeySet)
+          try {
+            if (-not $certificate.HasPrivateKey -or $certificate.Subject -ne $env:EXPECTED_PUBLISHER) {
+              throw "The signing certificate does not match the package publisher."
+            }
+
+            & winapp sign $env:STAGED_MSIX_PATH `
+              $env:COURSE_PLANNER_PFX_PATH `
+              --password $env:COURSE_PLANNER_PFX_PASSWORD
+            if ($LASTEXITCODE -ne 0) { throw "Failed to sign the staged MSIX." }
+
+            $signature = Get-AuthenticodeSignature -LiteralPath $env:STAGED_MSIX_PATH
+            if (-not $signature.SignerCertificate -or
+                $signature.SignatureType -ne "Authenticode" -or
+                $signature.SignerCertificate.Thumbprint -ne $certificate.Thumbprint) {
+              throw "The final MSIX signer does not match the repository signing certificate."
+            }
+
+            $releaseDirectory = Join-Path $env:RUNNER_TEMP "CoursePlanner-Release"
+            New-Item -ItemType Directory -Path $releaseDirectory -Force | Out-Null
+
+            $msixPath = Join-Path $releaseDirectory "CoursePlanner-$env:RELEASE_TAG-x64.msix"
+            Copy-Item -LiteralPath $env:STAGED_MSIX_PATH -Destination $msixPath
+
+            $certificatePath = Join-Path $releaseDirectory "CoursePlanner-Publisher.cer"
+            [IO.File]::WriteAllBytes(
+              $certificatePath,
+              $certificate.Export([Security.Cryptography.X509Certificates.X509ContentType]::Cert))
+
+            $installerPath = Join-Path $releaseDirectory "Install-CoursePlanner.ps1"
+            Copy-Item -LiteralPath ".\scripts\Install-CoursePlanner.ps1" -Destination $installerPath
+            $launcherPath = Join-Path $releaseDirectory "Install-CoursePlanner.cmd"
+            Copy-Item -LiteralPath ".\scripts\Install-CoursePlanner.cmd" -Destination $launcherPath
+            & $installerPath `
+              -MsixPath $msixPath `
+              -CertificatePath $certificatePath `
+              -VerifyOnly
+
+            $instructionsPath = Join-Path $releaseDirectory "INSTALL.txt"
+            @(
+              "Course Planner 安装 / Installation",
+              "",
+              "1. 双击 Install-CoursePlanner.cmd。",
+              "2. 核对发布者指纹，确认安装，并在首次安装时批准 UAC。",
+              "",
+              "1. Double-click Install-CoursePlanner.cmd.",
+              "2. Review the publisher thumbprint, confirm installation, and approve UAC on first install."
+            ) | Set-Content -LiteralPath $instructionsPath -Encoding utf8NoBOM
+
+            $archivePath = Join-Path $releaseDirectory "CoursePlanner-$env:RELEASE_TAG-x64.zip"
+            Compress-Archive `
+              -LiteralPath $msixPath, $certificatePath, $installerPath, $launcherPath, $instructionsPath `
+              -DestinationPath $archivePath `
+              -CompressionLevel Fastest
+
+            $checksumPath = Join-Path $releaseDirectory "SHA256SUMS.txt"
+            Get-ChildItem -LiteralPath $releaseDirectory -File |
+              Where-Object Name -ne "SHA256SUMS.txt" |
+              Sort-Object Name |
+              ForEach-Object {
+                $hash = Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256
+                "$($hash.Hash.ToLowerInvariant())  $($_.Name)"
+              } | Set-Content -LiteralPath $checksumPath -Encoding ascii
+
+            $releaseNotesPath = Join-Path $env:RUNNER_TEMP "CoursePlanner-Release-Notes.md"
+            @(
+              "## 安装",
+              "",
+              "下载 ``CoursePlanner-$env:RELEASE_TAG-x64.zip``，解压后双击 ``Install-CoursePlanner.cmd``。安装程序会验证包签名，首次安装时通过 UAC 将发布者证书加入本地计算机信任库，再为当前用户安装应用。",
+              "",
+              "## Install",
+              "",
+              "Download ``CoursePlanner-$env:RELEASE_TAG-x64.zip``, extract it, and double-click ``Install-CoursePlanner.cmd``. The installer verifies the package signature, uses UAC on first install to trust the publisher for the local computer, and then installs the app for the current user.",
+              "",
+              "See the repository README files for requirements, checksum verification, and manual installation."
+            ) | Set-Content -LiteralPath $releaseNotesPath -Encoding utf8NoBOM
+
+            "COURSE_PLANNER_RELEASE_DIRECTORY=$releaseDirectory" >> $env:GITHUB_ENV
+            "COURSE_PLANNER_RELEASE_NOTES=$releaseNotesPath" >> $env:GITHUB_ENV
+          }
+          finally {
+            $certificate.Dispose()
+          }
+
+      - name: Publish GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $assets = @(Get-ChildItem -LiteralPath $env:COURSE_PLANNER_RELEASE_DIRECTORY -File |
+            Select-Object -ExpandProperty FullName)
+
+          & gh release edit $env:RELEASE_TAG `
+            --repo $env:GITHUB_REPOSITORY `
+            --title "Course Planner $env:RELEASE_TAG" `
+            --notes-file $env:COURSE_PLANNER_RELEASE_NOTES
+          if ($LASTEXITCODE -ne 0) { throw "Failed to update the draft release." }
+
+          & gh release upload $env:RELEASE_TAG @assets `
+            --repo $env:GITHUB_REPOSITORY `
+            --clobber
+          if ($LASTEXITCODE -ne 0) { throw "Failed to upload final release assets." }
+
+          & gh release delete-asset $env:RELEASE_TAG $env:STAGED_ASSET `
+            --repo $env:GITHUB_REPOSITORY `
+            --yes
+          if ($LASTEXITCODE -ne 0) { throw "Failed to remove the staged package." }
+
+          & gh release edit $env:RELEASE_TAG `
+            --repo $env:GITHUB_REPOSITORY `
+            --draft=false `
+            --latest
+          if ($LASTEXITCODE -ne 0) { throw "Failed to publish the GitHub Release." }
+
+      - name: Remove signing material
+        if: always()
+        shell: pwsh
+        run: |
+          if ($env:COURSE_PLANNER_PFX_PATH -and (Test-Path -LiteralPath $env:COURSE_PLANNER_PFX_PATH)) {
+            Remove-Item -LiteralPath $env:COURSE_PLANNER_PFX_PATH -Force
+          }

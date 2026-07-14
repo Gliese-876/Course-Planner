@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="CoursePlanner.Pages.CourseLibraryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:appControls="using:CoursePlanner.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="Transparent"
+    SizeChanged="Page_SizeChanged"
+    mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid" ColumnDefinitions="320,*" RowDefinitions="Auto,*" RowSpacing="12" Style="{StaticResource ManagementRootGridStyle}">
+        <TextBlock x:Name="PageTitle" Margin="{StaticResource ManagementLeadingInset}" Text="" Style="{ThemeResource TitleTextBlockStyle}" />
+
+        <CommandBar
+            x:Name="LibraryCommandBar"
+            AutomationProperties.AutomationId="LibraryManagerCommandBar"
+            Grid.Column="1"
+            Background="Transparent"
+            DefaultLabelPosition="Right"
+            HorizontalAlignment="Stretch"
+            Margin="{StaticResource ManagementTrailingInset}">
+            <AppBarButton x:Name="NewCourseButton" AutomationProperties.AutomationId="LibraryManagerNewCourseButton" Label="" Click="NewCourse_Click" />
+            <AppBarButton x:Name="EditCourseButton" AutomationProperties.AutomationId="LibraryManagerEditCourseButton" Icon="Edit" Label="" Click="EditCourse_Click" />
+            <AppBarButton x:Name="AddToPlanButton" AutomationProperties.AutomationId="LibraryManagerAddToPlanButton" Icon="AddFriend" Label="" Click="AddToPlan_Click" />
+            <AppBarButton x:Name="DeleteCourseButton" AutomationProperties.AutomationId="LibraryManagerDeleteCourseButton" Icon="Delete" Label="" Click="DeleteCourse_Click" />
+        </CommandBar>
+
+        <Grid x:Name="TreePane" Grid.Row="1" Margin="{StaticResource ManagementLeadingInset}" RowDefinitions="Auto,*" RowSpacing="12">
+            <appControls:CourseLibraryFilterBar
+                x:Name="LibraryFilters"
+                SearchAutomationId="LibraryManagerSearchBox"
+                FilterButtonAutomationId="LibraryManagerFilterButton"
+                LabelFilterAutomationId="LibraryManagerLabelFilterBox"
+                GroupFilterAutomationId="LibraryManagerGroupFilterBox"
+                StudyFilterAutomationId="LibraryManagerStudyFilterBox"
+                TeacherFilterAutomationId="LibraryManagerTeacherFilterBox"
+                LocationFilterAutomationId="LibraryManagerLocationFilterBox"
+                SearchTextChanged="LibraryFilters_SearchTextChanged"
+                SearchSubmitted="LibraryFilters_SearchSubmitted"
+                FilterTextChanged="LibraryFilters_FilterTextChanged" />
+            <appControls:CourseLibraryTree
+                x:Name="LibraryTree"
+                AutomationProperties.AutomationId="LibraryManagerTree"
+                TreeAutomationId="LibraryManagerTree"
+                Grid.Row="1"
+                CourseRowAutomationId="LibraryManagerCourseRow" />
+        </Grid>
+
+        <ScrollViewer
+            x:Name="LibraryContentScrollViewer"
+            AutomationProperties.AutomationId="LibraryContentScrollViewer"
+            Grid.Row="1"
+            Grid.Column="1"
+            Style="{StaticResource ManagementScrollViewerStyle}">
+            <Grid x:Name="LibraryContentHost" AutomationProperties.AutomationId="LibraryContentHost">
+                <StackPanel
+                    x:Name="LibraryContentStack"
+                    AutomationProperties.AutomationId="LibraryContentStack"
+                    Style="{StaticResource ManagementContentStackStyle}">
+                    <Border Style="{StaticResource AppCardSurfaceStyle}">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="10">
+                            <TextBlock x:Name="SelectedCourseTitle" Text="" Style="{ThemeResource SubtitleTextBlockStyle}" TextWrapping="Wrap" />
+                            <TextBlock x:Name="SelectedCourseSemester" Grid.Row="1" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <TextBlock x:Name="SelectedCourseTeacher" Grid.Row="2" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <appControls:MeetingTimesPresenter x:Name="SelectedCourseMeetings" Grid.Row="3" />
+                            <TextBlock x:Name="SelectedCourseLabels" Grid.Row="4" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
+                            <InfoBar x:Name="LibraryInfoBar" AutomationProperties.AutomationId="LibraryManagerInfoBar" Grid.Row="5" IsOpen="False" IsClosable="True" Severity="Informational" />
+                        </Grid>
+                    </Border>
+
+                    <Border
+                        x:Name="LibraryEditorPanel"
+                        AutomationProperties.AutomationId="LibraryEditorPanel"
+                        Style="{StaticResource AppCardSurfaceStyle}"
+                        Visibility="Collapsed">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="12">
+                            <TextBlock x:Name="LibraryEditorTitle" Text="" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto" RowSpacing="12">
+                                <TextBox x:Name="LibraryCourseNameBox" AutomationProperties.AutomationId="LibraryEditorNameBox" Grid.ColumnSpan="2" Header="" MaxLength="2048" />
+                                <appControls:WheelSafeComboBox x:Name="LibrarySemesterBox" AutomationProperties.AutomationId="LibraryEditorSemesterBox" Grid.Row="1" Header="" DisplayMemberPath="SemesterName" />
+                                <NumberBox x:Name="LibraryCreditsBox" AutomationProperties.AutomationId="LibraryEditorCreditsBox" Grid.Row="1" Grid.Column="1" Header="" Minimum="0" SmallChange="0.5" ValueChanged="LibraryNumeric_ValueChanged" />
+                                <TextBox x:Name="LibraryTeacherBox" AutomationProperties.AutomationId="LibraryEditorTeacherBox" Grid.Row="2" Header="" MaxLength="2048" />
+                                <TextBox x:Name="LibraryLocationBox" AutomationProperties.AutomationId="LibraryEditorLocationBox" Grid.Row="2" Grid.Column="1" Header="" MaxLength="2048" />
+                            </Grid>
+                            <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="12">
+                                <NumberBox x:Name="LibraryEnrolledBox" AutomationProperties.AutomationId="LibraryEditorEnrolledBox" Header="" Minimum="0" ValueChanged="LibraryNumeric_ValueChanged" />
+                                <NumberBox x:Name="LibraryCapacityBox" AutomationProperties.AutomationId="LibraryEditorCapacityBox" Grid.Column="1" Header="" Minimum="0" ValueChanged="LibraryNumeric_ValueChanged" />
+                            </Grid>
+                            <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="12">
+                                <TextBox x:Name="LibraryGroupTypeBox" AutomationProperties.AutomationId="LibraryEditorGroupTypeBox" Header="" MaxLength="2048" />
+                                <TextBox x:Name="LibraryStudyTypeBox" AutomationProperties.AutomationId="LibraryEditorStudyTypeBox" Grid.Column="1" Header="" MaxLength="2048" />
+                            </Grid>
+                            <TextBox x:Name="LibraryLabelsBox" AutomationProperties.AutomationId="LibraryEditorLabelsBox" Grid.Row="4" Header="" MaxLength="32768" />
+                            <appControls:MeetingTimesEditor x:Name="LibraryMeetingsBox" AutomationProperties.AutomationId="LibraryEditorMeetingsBox" Grid.Row="5" />
+                            <Grid Grid.Row="6" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <TextBox x:Name="LibraryColorBox" AutomationProperties.AutomationId="LibraryEditorColorBox" Header="" MaxLength="16" TextChanged="LibraryColorBox_TextChanged" />
+                                <Button x:Name="RecommendLibraryColorButton" AutomationProperties.AutomationId="LibraryEditorRecommendColorButton" Grid.Column="1" VerticalAlignment="Bottom" Content="" Click="RecommendLibraryColor_Click" />
+                            </Grid>
+                            <Grid Grid.Row="7" ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8">
+                                <Border x:Name="LibraryColorSwatch" Width="28" Height="18" BorderThickness="1" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" CornerRadius="3" />
+                                <FontIcon x:Name="LibraryColorWarningIcon" Grid.Column="1" FontSize="14" Glyph="&#xE7BA;" Foreground="{ThemeResource SystemFillColorCautionBrush}" Visibility="Collapsed" />
+                                <TextBlock x:Name="LibraryColorHintText" Grid.Column="2" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />
+                            </Grid>
+                            <TextBox x:Name="LibraryNotesBox" AutomationProperties.AutomationId="LibraryEditorNotesBox" Grid.Row="8" Header="" MaxLength="2048" AcceptsReturn="True" MinHeight="84" />
+                            <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                                <Button x:Name="DiscardLibraryEditButton" AutomationProperties.AutomationId="LibraryEditorDiscardButton" Content="" Click="DiscardLibraryEdit_Click" />
+                                <Button x:Name="SaveLibraryEditButton" AutomationProperties.AutomationId="LibraryEditorSaveButton" Content="" Style="{StaticResource AccentButtonStyle}" Click="SaveLibraryEdit_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

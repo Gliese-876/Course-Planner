@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="CoursePlanner.Pages.SemestersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:core="using:CoursePlanner.Core"
+    xmlns:plannerControls="using:CoursePlanner.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="using:CoursePlanner.Pages"
+    Background="Transparent"
+    SizeChanged="Page_SizeChanged"
+    mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid" ColumnDefinitions="320,*" ColumnSpacing="12" Style="{StaticResource ManagementRootGridStyle}">
+        <Grid x:Name="SemesterListPane" Margin="{StaticResource ManagementLeadingInset}" RowDefinitions="Auto,*" RowSpacing="12">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" MinHeight="48" Padding="{StaticResource ManagementListHeaderActionInset}">
+                <TextBlock x:Name="PageTitle" VerticalAlignment="Center" Text="" TextTrimming="CharacterEllipsis" Style="{ThemeResource TitleTextBlockStyle}" />
+                <Button x:Name="AddSemesterButton" Grid.Column="1" AutomationProperties.AutomationId="AddSemesterButton" VerticalAlignment="Center" Style="{StaticResource ManagementAddButtonStyle}" Click="AddSemester_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                        <FontIcon FontSize="16" Glyph="&#xE710;" />
+                        <TextBlock x:Name="AddSemesterText" VerticalAlignment="Center" Text="" TextWrapping="NoWrap" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <ListView
+                x:Name="SemesterList"
+                AutomationProperties.AutomationId="SemesterList"
+                Grid.Row="1"
+                DisplayMemberPath="SemesterName"
+                SelectionChanged="SemesterList_SelectionChanged"
+                SelectionMode="Single" />
+        </Grid>
+
+        <ScrollViewer
+            x:Name="ContentScrollViewer"
+            AutomationProperties.AutomationId="ContentScrollViewer"
+            Grid.Column="1"
+            Style="{StaticResource ManagementScrollViewerStyle}">
+            <Grid x:Name="ContentHost" AutomationProperties.AutomationId="ContentHost">
+                <StackPanel
+                    x:Name="ContentStack"
+                    AutomationProperties.AutomationId="ContentStack"
+                    Style="{StaticResource ManagementContentStackStyle}">
+                <controls:SettingsCard x:Name="SemesterCard" Header="" Description="" ContentAlignment="Left">
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+                        <TextBox x:Name="SemesterNameBox" AutomationProperties.AutomationId="SemesterNameBox" Grid.ColumnSpan="2" Header="" />
+                        <plannerControls:LocalizedCalendarDatePicker
+                            x:Name="StartDatePicker"
+                            AutomationProperties.AutomationId="StartDatePicker"
+                            Grid.Row="1"
+                            VerticalAlignment="Center"
+                            DateChanged="SemesterDate_DateChanged" />
+                        <plannerControls:LocalizedCalendarDatePicker
+                            x:Name="EndDatePicker"
+                            AutomationProperties.AutomationId="EndDatePicker"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            DateChanged="SemesterDate_DateChanged" />
+                        <NumberBox x:Name="WeekCountBox" AutomationProperties.AutomationId="WeekCountBox" Grid.Row="2" Header="" Minimum="1" Maximum="60" ValueChanged="WeekCountBox_ValueChanged" />
+                        <plannerControls:WheelSafeComboBox x:Name="WeekStartBox" AutomationProperties.AutomationId="WeekStartBox" Grid.Row="2" Grid.Column="1" Header="" SelectionChanged="WeekStartBox_SelectionChanged" />
+                    </Grid>
+                </controls:SettingsCard>
+
+                <controls:SettingsCard x:Name="PeriodScheduleCard" Header="" Description="" ContentAlignment="Left">
+                    <StackPanel HorizontalAlignment="Stretch" Spacing="12">
+                        <Grid x:Name="PeriodEditorGrid" HorizontalAlignment="Stretch" ColumnDefinitions="110,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+                            <StackPanel x:Name="PeriodNumberEditor" Spacing="6" VerticalAlignment="Center">
+                                <TextBlock x:Name="PeriodNumberHeader" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <Border MinHeight="36" Padding="10,4,8,4">
+                                    <TextBlock
+                                        x:Name="PeriodNumberText"
+                                        AutomationProperties.AutomationId="SelectedPeriodNumberText"
+                                        VerticalAlignment="Center"
+                                        Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                                </Border>
+                            </StackPanel>
+                            <plannerControls:CompactTimePicker
+                                x:Name="PeriodStartPicker"
+                                AutomationProperties.AutomationId="PeriodStartPicker"
+                                Grid.Column="1"
+                                VerticalAlignment="Center" />
+                            <plannerControls:CompactTimePicker
+                                x:Name="PeriodEndPicker"
+                                AutomationProperties.AutomationId="PeriodEndPicker"
+                                Grid.Column="2"
+                                VerticalAlignment="Center" />
+                            <StackPanel x:Name="PeriodActionBar" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                                <Button x:Name="SavePeriodButton" AutomationProperties.AutomationId="SavePeriodButton" Content="" Click="SavePeriod_Click" />
+                                <Button x:Name="AddPeriodButton" AutomationProperties.AutomationId="AddPeriodButton" Content="" Click="AddPeriod_Click" />
+                                <Button x:Name="DeletePeriodButton" AutomationProperties.AutomationId="DeletePeriodButton" Content="" Click="DeletePeriod_Click" />
+                                <Button x:Name="ResetPeriodsButton" AutomationProperties.AutomationId="ResetPeriodsButton" Content="" Click="ResetPeriods_Click" />
+                            </StackPanel>
+                        </Grid>
+                        <ListView x:Name="PeriodList" AutomationProperties.AutomationId="PeriodList" MinHeight="170" SelectionMode="Single" SelectionChanged="PeriodList_SelectionChanged">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="pages:PeriodListRow">
+                                    <Grid MinHeight="40" Padding="20,6,12,6" ColumnDefinitions="52,*">
+                                        <TextBlock
+                                            Text="{x:Bind PeriodText, Mode=OneWay}"
+                                            VerticalAlignment="Center"
+                                            Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Text="{x:Bind TimeRange, Mode=OneWay}"
+                                            VerticalAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </controls:SettingsCard>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                    <Button x:Name="SaveSemesterButton" AutomationProperties.AutomationId="SaveSemesterButton" Content="" Style="{StaticResource AccentButtonStyle}" Click="SaveSemester_Click" />
+                    <Button x:Name="DeleteSemesterButton" AutomationProperties.AutomationId="DeleteSemesterButton" Content="" Click="DeleteSemester_Click" />
+                    <Button x:Name="ClearCoursesButton" AutomationProperties.AutomationId="ClearCoursesButton" Content="" Click="ClearCourses_Click" />
+                </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

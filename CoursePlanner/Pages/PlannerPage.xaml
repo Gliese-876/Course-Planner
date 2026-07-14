@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="CoursePlanner.Pages.PlannerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:appControls="using:CoursePlanner.Controls"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:core="using:CoursePlanner.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:services="using:CoursePlanner.Services"
+    Background="Transparent"
+    KeyboardAcceleratorPlacementMode="Hidden"
+    SizeChanged="Page_SizeChanged"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="SizerBaseBackground" Color="Transparent" />
+        <SolidColorBrush x:Key="SizerBaseBackgroundPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="SizerBaseBackgroundPressed" Color="Transparent" />
+        <SolidColorBrush x:Key="SizerBaseBackgroundDisabled" Color="Transparent" />
+        <Style x:Key="QuietIconButtonStyle" TargetType="Button">
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+        <Style x:Key="WeekArrowButtonStyle" TargetType="Button" BasedOn="{StaticResource QuietIconButtonStyle}">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="32" />
+        </Style>
+        <Style x:Key="SidePaneStyle" TargetType="Border" BasedOn="{StaticResource PlannerSidePaneSurfaceStyle}">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="SplitViewRailStyle" TargetType="controls:GridSplitter">
+            <Setter Property="Width" Value="10" />
+            <Setter Property="MinWidth" Value="10" />
+            <Setter Property="MaxWidth" Value="10" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="IsThumbVisible" Value="False" />
+            <Setter Property="ManipulationMode" Value="TranslateX,TranslateY" />
+            <Setter Property="ResizeBehavior" Value="PreviousAndNext" />
+            <Setter Property="ResizeDirection" Value="Auto" />
+        </Style>
+        <Style x:Key="ToolbarButtonContentStyle" TargetType="StackPanel">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Spacing" Value="6" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="ToolbarButtonLabelStyle" TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="LineHeight" Value="{ThemeResource AppToolbarTextLineHeight}" />
+            <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="ToolbarIconViewboxStyle" TargetType="Viewbox">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Stretch" Value="Uniform" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform Y="{StaticResource AppToolbarIconAlignmentOffset}" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ToolbarContentIconStyle" TargetType="ContentControl">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform Y="{StaticResource AppToolbarIconAlignmentOffset}" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid
+        x:Name="PlannerRoot"
+        Padding="0"
+        RowDefinitions="Auto,Auto,*"
+        RowSpacing="0"
+        services:AppAnimationLayer.Profile="DynamicChildren"
+        services:AppMaterialLayer.Surface="WindowBackdrop"
+        UseLayoutRounding="True">
+        <InfoBar
+            x:Name="StatusBar"
+            AutomationProperties.AutomationId="StatusBar"
+            Closing="StatusBar_Closing"
+            Closed="StatusBar_Closed"
+            IsOpen="False"
+            IsClosable="True"
+            Severity="Informational"
+            Visibility="Collapsed">
+            <InfoBar.ActionButton>
+                <Button
+                    x:Name="StatusOpenButton"
+                    AutomationProperties.AutomationId="StatusOpenButton"
+                    Click="StatusOpenButton_Click"
+                    HorizontalAlignment="Right"
+                    Visibility="Collapsed" />
+            </InfoBar.ActionButton>
+        </InfoBar>
+
+        <Border
+            x:Name="PlannerCommandBarHost"
+            AutomationProperties.AutomationId="PlannerCommandBar"
+            Grid.Row="1"
+            MinHeight="40"
+            services:AppMaterialLayer.Surface="CommandBar">
+            <StackPanel
+                x:Name="PlannerToolbarItems"
+                MinHeight="40"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SubtleFillColorTransparentBrush" />
+                    <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="SubtleFillColorTransparentBrush" />
+                </StackPanel.Resources>
+                <Button x:Name="ToggleLibraryButton" AutomationProperties.AutomationId="ToggleLibraryButton" Style="{StaticResource ToolbarButtonStyle}" Click="ToggleLibrary_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="Library" />
+                        </Viewbox>
+                        <TextBlock x:Name="ToggleLibraryButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Border x:Name="LibraryCommandSeparator" Width="1" Height="24" Margin="4,0" VerticalAlignment="Center" services:AppMaterialLayer.Surface="Divider" />
+                <Button x:Name="NewCourseButton" AutomationProperties.AutomationId="NewCourseButton" Style="{StaticResource ToolbarButtonStyle}" Click="NewCourse_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <ContentControl x:Name="NewCourseButtonIcon" Style="{StaticResource ToolbarContentIconStyle}" />
+                        <TextBlock x:Name="NewCourseButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="NewPlanButton" AutomationProperties.AutomationId="NewPlanButton" Style="{StaticResource ToolbarButtonStyle}" Click="NewPlan_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <ContentControl x:Name="NewPlanButtonIcon" Style="{StaticResource ToolbarContentIconStyle}" />
+                        <TextBlock x:Name="NewPlanButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="OpenPlanButton" AutomationProperties.AutomationId="OpenPlanButton" Style="{StaticResource ToolbarButtonStyle}" Click="OpenPlan_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="OpenFile" />
+                        </Viewbox>
+                        <TextBlock x:Name="OpenPlanButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Border x:Name="PlanCommandSeparator" Width="1" Height="24" Margin="4,0" VerticalAlignment="Center" services:AppMaterialLayer.Surface="Divider" />
+                <Button x:Name="WeekViewButton" AutomationProperties.AutomationId="WeekViewButton" Style="{StaticResource ToolbarButtonStyle}" Click="WeekView_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="Calendar" />
+                        </Viewbox>
+                        <TextBlock x:Name="WeekViewButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="SemesterViewButton" AutomationProperties.AutomationId="SemesterViewButton" Style="{StaticResource ToolbarButtonStyle}" Click="SemesterView_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="View" />
+                        </Viewbox>
+                        <TextBlock x:Name="SemesterViewButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="RegistrationOrderButton" AutomationProperties.AutomationId="RegistrationOrderButton" Style="{StaticResource ToolbarButtonStyle}" Click="RegistrationOrder_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="Sort" />
+                        </Viewbox>
+                        <TextBlock x:Name="RegistrationOrderButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="CompareButton" AutomationProperties.AutomationId="CompareButton" Style="{StaticResource ToolbarButtonStyle}" Click="Compare_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="Switch" />
+                        </Viewbox>
+                        <TextBlock x:Name="CompareButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Border x:Name="ViewCommandSeparator" Width="1" Height="24" Margin="4,0" VerticalAlignment="Center" services:AppMaterialLayer.Surface="Divider" />
+                <Button x:Name="ImportButton" AutomationProperties.AutomationId="ImportButton" Style="{StaticResource ToolbarButtonStyle}" Click="Import_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="Download" />
+                        </Viewbox>
+                        <TextBlock x:Name="ImportButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="ExportButton" AutomationProperties.AutomationId="ExportButton" Style="{StaticResource ToolbarButtonStyle}" Click="Export_Click">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="Save" />
+                        </Viewbox>
+                        <TextBlock x:Name="ExportButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Border x:Name="ExchangeCommandSeparator" Width="1" Height="24" Margin="4,0" VerticalAlignment="Center" services:AppMaterialLayer.Surface="Divider" />
+                <Button x:Name="UndoButton" AutomationProperties.AutomationId="UndoButton" Style="{StaticResource ToolbarButtonStyle}" Click="Undo_Click" IsEnabled="False">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="Undo" />
+                        </Viewbox>
+                        <TextBlock x:Name="UndoButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="RedoButton" AutomationProperties.AutomationId="RedoButton" Style="{StaticResource ToolbarButtonStyle}" Click="Redo_Click" IsEnabled="False">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ToolbarButtonContentStyle}">
+                        <Viewbox Style="{StaticResource ToolbarIconViewboxStyle}">
+                            <SymbolIcon Symbol="Redo" />
+                        </Viewbox>
+                        <TextBlock x:Name="RedoButtonText" Text="" Style="{StaticResource ToolbarButtonLabelStyle}" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="ToolbarMoreButton" AutomationProperties.AutomationId="ToolbarMoreButton" Width="36" MinWidth="36" Padding="0" Style="{StaticResource ToolbarButtonStyle}" Visibility="Collapsed">
+                    <FontIcon FontSize="14" Glyph="&#xE712;" />
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <Grid x:Name="PlannerGrid" Grid.Row="2" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="320" />
+            </Grid.ColumnDefinitions>
+                <Border
+                    x:Name="LibraryPane"
+                    MinWidth="220"
+                    services:AppAnimationLayer.Profile="PaneFromLeft"
+                    Style="{StaticResource SidePaneStyle}">
+                    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="8" Padding="0">
+                    <Grid MinHeight="32" Margin="8,10,8,0" ColumnDefinitions="*,Auto">
+                        <TextBlock x:Name="LibraryTitle" VerticalAlignment="Center" Text="" Style="{StaticResource PanelHeaderTextBlockStyle}" />
+                        <Button x:Name="CloseLibraryButton" AutomationProperties.AutomationId="CloseLibraryButton" Grid.Column="1" Style="{StaticResource QuietIconButtonStyle}" Click="CloseLibrary_Click">
+                            <FontIcon FontSize="16" Glyph="&#xE711;" />
+                        </Button>
+                    </Grid>
+                    <appControls:CourseLibraryFilterBar
+                        x:Name="CourseFilters"
+                        Grid.Row="1"
+                        Margin="8,0"
+                        SearchAutomationId="CourseSearchBox"
+                        FilterButtonAutomationId="CourseFilterButton"
+                        LabelFilterAutomationId="LabelFilterBox"
+                        GroupFilterAutomationId="GroupFilterBox"
+                        StudyFilterAutomationId="StudyFilterBox"
+                        TeacherFilterAutomationId="TeacherFilterBox"
+                        LocationFilterAutomationId="LocationFilterBox"
+                        SearchTextChanged="CourseFilters_SearchTextChanged"
+                        SearchSubmitted="CourseFilters_SearchSubmitted"
+                        FilterTextChanged="CourseFilters_FilterTextChanged" />
+                    <Grid Grid.Row="2">
+                        <appControls:CourseLibraryTree
+                            x:Name="LibraryTree"
+                            AutomationProperties.AutomationId="LibraryTree"
+                            TreeAutomationId="LibraryTree"
+                            CourseRowAutomationId="LibraryCourseRow" />
+                    </Grid>
+                    </Grid>
+                </Border>
+
+                <controls:GridSplitter x:Name="LibrarySplitter" Grid.Column="1" Grid.ColumnSpan="2" Canvas.ZIndex="10" Style="{StaticResource SplitViewRailStyle}" />
+                <Border x:Name="LibrarySplitterLine" Grid.Column="1" Width="1" HorizontalAlignment="Center" services:AppMaterialLayer.Surface="Divider" IsHitTestVisible="False" />
+
+                <Grid x:Name="CenterPane" Grid.Column="2" RowDefinitions="Auto,*" RowSpacing="6" Padding="0" services:AppMaterialLayer.Surface="TimetableCanvas">
+                    <Grid Margin="10,8,10,0" ColumnDefinitions="*,Auto,Auto,Auto,Auto" ColumnSpacing="6">
+                        <TextBlock
+                            x:Name="WeekTitleText"
+                            AutomationProperties.AutomationId="WeekTitleText"
+                            VerticalAlignment="Center"
+                            TextWrapping="NoWrap"
+                            TextTrimming="CharacterEllipsis"
+                            Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <Button x:Name="PreviousWeekButton" AutomationProperties.AutomationId="PreviousWeekButton" AutomationProperties.Name="" Grid.Column="1" Style="{StaticResource WeekArrowButtonStyle}" Click="PreviousWeek_Click">
+                            <FontIcon FontSize="14" Glyph="&#xE76B;" />
+                        </Button>
+                        <StackPanel
+                            x:Name="WeekSelectorHost"
+                            AutomationProperties.AutomationId="WeekSelectorHost"
+                            Grid.Column="2"
+                            MinHeight="32"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="6">
+                            <TextBlock
+                                x:Name="WeekSelectorPrefixText"
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                            <NumberBox
+                                x:Name="WeekNumberBox"
+                                AutomationProperties.AutomationId="WeekNumberBox"
+                                Width="76"
+                                Minimum="1"
+                                SmallChange="1"
+                                Padding="8,5,8,6"
+                                appControls:NumberBoxAssist.TextAlignment="Center"
+                                ValueChanged="WeekNumberBox_ValueChanged" />
+                            <TextBlock
+                                x:Name="WeekSelectorSuffixText"
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        </StackPanel>
+                        <Button x:Name="NextWeekButton" AutomationProperties.AutomationId="NextWeekButton" AutomationProperties.Name="" Grid.Column="3" Style="{StaticResource WeekArrowButtonStyle}" Click="NextWeek_Click">
+                            <FontIcon FontSize="14" Glyph="&#xE76C;" />
+                        </Button>
+                        <Button x:Name="SwapCompareButton" AutomationProperties.AutomationId="SwapCompareButton" AutomationProperties.Name="" Grid.Column="4" Style="{StaticResource QuietIconButtonStyle}" Click="SwapCompare_Click">
+                            <SymbolIcon Symbol="Switch" />
+                        </Button>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="10,0,0,0">
+                        <ScrollViewer x:Name="TimetableScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" SizeChanged="TimetableScrollViewer_SizeChanged" ViewChanged="TimetableScrollViewer_ViewChanged">
+                            <Frame
+                                x:Name="TimetableFrame"
+                                HorizontalContentAlignment="Stretch"
+                                IsNavigationStackEnabled="False"
+                                VerticalContentAlignment="Stretch" />
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+
+                <controls:GridSplitter x:Name="DetailSplitter" Grid.Column="3" Grid.ColumnSpan="2" Canvas.ZIndex="10" Style="{StaticResource SplitViewRailStyle}" />
+                <Border x:Name="DetailSplitterLine" Grid.Column="3" Width="1" HorizontalAlignment="Center" services:AppMaterialLayer.Surface="Divider" IsHitTestVisible="False" />
+
+                <Border
+                    x:Name="DetailPane"
+                    Grid.Column="4"
+                    MinWidth="260"
+                    services:AppAnimationLayer.Profile="PaneFromRight"
+                    Style="{StaticResource SidePaneStyle}">
+                    <Grid RowDefinitions="Auto,*" RowSpacing="8" Padding="0">
+                    <Grid MinHeight="32" Margin="8,10,8,0" ColumnDefinitions="*,Auto">
+                        <TextBlock x:Name="DetailTitle" VerticalAlignment="Center" Text="" Style="{StaticResource PanelHeaderTextBlockStyle}" />
+                        <Button x:Name="CloseDetailButton" AutomationProperties.AutomationId="CloseDetailButton" Grid.Column="1" Style="{StaticResource QuietIconButtonStyle}" Click="CloseDetail_Click">
+                            <FontIcon FontSize="16" Glyph="&#xE711;" />
+                        </Button>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1">
+                        <StackPanel x:Name="DetailContentHost" Margin="8,0,12,12" Spacing="8">
+                            <InfoBar x:Name="DetailInfoBar" AutomationProperties.AutomationId="DetailInfoBar" IsOpen="False" IsClosable="False" Severity="Warning" />
+                            <TextBox x:Name="CourseNameBox" AutomationProperties.AutomationId="CourseNameBox" Header="" MaxLength="2048" TextChanged="DetailField_TextChanged" />
+                            <TextBox x:Name="TeacherBox" AutomationProperties.AutomationId="TeacherBox" Header="" MaxLength="2048" TextChanged="DetailField_TextChanged" />
+                            <TextBox x:Name="LocationBox" AutomationProperties.AutomationId="LocationBox" Header="" MaxLength="2048" TextChanged="DetailField_TextChanged" />
+                            <NumberBox x:Name="CreditsBox" AutomationProperties.AutomationId="CreditsBox" Header="" Minimum="0" SmallChange="0.5" ValueChanged="DetailNumber_ValueChanged" />
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                <NumberBox x:Name="EnrolledBox" AutomationProperties.AutomationId="EnrolledBox" Header="" Minimum="0" ValueChanged="DetailNumber_ValueChanged" />
+                                <NumberBox x:Name="CapacityBox" AutomationProperties.AutomationId="CapacityBox" Grid.Column="1" Header="" Minimum="0" ValueChanged="DetailNumber_ValueChanged" />
+                            </Grid>
+                            <TextBox x:Name="GroupTypeBox" AutomationProperties.AutomationId="GroupTypeBox" Header="" MaxLength="2048" TextChanged="DetailField_TextChanged" />
+                            <TextBox x:Name="StudyTypeBox" AutomationProperties.AutomationId="StudyTypeBox" Header="" MaxLength="2048" TextChanged="DetailField_TextChanged" />
+                            <TextBox x:Name="LabelsBox" AutomationProperties.AutomationId="LabelsBox" Header="" MaxLength="32768" TextChanged="DetailField_TextChanged" />
+                            <appControls:MeetingTimesEditor x:Name="MeetingsBox" AutomationProperties.AutomationId="MeetingsBox" MeetingsChanged="DetailMeetings_Changed" />
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <TextBox x:Name="CourseColorBox" AutomationProperties.AutomationId="CourseColorBox" Header="" MaxLength="16" TextChanged="DetailField_TextChanged" />
+                                <Button x:Name="RecommendCourseColorButton" AutomationProperties.AutomationId="RecommendCourseColorButton" Grid.Column="1" VerticalAlignment="Bottom" Content="" Click="RecommendCourseColor_Click" />
+                            </Grid>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border x:Name="CourseColorSwatch" Width="28" Height="18" BorderThickness="1" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" CornerRadius="3" />
+                                <FontIcon x:Name="CourseColorWarningIcon" FontSize="14" Glyph="&#xE7BA;" Foreground="{ThemeResource SystemFillColorCautionBrush}" Visibility="Collapsed" />
+                            </StackPanel>
+                            <TextBlock x:Name="CourseColorHintText" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />
+                            <TextBox x:Name="NotesBox" AutomationProperties.AutomationId="NotesBox" Header="" MaxLength="2048" AcceptsReturn="True" MinHeight="84" TextChanged="DetailField_TextChanged" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                                <Button x:Name="DiscardCourseEditButton" AutomationProperties.AutomationId="DiscardCourseEditButton" Content="" Click="DiscardCourseEdit_Click" />
+                                <Button x:Name="SaveCourseEditButton" AutomationProperties.AutomationId="SaveCourseEditButton" Content="" Style="{StaticResource AccentButtonStyle}" Click="SaveCourseEdit_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                    </Grid>
+                </Border>
+        </Grid>
+    </Grid>
+</Page>

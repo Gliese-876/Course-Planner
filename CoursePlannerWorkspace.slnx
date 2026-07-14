@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="CoursePlanner.Core/CoursePlanner.Core.csproj" />
+  <Project Path="CoursePlanner.Application/CoursePlanner.Application.csproj" />
+  <Project Path="CoursePlanner.Exchange/CoursePlanner.Exchange.csproj" />
+  <Project Path="CoursePlanner.Export/CoursePlanner.Export.csproj" />
+  <Project Path="CoursePlanner.Persistence/CoursePlanner.Persistence.csproj" />
+  <Project Path="CoursePlanner.Tests/CoursePlanner.Tests.csproj" />
+  <Project Path="CoursePlanner/CoursePlanner.csproj" />
+</Solution>

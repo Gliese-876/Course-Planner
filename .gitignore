@@ -1,0 +1,103 @@
+## .NET / Visual Studio
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+artifacts/
+
+# Build logs
+[Ll]og/
+[Ll]ogs/
+*.log
+*.binlog
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+project.lock.json
+
+# MSIX packaging output
+AppPackages/
+BundleArtifacts/
+CoursePlanner/Packaging/
+*.msix
+*.msixupload
+*.appx
+*.appxbundle
+*.appxupload
+
+# Publish output
+publish/
+*.pubxml
+PublishScripts/
+
+# Code analysis and tooling
+_ReSharper*/
+*.DotSettings.user
+*.dotCover
+.idea/
+.vscode/
+
+# Local agent and workspace metadata
+/.agents/
+/.codex/
+
+# Local UI automation and rendered previews
+/.playwright-cli/
+/output/
+
+# Local application data
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Sensitive local configuration and signing material
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.snk
+*.jks
+*.keystore
+*.kdbx
+*.ppk
+*.publishsettings
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+credentials.json
+secrets.json
+local.settings.json
+appsettings.Local.json
+appsettings.*.Local.json
+.npmrc
+.pypirc
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Generated files
+Generated Files/
+*_wpftmp.csproj

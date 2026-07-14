@@ -1,0 +1,105 @@
+{
+  "kind": "selectionPlan",
+  "schemaVersion": "2.0.0",
+  "semester": {
+    "semesterId": "2026-fall",
+    "semesterName": "2026 秋季学期 · Fall 2026",
+    "startDate": "2026-09-07",
+    "endDate": "2026-12-27",
+    "weekCount": 16,
+    "weekStartDay": 0,
+    "displayOrder": 0,
+    "periodSchedule": [
+      { "period": 1, "start": "08:00:00", "end": "08:45:00" },
+      { "period": 2, "start": "08:55:00", "end": "09:40:00" },
+      { "period": 3, "start": "10:00:00", "end": "10:45:00" },
+      { "period": 4, "start": "10:55:00", "end": "11:40:00" }
+    ]
+  },
+  "labels": [
+    { "name": "核心课", "kind": 0, "displayOrder": 0 },
+    { "name": "专业课", "kind": 1, "displayOrder": 2 },
+    { "name": "必修", "kind": 2, "displayOrder": 3 }
+  ],
+  "courses": [
+    {
+      "offeringId": "efeff3a3cc9d8e21b28b2aee73d4ae92e95c4c7e74a4fa6d02133d11d3e4f567",
+      "semesterId": "2026-fall",
+      "courseName": "高等数学 / Advanced Mathematics",
+      "teacher": "张老师 / Prof. Zhang",
+      "location": "A-201",
+      "credits": 4,
+      "courseGroupType": "专业课",
+      "studyType": "必修",
+      "labels": ["核心课"],
+      "meetingTimes": [
+        {
+          "weekday": 1,
+          "startPeriod": 1,
+          "endPeriod": 2,
+          "weeks": "1-16",
+          "weekParity": 0
+        }
+      ],
+      "notes": "示例课程 / Example course",
+      "enrolledCount": 48,
+      "capacity": 60,
+      "color": "#0F766E",
+      "modifiedAt": "2026-07-14T09:00:00+08:00"
+    },
+    {
+      "offeringId": "5d6dda7567c3fa9d0c6ffbdb42ef8d085bed021e41b8df74fdbe87ebed1da76e",
+      "semesterId": "2026-fall",
+      "courseName": "数据结构 / Data Structures",
+      "teacher": "李老师 / Prof. Li",
+      "location": "B-305",
+      "credits": 3.5,
+      "courseGroupType": "专业课",
+      "studyType": "必修",
+      "labels": ["核心课"],
+      "meetingTimes": [
+        {
+          "weekday": 2,
+          "startPeriod": 3,
+          "endPeriod": 4,
+          "weeks": "1-16",
+          "weekParity": 0
+        },
+        {
+          "weekday": 4,
+          "startPeriod": 3,
+          "endPeriod": 4,
+          "weeks": "1-16",
+          "weekParity": 0
+        }
+      ],
+      "notes": "",
+      "enrolledCount": 52,
+      "capacity": 64,
+      "color": "#2563EB",
+      "modifiedAt": "2026-07-14T09:05:00+08:00"
+    }
+  ],
+  "plan": {
+    "planId": "plan-2026-fall-main",
+    "semesterId": "2026-fall",
+    "planName": "主方案 · Main Plan",
+    "displayOrder": 0,
+    "createdAt": "2026-07-14T09:15:00+08:00",
+    "modifiedAt": "2026-07-14T09:20:00+08:00",
+    "snapshots": [
+      {
+        "snapshotId": "snapshot-math-2026-fall",
+        "courseOfferingId": "efeff3a3cc9d8e21b28b2aee73d4ae92e95c4c7e74a4fa6d02133d11d3e4f567",
+        "registrationOrder": 0,
+        "snapshotAt": "2026-07-14T09:16:00+08:00"
+      },
+      {
+        "snapshotId": "snapshot-ds-2026-fall",
+        "courseOfferingId": "5d6dda7567c3fa9d0c6ffbdb42ef8d085bed021e41b8df74fdbe87ebed1da76e",
+        "registrationOrder": 1,
+        "snapshotAt": "2026-07-14T09:17:00+08:00"
+      }
+    ]
+  }
+}

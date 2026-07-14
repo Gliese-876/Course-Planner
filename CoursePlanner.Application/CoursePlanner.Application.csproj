@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>CoursePlanner</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoursePlanner.Core\CoursePlanner.Core.csproj" />
+    <ProjectReference Include="..\CoursePlanner.Exchange\CoursePlanner.Exchange.csproj" />
+    <ProjectReference Include="..\CoursePlanner.Persistence\CoursePlanner.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CoursePlanner\ViewModels\*.cs" Link="ViewModels\%(Filename)%(Extension)" />
+    <Compile Include="..\CoursePlanner\Services\AppLocalizer.cs" Link="Services\AppLocalizer.cs" />
+    <Compile Include="..\CoursePlanner\Services\BackgroundOperationService.cs" Link="Services\BackgroundOperationService.cs" />
+    <Compile Include="..\CoursePlanner\Services\CourseDisplayFormatter.cs" Link="Services\CourseDisplayFormatter.cs" />
+    <Compile Include="..\CoursePlanner\Services\CourseEditMapper.cs" Link="Services\CourseEditMapper.cs" />
+    <Compile Include="..\CoursePlanner\Services\CourseLibraryRenderSignature.cs" Link="Services\CourseLibraryRenderSignature.cs" />
+    <Compile Include="..\CoursePlanner\Services\CourseLibraryStatusService.cs" Link="Services\CourseLibraryStatusService.cs" />
+    <Compile Include="..\CoursePlanner\Services\CourseLibraryTreeRenderModels.cs" Link="Services\CourseLibraryTreeRenderModels.cs" />
+    <Compile Include="..\CoursePlanner\Services\DocumentSession.cs" Link="Services\DocumentSession.cs" />
+    <Compile Include="..\CoursePlanner\Services\LocalizationService.cs" Link="Services\LocalizationService.cs" />
+    <Compile Include="..\CoursePlanner\Services\PlannerPaneStateCoordinator.cs" Link="Services\PlannerPaneStateCoordinator.cs" />
+    <Compile Include="..\CoursePlanner\Services\PlanTabCloseSequenceState.cs" Link="Services\PlanTabCloseSequenceState.cs" />
+    <Compile Include="..\CoursePlanner\Services\ShellNavigationService.cs" Link="Services\ShellNavigationService.cs" />
+    <Compile Include="..\CoursePlanner\Services\ThemeServiceContracts.cs" Link="Services\ThemeServiceContracts.cs" />
+    <Compile Include="..\CoursePlanner\Services\ToolWindowPlacementState.cs" Link="Services\ToolWindowPlacementState.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\en-US\Resources.resw" LogicalName="CoursePlanner.Localization.en-US.Resources.resw" />
+    <EmbeddedResource Include="Resources\zh-Hans\Resources.resw" LogicalName="CoursePlanner.Localization.zh-Hans.Resources.resw" />
+  </ItemGroup>
+</Project>

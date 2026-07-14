@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup Condition="'$(ArtifactsPath)' != ''">
+    <PublishDir>$(ArtifactsPath)\publish\$(MSBuildProjectName)\$(Configuration)_$(TargetFramework)_$(RuntimeIdentifier)\</PublishDir>
+  </PropertyGroup>
+</Project>

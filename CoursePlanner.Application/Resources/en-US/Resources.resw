@@ -1,0 +1,1599 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>Course Planner</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Plan courses, compare schedules, and organize registration priorities</value>
+  </data>
+  <data name="Planner" xml:space="preserve">
+    <value>Planner</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="CourseLibrary" xml:space="preserve">
+    <value>Course Library</value>
+  </data>
+  <data name="Plans" xml:space="preserve">
+    <value>Plans</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search courses</value>
+  </data>
+  <data name="AllSemesters" xml:space="preserve">
+    <value>All semesters</value>
+  </data>
+  <data name="CurrentSemester" xml:space="preserve">
+    <value>Current semester</value>
+  </data>
+  <data name="PlanCreditsIncludeConflicts" xml:space="preserve">
+    <value>includes {0} conflict slot(s)</value>
+  </data>
+  <data name="CourseStatusInCurrentPlan" xml:space="preserve">
+    <value>Course status in current plan</value>
+  </data>
+  <data name="NewCourse" xml:space="preserve">
+    <value>New Course</value>
+  </data>
+  <data name="NewPlan" xml:space="preserve">
+    <value>New Plan</value>
+  </data>
+  <data name="NewSemester" xml:space="preserve">
+    <value>New Semester</value>
+  </data>
+  <data name="DefaultSemesterName" xml:space="preserve">
+    <value>2026 Fall</value>
+  </data>
+  <data name="DefaultPlanName" xml:space="preserve">
+    <value>Plan 1</value>
+  </data>
+  <data name="CopiedPlan" xml:space="preserve">
+    <value>Copied Plan</value>
+  </data>
+  <data name="CopiedPlanNameFormat" xml:space="preserve">
+    <value>{0} Copy</value>
+  </data>
+  <data name="OpenPlan" xml:space="preserve">
+    <value>Open Plan</value>
+  </data>
+  <data name="RegistrationOrder" xml:space="preserve">
+    <value>Registration order</value>
+  </data>
+  <data name="RegistrationOrderDialogTitleFormat" xml:space="preserve">
+    <value>{0} · Registration order</value>
+  </data>
+  <data name="RegistrationOrderDescription" xml:space="preserve">
+    <value>Drag courses into the order you will try them, or start with an explainable smart recommendation. Saving changes only registration priority, not the timetable layout.</value>
+  </data>
+  <data name="SmartSort" xml:space="preserve">
+    <value>Smart sort</value>
+  </data>
+  <data name="PinWindow" xml:space="preserve">
+    <value>Pin window</value>
+  </data>
+  <data name="UnpinWindow" xml:space="preserve">
+    <value>Unpin window</value>
+  </data>
+  <data name="ResetWindowSize" xml:space="preserve">
+    <value>Reset window size</value>
+  </data>
+  <data name="MinimizeWindow" xml:space="preserve">
+    <value>Minimize window</value>
+  </data>
+  <data name="CloseWindow" xml:space="preserve">
+    <value>Close window</value>
+  </data>
+  <data name="BackgroundOperation" xml:space="preserve">
+    <value>the current operation</value>
+  </data>
+  <data name="CloseBlockedByBackgroundOperationTitle" xml:space="preserve">
+    <value>Operation in progress</value>
+  </data>
+  <data name="CloseBlockedByBackgroundOperationMessageFormat" xml:space="preserve">
+    <value>Course Planner cannot close while {0} is in progress. Wait for it to finish, then try again.</value>
+  </data>
+  <data name="RuntimeOperationErrorTitle" xml:space="preserve">
+    <value>Operation failed</value>
+  </data>
+  <data name="RuntimeOperationErrorMessage" xml:space="preserve">
+    <value>The operation could not be completed, and your latest changes might not have been saved. Check storage access and available disk space, then try again.</value>
+  </data>
+  <data name="RegistrationSmartSortHint" xml:space="preserve">
+    <value>Optimize order using enrollment, course type, and study type</value>
+  </data>
+  <data name="RegistrationOrderListHelp" xml:space="preserve">
+    <value>Drag courses to reorder, or press Alt+Up/Down. Changes save automatically.</value>
+  </data>
+  <data name="RegistrationCapacityCompactFormat" xml:space="preserve">
+    <value>{0}/{1}</value>
+  </data>
+  <data name="RegistrationPriorityRiskCompactFormat" xml:space="preserve">
+    <value>risk {0}</value>
+  </data>
+  <data name="RegistrationPriorityRiskUnderOne" xml:space="preserve">
+    <value>&lt;1%</value>
+  </data>
+  <data name="RegistrationPriorityUnavailableCompact" xml:space="preserve">
+    <value>full</value>
+  </data>
+  <data name="RegistrationPriorityUnknownCompact" xml:space="preserve">
+    <value>unknown</value>
+  </data>
+  <data name="ResetOrder" xml:space="preserve">
+    <value>Restore opened order</value>
+  </data>
+  <data name="AlgorithmHelp" xml:space="preserve">
+    <value>How ranking works</value>
+  </data>
+  <data name="RegistrationAlgorithmTitle" xml:space="preserve">
+    <value>How smart sort works</value>
+  </data>
+  <data name="RegistrationAlgorithmDescription" xml:space="preserve">
+    <value>The model uses a one-sided 90% Wilson upper bound to correct small-sample occupancy pressure, then estimates the risk that every remaining seat disappears during one action delay. Study type (core, required, elective), course type (major, general, free), credits, and viable alternative sections determine the cost of failure. Custom labels are recognized through common Chinese and English expressions; unrecognized labels use neutral weights, and missing data preserves manual order.</value>
+  </data>
+  <data name="RegistrationOrderEmptyTitle" xml:space="preserve">
+    <value>No courses in this plan</value>
+  </data>
+  <data name="RegistrationOrderEmptyMessage" xml:space="preserve">
+    <value>Add courses to the plan before setting a registration order.</value>
+  </data>
+  <data name="RegistrationOrderSmartSorted" xml:space="preserve">
+    <value>Sorted by expected seat-loss cost. You can still drag to fine-tune it.</value>
+  </data>
+  <data name="RegistrationCapacityFormat" xml:space="preserve">
+    <value>{0}/{1} enrolled · {2} remaining</value>
+  </data>
+  <data name="RegistrationCapacityUnknown" xml:space="preserve">
+    <value>Enrollment or capacity data is missing</value>
+  </data>
+  <data name="RegistrationCapacityUnavailableFormat" xml:space="preserve">
+    <value>{0}/{1} enrolled · no seats available</value>
+  </data>
+  <data name="RegistrationPriorityRiskFormat" xml:space="preserve">
+    <value>Delay seat-loss risk {0}</value>
+  </data>
+  <data name="RegistrationPriorityRequiredReason" xml:space="preserve">
+    <value>Course-type and study-type failure costs included</value>
+  </data>
+  <data name="RegistrationPriorityAlternativeReasonFormat" xml:space="preserve">
+    <value>{0:0.#} effective alternative section(s) reduce the loss</value>
+  </data>
+  <data name="RegistrationPriorityModelReason" xml:space="preserve">
+    <value>Wilson small-sample correction</value>
+  </data>
+  <data name="RegistrationPriorityUnavailableReason" xml:space="preserve">
+    <value>No current chance of success, so smart sort places it later</value>
+  </data>
+  <data name="RegistrationPriorityUnknownReason" xml:space="preserve">
+    <value>Not enough data; smart sort preserves the manual order</value>
+  </data>
+  <data name="RegistrationPriorityMissingReference" xml:space="preserve">
+    <value>Missing course reference</value>
+  </data>
+  <data name="SaveOrder" xml:space="preserve">
+    <value>Save order</value>
+  </data>
+  <data name="RegistrationOrderSaved" xml:space="preserve">
+    <value>Registration order saved.</value>
+  </data>
+  <data name="NoOpenPlans" xml:space="preserve">
+    <value>No open plans</value>
+  </data>
+  <data name="NoSemesters" xml:space="preserve">
+    <value>No semesters</value>
+  </data>
+  <data name="NoCoursesInLibrary" xml:space="preserve">
+    <value>No courses in the library</value>
+  </data>
+  <data name="NoMatchingCourses" xml:space="preserve">
+    <value>No matching courses</value>
+  </data>
+  <data name="NoPlanSelected" xml:space="preserve">
+    <value>No plan selected</value>
+  </data>
+  <data name="NoCourseSelected" xml:space="preserve">
+    <value>No course selected</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="RefreshPlan" xml:space="preserve">
+    <value>Refresh Plan</value>
+  </data>
+  <data name="RefreshAll" xml:space="preserve">
+    <value>Refresh All</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="SemesterOverview" xml:space="preserve">
+    <value>Semester</value>
+  </data>
+  <data name="Compare" xml:space="preserve">
+    <value>Compare</value>
+  </data>
+  <data name="DifferenceAdded" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="DifferenceRemoved" xml:space="preserve">
+    <value>Removed</value>
+  </data>
+  <data name="DifferenceModified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="PreviousWeek" xml:space="preserve">
+    <value>Previous week</value>
+  </data>
+  <data name="NextWeek" xml:space="preserve">
+    <value>Next week</value>
+  </data>
+  <data name="SwapComparisonDirection" xml:space="preserve">
+    <value>Swap comparison direction</value>
+  </data>
+  <data name="CloseCourseLibrary" xml:space="preserve">
+    <value>Close course library</value>
+  </data>
+  <data name="CloseDetails" xml:space="preserve">
+    <value>Close details</value>
+  </data>
+  <data name="ClosePlanTab" xml:space="preserve">
+    <value>Close plan tab</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="ClearPlan" xml:space="preserve">
+    <value>Clear Current Plan</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>Teacher</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="CreditsShort" xml:space="preserve">
+    <value>cr</value>
+  </data>
+  <data name="Courses" xml:space="preserve">
+    <value>courses</value>
+  </data>
+  <data name="Capacity" xml:space="preserve">
+    <value>Capacity</value>
+  </data>
+  <data name="Enrolled" xml:space="preserve">
+    <value>Enrolled</value>
+  </data>
+  <data name="GroupType" xml:space="preserve">
+    <value>Course type</value>
+  </data>
+  <data name="StudyType" xml:space="preserve">
+    <value>Study type</value>
+  </data>
+  <data name="Labels" xml:space="preserve">
+    <value>Ordinary labels</value>
+  </data>
+  <data name="Meetings" xml:space="preserve">
+    <value>Meeting times</value>
+  </data>
+  <data name="MeetingItemTitleFormat" xml:space="preserve">
+    <value>Meeting {0}</value>
+  </data>
+  <data name="MeetingWeekday" xml:space="preserve">
+    <value>Weekday</value>
+  </data>
+  <data name="MeetingPeriods" xml:space="preserve">
+    <value>Periods</value>
+  </data>
+  <data name="MeetingPeriodsFormat" xml:space="preserve">
+    <value>{0}-{1}</value>
+  </data>
+  <data name="MeetingStartPeriod" xml:space="preserve">
+    <value>Start period</value>
+  </data>
+  <data name="MeetingEndPeriod" xml:space="preserve">
+    <value>End period</value>
+  </data>
+  <data name="MeetingWeeks" xml:space="preserve">
+    <value>Weeks</value>
+  </data>
+  <data name="MeetingWeeksDisplayFormat" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="MeetingParity" xml:space="preserve">
+    <value>Parity</value>
+  </data>
+  <data name="MeetingParityAll" xml:space="preserve">
+    <value>Every week</value>
+  </data>
+  <data name="MeetingParityOdd" xml:space="preserve">
+    <value>Odd weeks</value>
+  </data>
+  <data name="MeetingParityEven" xml:space="preserve">
+    <value>Even weeks</value>
+  </data>
+  <data name="AddMeetingTime" xml:space="preserve">
+    <value>Add time</value>
+  </data>
+  <data name="RemoveMeetingTime" xml:space="preserve">
+    <value>Remove time</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="CourseColor" xml:space="preserve">
+    <value>Course color</value>
+  </data>
+  <data name="RecommendedColor" xml:space="preserve">
+    <value>Recommended</value>
+  </data>
+  <data name="CourseColorBrightnessWarning" xml:space="preserve">
+    <value>This color is outside the recommended generated-color brightness/background-distance range. It can be saved, but may be less clear in light or dark mode.</value>
+  </data>
+  <data name="AdvancedFilters" xml:space="preserve">
+    <value>Advanced filters</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="LabelFilter" xml:space="preserve">
+    <value>Labels (OR, comma separated)</value>
+  </data>
+  <data name="GroupFilter" xml:space="preserve">
+    <value>Course types (OR)</value>
+  </data>
+  <data name="StudyFilter" xml:space="preserve">
+    <value>Study types (OR)</value>
+  </data>
+  <data name="TeacherFilter" xml:space="preserve">
+    <value>Teachers (OR)</value>
+  </data>
+  <data name="LocationFilter" xml:space="preserve">
+    <value>Locations (OR)</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Search settings</value>
+  </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>App display language</value>
+  </data>
+  <data name="ThemeDescription" xml:space="preserve">
+    <value>Color mode and system theme behavior</value>
+  </data>
+  <data name="FollowSystem" xml:space="preserve">
+    <value>Follow system</value>
+  </data>
+  <data name="Chinese" xml:space="preserve">
+    <value>Simplified Chinese</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="SemesterManagement" xml:space="preserve">
+    <value>Semester management</value>
+  </data>
+  <data name="Semesters" xml:space="preserve">
+    <value>Semesters</value>
+  </data>
+  <data name="SemestersDescription" xml:space="preserve">
+    <value>Choose the semester to edit</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="PreviousMonth" xml:space="preserve">
+    <value>Previous month</value>
+  </data>
+  <data name="NextMonth" xml:space="preserve">
+    <value>Next month</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>Minute</value>
+  </data>
+  <data name="Weeks" xml:space="preserve">
+    <value>Weeks</value>
+  </data>
+  <data name="WeekStarts" xml:space="preserve">
+    <value>Week starts</value>
+  </data>
+  <data name="WeekStartMonday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="WeekStartSunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="PeriodSchedule" xml:space="preserve">
+    <value>Period schedule</value>
+  </data>
+  <data name="PeriodScheduleDescription" xml:space="preserve">
+    <value>Add or delete daily periods and edit each time range</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="DataManagement" xml:space="preserve">
+    <value>Data management</value>
+  </data>
+  <data name="DatabaseLocation" xml:space="preserve">
+    <value>Database location</value>
+  </data>
+  <data name="DatabaseLocationDescription" xml:space="preserve">
+    <value>Open the local data folder in File Explorer</value>
+  </data>
+  <data name="OpenDatabaseFolder" xml:space="preserve">
+    <value>Open database folder</value>
+  </data>
+  <data name="BackupAndExchange" xml:space="preserve">
+    <value>Backup and restore</value>
+  </data>
+  <data name="BackupAndExchangeDescription" xml:space="preserve">
+    <value>Create or restore a backup containing all course planner data</value>
+  </data>
+  <data name="SoftwareInformation" xml:space="preserve">
+    <value>App information</value>
+  </data>
+  <data name="AppVersionFormat" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
+  <data name="Publisher" xml:space="preserve">
+    <value>Publisher</value>
+  </data>
+  <data name="OpenGitHubProfile" xml:space="preserve">
+    <value>Open GitHub profile</value>
+  </data>
+  <data name="OpenSourceLicense" xml:space="preserve">
+    <value>MIT License</value>
+  </data>
+  <data name="OpenSourceLicenseDescriptionFormat" xml:space="preserve">
+    <value>{0} is open source under the MIT License</value>
+  </data>
+  <data name="ViewMitLicense" xml:space="preserve">
+    <value>View MIT License</value>
+  </data>
+  <data name="MitLicenseTitle" xml:space="preserve">
+    <value>MIT License</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Third-party licenses</value>
+  </data>
+  <data name="LicensesDescription" xml:space="preserve">
+    <value>Review third-party component licenses used by the app</value>
+  </data>
+  <data name="ViewLicenses" xml:space="preserve">
+    <value>View licenses</value>
+  </data>
+  <data name="LicenseNoticeIntro" xml:space="preserve">
+    <value>This app uses the following third-party components. The corresponding project repositories or NuGet packages contain the complete license text.</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="SavePeriod" xml:space="preserve">
+    <value>Save period</value>
+  </data>
+  <data name="AddPeriod" xml:space="preserve">
+    <value>Add period</value>
+  </data>
+  <data name="DeletePeriod" xml:space="preserve">
+    <value>Delete period</value>
+  </data>
+  <data name="ResetDefault" xml:space="preserve">
+    <value>Reset default</value>
+  </data>
+  <data name="ClearCurrentSemesterCourses" xml:space="preserve">
+    <value>Clear Current Semester Courses</value>
+  </data>
+  <data name="CannotSaveSemester" xml:space="preserve">
+    <value>Cannot save semester</value>
+  </data>
+  <data name="DeleteSemester" xml:space="preserve">
+    <value>Delete semester</value>
+  </data>
+  <data name="DeleteSemesterConfirm" xml:space="preserve">
+    <value>This will create an automatic backup, then delete the semester, its library courses and plans. Continue?</value>
+  </data>
+  <data name="ClearCourses" xml:space="preserve">
+    <value>Clear courses</value>
+  </data>
+  <data name="ClearCoursesConfirm" xml:space="preserve">
+    <value>Clear all library courses in the selected semester? Plans using those courses will remove the corresponding course references.</value>
+  </data>
+  <data name="InvalidPeriod" xml:space="preserve">
+    <value>Invalid period</value>
+  </data>
+  <data name="EndTimeAfterStart" xml:space="preserve">
+    <value>End time must be after start time.</value>
+  </data>
+  <data name="PeriodScheduleCannotExtend" xml:space="preserve">
+    <value>The period cannot be added because the resulting schedule would cross midnight.</value>
+  </data>
+  <data name="DeletePeriodConfirm" xml:space="preserve">
+    <value>Delete period {0}? Courses using this period may become out of range.</value>
+  </data>
+  <data name="ResetPeriods" xml:space="preserve">
+    <value>Reset periods</value>
+  </data>
+  <data name="ResetPeriodsConfirm" xml:space="preserve">
+    <value>Reset this semester to the default 12-period schedule? Course meetings after period 12 will be removed, and meetings crossing period 12 will be shortened.</value>
+  </data>
+  <data name="LabelManagement" xml:space="preserve">
+    <value>Labels</value>
+  </data>
+  <data name="LabelManagementDescription" xml:space="preserve">
+    <value>Manage course type, study type, and ordinary labels</value>
+  </data>
+  <data name="LabelName" xml:space="preserve">
+    <value>Label name</value>
+  </data>
+  <data name="LabelKind" xml:space="preserve">
+    <value>Label kind</value>
+  </data>
+  <data name="LabelKindOrdinary" xml:space="preserve">
+    <value>Ordinary</value>
+  </data>
+  <data name="LabelKindCourseGroup" xml:space="preserve">
+    <value>Course type</value>
+  </data>
+  <data name="LabelKindStudy" xml:space="preserve">
+    <value>Study type</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="NewLabel" xml:space="preserve">
+    <value>New label</value>
+  </data>
+  <data name="SaveLabel" xml:space="preserve">
+    <value>Save label</value>
+  </data>
+  <data name="DeleteLabel" xml:space="preserve">
+    <value>Delete label</value>
+  </data>
+  <data name="CannotSaveLabel" xml:space="preserve">
+    <value>Cannot save label</value>
+  </data>
+  <data name="DeleteLabelConfirm" xml:space="preserve">
+    <value>Delete label {0}? Course assignments using it will be cleared.</value>
+  </data>
+  <data name="BackupCreated" xml:space="preserve">
+    <value>Backup created</value>
+  </data>
+  <data name="BackupFailed" xml:space="preserve">
+    <value>Backup failed</value>
+  </data>
+  <data name="DeleteSemesterBackupFailed" xml:space="preserve">
+    <value>The semester was not deleted because its safety backup could not be created. Check storage access and available disk space, then try again.</value>
+  </data>
+  <data name="RestoreBackup" xml:space="preserve">
+    <value>Restore backup</value>
+  </data>
+  <data name="RestoreConfirm" xml:space="preserve">
+    <value>Restore overwrites current data after creating an automatic pre-restore backup. Continue?</value>
+  </data>
+  <data name="RestoreComplete" xml:space="preserve">
+    <value>Restore complete</value>
+  </data>
+  <data name="RestoreFailed" xml:space="preserve">
+    <value>Restore failed</value>
+  </data>
+  <data name="RestoreCommittedRefreshRequired" xml:space="preserve">
+    <value>Restore completed; app refresh required</value>
+  </data>
+  <data name="RestoreCommittedRefreshMessage" xml:space="preserve">
+    <value>The restored data was committed, but part of the application did not refresh. Reload the committed data now.</value>
+  </data>
+  <data name="RestoreCommittedRefreshRecoveryCompleteMessage" xml:space="preserve">
+    <value>The restored data was already committed and the application state has now been reloaded successfully.</value>
+  </data>
+  <data name="RestoreCleanupWarningFormat" xml:space="preserve">
+    <value>The restored data was committed, but temporary recovery files could not be removed. You can remove them later from: {0}</value>
+  </data>
+  <data name="RestoreRecoveryComplete" xml:space="preserve">
+    <value>Restore recovery complete</value>
+  </data>
+  <data name="RestoreRecoveryCompleteMessage" xml:space="preserve">
+    <value>The interrupted restore was safely terminated and the document was reloaded. You can try restoring the backup again.</value>
+  </data>
+  <data name="PreRestoreBackup" xml:space="preserve">
+    <value>Pre-restore backup</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Unsaved changes</value>
+  </data>
+  <data name="Conflict" xml:space="preserve">
+    <value>Conflict</value>
+  </data>
+  <data name="Full" xml:space="preserve">
+    <value>Full</value>
+  </data>
+  <data name="Tight" xml:space="preserve">
+    <value>Tight</value>
+  </data>
+  <data name="CompareSelected" xml:space="preserve">
+    <value>Compare selected</value>
+  </data>
+  <data name="BaseCourse" xml:space="preserve">
+    <value>Base course</value>
+  </data>
+  <data name="RestoreToBase" xml:space="preserve">
+    <value>Restore to Base</value>
+  </data>
+  <data name="RemoveFromCurrent" xml:space="preserve">
+    <value>Remove from Current</value>
+  </data>
+  <data name="AddFromBase" xml:space="preserve">
+    <value>Add from Base</value>
+  </data>
+  <data name="CannotRenamePlan" xml:space="preserve">
+    <value>Cannot rename plan</value>
+  </data>
+  <data name="PlanNameUnique" xml:space="preserve">
+    <value>Plan names must be unique within the same semester.</value>
+  </data>
+  <data name="ClearPlanConfirm" xml:space="preserve">
+    <value>Clear {0}?</value>
+  </data>
+  <data name="DeletePlanConfirm" xml:space="preserve">
+    <value>Delete {0}?</value>
+  </data>
+  <data name="DiscardUnsavedChanges" xml:space="preserve">
+    <value>Discard unsaved changes?</value>
+  </data>
+  <data name="DontSave" xml:space="preserve">
+    <value>Don't save</value>
+  </data>
+  <data name="DeleteFromLibraryConfirm" xml:space="preserve">
+    <value>Delete {0} from library?</value>
+  </data>
+  <data name="DeleteFromLibraryImpact" xml:space="preserve">
+    <value>This will remove the course from {0} plan(s): {1}.</value>
+  </data>
+  <data name="RemoveFromCurrentPlanConfirm" xml:space="preserve">
+    <value>Remove {0} from current plan?</value>
+  </data>
+  <data name="CopyToCurrentSemester" xml:space="preserve">
+    <value>Copy to current semester</value>
+  </data>
+  <data name="CopyAndAdd" xml:space="preserve">
+    <value>Copy and add</value>
+  </data>
+  <data name="DuplicateCourse" xml:space="preserve">
+    <value>Duplicate course</value>
+  </data>
+  <data name="AlreadyInCurrentPlan" xml:space="preserve">
+    <value>{0} is already in the current plan.</value>
+  </data>
+  <data name="ReplaceExisting" xml:space="preserve">
+    <value>Replace existing</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="KeepConflict" xml:space="preserve">
+    <value>Keep conflict</value>
+  </data>
+  <data name="RemoveConflictsThenAdd" xml:space="preserve">
+    <value>Remove conflicts then add</value>
+  </data>
+  <data name="ConflictsWith" xml:space="preserve">
+    <value>Conflicts with: {0}</value>
+  </data>
+  <data name="AddedCourse" xml:space="preserve">
+    <value>Added {0}.</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenFileFailed" xml:space="preserve">
+    <value>Couldn't open this file with the system default app.</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="AddAllToCourseLibrary" xml:space="preserve">
+    <value>Add All to Course Library</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="AllStatuses" xml:space="preserve">
+    <value>All statuses</value>
+  </data>
+  <data name="SemesterFilter" xml:space="preserve">
+    <value>Semester filter</value>
+  </data>
+  <data name="SearchVisibleFields" xml:space="preserve">
+    <value>Search visible fields</value>
+  </data>
+  <data name="ForceSemesterMergeConflicts" xml:space="preserve">
+    <value>Force semester merge conflicts</value>
+  </data>
+  <data name="UpdateLocalSemesterSettings" xml:space="preserve">
+    <value>Update local semester settings</value>
+  </data>
+  <data name="ForceImportOutOfRangeCourses" xml:space="preserve">
+    <value>Force import out-of-range courses</value>
+  </data>
+  <data name="ImportDecisionWarning" xml:space="preserve">
+    <value>Updating local semester settings changes how every course and plan in that semester is displayed. Forced merge imports into the existing local semester name. Out-of-range courses are skipped unless explicitly forced.</value>
+  </data>
+  <data name="SaveReport" xml:space="preserve">
+    <value>Save report</value>
+  </data>
+  <data name="ImportedPlan" xml:space="preserve">
+    <value>Imported Plan</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="CancelImport" xml:space="preserve">
+    <value>Cancel import</value>
+  </data>
+  <data name="ImportCheckingFile" xml:space="preserve">
+    <value>Checking import file…</value>
+  </data>
+  <data name="ImportCompleted" xml:space="preserve">
+    <value>Import completed.</value>
+  </data>
+  <data name="ImportNotApplied" xml:space="preserve">
+    <value>Nothing was imported. Resolve the conflicts or required decisions in the preview, then try again.</value>
+  </data>
+  <data name="ImportFailed" xml:space="preserve">
+    <value>Import failed</value>
+  </data>
+  <data name="ImportPreview" xml:space="preserve">
+    <value>Import preview</value>
+  </data>
+  <data name="ImportChangesTitle" xml:space="preserve">
+    <value>Review the changes</value>
+  </data>
+  <data name="ImportCourseSyncPreviewWarning" xml:space="preserve">
+    <value>This plan contains courses that are not yet in the course library. The courses must be synchronized before the plan can be imported.</value>
+  </data>
+  <data name="ImportMissingCourses" xml:space="preserve">
+    <value>Courses missing from the library</value>
+  </data>
+  <data name="ImportCourseSyncTitleFormat" xml:space="preserve">
+    <value>Import {0} course(s) into the library too?</value>
+  </data>
+  <data name="ImportCourseSyncRequired" xml:space="preserve">
+    <value>The current plan references the following {0} course(s), which are not in the course library. These courses must be synchronized before the plan can be imported.</value>
+  </data>
+  <data name="ImportSyncAndApply" xml:space="preserve">
+    <value>Sync courses and import plan</value>
+  </data>
+  <data name="ExportChooseContent" xml:space="preserve">
+    <value>First, choose what you want to export.</value>
+  </data>
+  <data name="ExportContentType" xml:space="preserve">
+    <value>Export content</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Export settings</value>
+  </data>
+  <data name="ExportContentCurrentWeek" xml:space="preserve">
+    <value>Current week</value>
+  </data>
+  <data name="ExportContentWeekRange" xml:space="preserve">
+    <value>Week range</value>
+  </data>
+  <data name="ExportContentDetailedSemester" xml:space="preserve">
+    <value>Entire semester</value>
+  </data>
+  <data name="ExportContentCurrentPlan" xml:space="preserve">
+    <value>Current plan data (JSON)</value>
+  </data>
+  <data name="ExportContentCourseLibrary" xml:space="preserve">
+    <value>Course library data (JSON)</value>
+  </data>
+  <data name="ExportContentShareText" xml:space="preserve">
+    <value>Share text</value>
+  </data>
+  <data name="ExportContentUnavailable" xml:space="preserve">
+    <value>Select a semester and open a plan to use this option.</value>
+  </data>
+  <data name="ExportFormat" xml:space="preserve">
+    <value>Export format</value>
+  </data>
+  <data name="ExportFormatPng" xml:space="preserve">
+    <value>PNG image</value>
+  </data>
+  <data name="ExportFormatPdf" xml:space="preserve">
+    <value>Vector PDF</value>
+  </data>
+  <data name="ExportTheme" xml:space="preserve">
+    <value>Export theme</value>
+  </data>
+  <data name="ExportThemeFollowSystemFormat" xml:space="preserve">
+    <value>Follow system (currently {0})</value>
+  </data>
+  <data name="ExportClarity" xml:space="preserve">
+    <value>Image clarity</value>
+  </data>
+  <data name="ExportClarityStandard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="ExportClarityHigh" xml:space="preserve">
+    <value>High (recommended)</value>
+  </data>
+  <data name="ExportClarityUltra" xml:space="preserve">
+    <value>Ultra</value>
+  </data>
+  <data name="ExportClarityExtreme" xml:space="preserve">
+    <value>Extreme</value>
+  </data>
+  <data name="ExportClarityMaximum" xml:space="preserve">
+    <value>Maximum</value>
+  </data>
+  <data name="ExportCourseBlockContent" xml:space="preserve">
+    <value>Course block content</value>
+  </data>
+  <data name="ExportFieldCourseName" xml:space="preserve">
+    <value>Course name</value>
+  </data>
+  <data name="ExportCourseNameRequired" xml:space="preserve">
+    <value>The course name is always included in exported course blocks.</value>
+  </data>
+  <data name="ExportSummaryVisualFormat" xml:space="preserve">
+    <value>{0} · {1} · {2} · {3} course fields selected</value>
+  </data>
+  <data name="ExportRequiresSemester" xml:space="preserve">
+    <value>Select a semester first.</value>
+  </data>
+  <data name="ExportRequiresPlan" xml:space="preserve">
+    <value>Open a plan first.</value>
+  </data>
+  <data name="ShareTextCopied" xml:space="preserve">
+    <value>Share text copied to the clipboard.</value>
+  </data>
+  <data name="CannotExportInvalidName" xml:space="preserve">
+    <value>Cannot export: invalid {0} name</value>
+  </data>
+  <data name="ReadableText" xml:space="preserve">
+    <value>Readable text</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="IncludeNotes" xml:space="preserve">
+    <value>Include notes</value>
+  </data>
+  <data name="StartWeek" xml:space="preserve">
+    <value>Start week</value>
+  </data>
+  <data name="EndWeek" xml:space="preserve">
+    <value>End week</value>
+  </data>
+  <data name="ExportedWeeklyPngFiles" xml:space="preserve">
+    <value>Exported weekly PNG files to {0}.</value>
+  </data>
+  <data name="SavedFile" xml:space="preserve">
+    <value>Saved {0}</value>
+  </data>
+  <data name="ReportFormat" xml:space="preserve">
+    <value>Report format</value>
+  </data>
+  <data name="SaveImportReport" xml:space="preserve">
+    <value>Save import report</value>
+  </data>
+  <data name="ExportPathTooLong" xml:space="preserve">
+    <value>Export path is too long</value>
+  </data>
+  <data name="ExportFailed" xml:space="preserve">
+    <value>Export failed</value>
+  </data>
+  <data name="ChooseShorterPath" xml:space="preserve">
+    <value>Choose a shorter file name or directory, then export again.</value>
+  </data>
+  <data name="ChooseAnotherPath" xml:space="preserve">
+    <value>Choose another location or file name, then export again.</value>
+  </data>
+  <data name="SaveCourseEditBeforeChangingDetails" xml:space="preserve">
+    <value>The current course changes have not been saved. Save them first?</value>
+  </data>
+  <data name="ValidationFailed" xml:space="preserve">
+    <value>Validation failed</value>
+  </data>
+  <data name="AddMenu" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="CurrentPlan" xml:space="preserve">
+    <value>Current plan</value>
+  </data>
+  <data name="AllOpenPlans" xml:space="preserve">
+    <value>All open plans</value>
+  </data>
+  <data name="OtherPlans" xml:space="preserve">
+    <value>Other plans...</value>
+  </data>
+  <data name="DeleteFromLibrary" xml:space="preserve">
+    <value>Delete from library</value>
+  </data>
+  <data name="SearchPlans" xml:space="preserve">
+    <value>Search plans</value>
+  </data>
+  <data name="SelectTargetPlans" xml:space="preserve">
+    <value>Select target plans</value>
+  </data>
+  <data name="AddedToPlans" xml:space="preserve">
+    <value>Added to {0}/{1} plan(s)</value>
+  </data>
+  <data name="ReplacedDuplicates" xml:space="preserve">
+    <value>replaced {0} duplicate(s)</value>
+  </data>
+  <data name="SkippedCount" xml:space="preserve">
+    <value>skipped {0}</value>
+  </data>
+  <data name="CancelledConflicted" xml:space="preserve">
+    <value>cancelled {0} conflicted plan(s)</value>
+  </data>
+  <data name="RemovedConflicting" xml:space="preserve">
+    <value>removed {0} conflicting course(s)</value>
+  </data>
+  <data name="BulkAddCourse" xml:space="preserve">
+    <value>Bulk add course</value>
+  </data>
+  <data name="ApplyDuplicateHandlingToAll" xml:space="preserve">
+    <value>Apply duplicate handling to all</value>
+  </data>
+  <data name="PerPlan" xml:space="preserve">
+    <value>Per plan</value>
+  </data>
+  <data name="SkipExistingAll" xml:space="preserve">
+    <value>Skip existing in all target plans</value>
+  </data>
+  <data name="ReplaceExistingAll" xml:space="preserve">
+    <value>Replace existing in all target plans</value>
+  </data>
+  <data name="ApplyConflictHandlingToAll" xml:space="preserve">
+    <value>Apply conflict handling to all</value>
+  </data>
+  <data name="CancelConflictedPlans" xml:space="preserve">
+    <value>Cancel conflicted target plans</value>
+  </data>
+  <data name="AddAndKeepConflicts" xml:space="preserve">
+    <value>Add and keep conflicts</value>
+  </data>
+  <data name="CopyTo" xml:space="preserve">
+    <value>copy to {0}</value>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>duplicate</value>
+  </data>
+  <data name="Conflicts" xml:space="preserve">
+    <value>conflicts: {0}</value>
+  </data>
+  <data name="SkipExisting" xml:space="preserve">
+    <value>Skip existing</value>
+  </data>
+  <data name="ReplaceExistingCourse" xml:space="preserve">
+    <value>Replace existing course</value>
+  </data>
+  <data name="CancelAddForThisPlan" xml:space="preserve">
+    <value>Cancel add for this plan</value>
+  </data>
+  <data name="ApplyToAll" xml:space="preserve">
+    <value>Apply to all</value>
+  </data>
+  <data name="AddToCurrentPlanCaption" xml:space="preserve">
+    <value>Add to current plan</value>
+  </data>
+  <data name="EnterValidHexColorFirst" xml:space="preserve">
+    <value>Enter a valid #RRGGBB color first.</value>
+  </data>
+  <data name="OutOfRange" xml:space="preserve">
+    <value>Out of range</value>
+  </data>
+  <data name="SaveAnyway" xml:space="preserve">
+    <value>Save anyway?</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Saved.</value>
+  </data>
+  <data name="CourseIdentityWillChange" xml:space="preserve">
+    <value>Course identity will change</value>
+  </data>
+  <data name="CourseIdentityChangeText" xml:space="preserve">
+    <value>Changing the course name, teacher, location, semester, or meeting times creates a new course identity. After saving, every plan using this course will reference the new course identity automatically.</value>
+  </data>
+  <data name="WeekTitleFormat" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="WeekSelectorPrefix" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="WeekSelectorSuffix" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ComparisonWeekTitleFormat" xml:space="preserve">
+    <value>{0} → {1} / {2}</value>
+  </data>
+  <data name="SemesterOverviewTitleFormat" xml:space="preserve">
+    <value>{0} / {1} / Weeks 1-{2}  {3} - {4}</value>
+  </data>
+  <data name="ExportWeekSubtitleFormat" xml:space="preserve">
+    <value>{0} / {1} / Week {2} / {3}</value>
+  </data>
+  <data name="ExportWeekRangeSubtitleFormat" xml:space="preserve">
+    <value>{0} / {1} / Weeks {2}-{3} / {4} - {5}</value>
+  </data>
+  <data name="ExportDetailedSemesterSubtitleFormat" xml:space="preserve">
+    <value>{0} / {1} / entire semester / Weeks 1-{2} / {3} - {4}</value>
+  </data>
+  <data name="ExportWeekHeadingFormat" xml:space="preserve">
+    <value>Week {0}</value>
+  </data>
+  <data name="MondayShort" xml:space="preserve">
+    <value>Mon</value>
+  </data>
+  <data name="TuesdayShort" xml:space="preserve">
+    <value>Tue</value>
+  </data>
+  <data name="WednesdayShort" xml:space="preserve">
+    <value>Wed</value>
+  </data>
+  <data name="ThursdayShort" xml:space="preserve">
+    <value>Thu</value>
+  </data>
+  <data name="FridayShort" xml:space="preserve">
+    <value>Fri</value>
+  </data>
+  <data name="SaturdayShort" xml:space="preserve">
+    <value>Sat</value>
+  </data>
+  <data name="SundayShort" xml:space="preserve">
+    <value>Sun</value>
+  </data>
+  <data name="BeforeSemester" xml:space="preserve">
+    <value>Before semester</value>
+  </data>
+  <data name="AfterSemester" xml:space="preserve">
+    <value>After semester</value>
+  </data>
+  <data name="WeekCourseCount" xml:space="preserve">
+    <value>Week {0}: {1} · {2} course(s)</value>
+  </data>
+  <data name="CourseTypeGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="CourseTypeMajor" xml:space="preserve">
+    <value>Major</value>
+  </data>
+  <data name="CourseTypeFree" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="StudyTypeCore" xml:space="preserve">
+    <value>Core</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="Elective" xml:space="preserve">
+    <value>Elective</value>
+  </data>
+  <data name="Morning" xml:space="preserve">
+    <value>Morning</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Uncategorized" xml:space="preserve">
+    <value>Uncategorized</value>
+  </data>
+  <data name="UnsavedCourseEditReminder" xml:space="preserve">
+    <value>You are editing a course. Saving updates the course library and every plan that references this course.</value>
+  </data>
+  <data name="DetailNotices" xml:space="preserve">
+    <value>Detail notices</value>
+  </data>
+  <data name="BulkAddSummary" xml:space="preserve">
+    <value>{0} will be added to {1} target plan(s).</value>
+  </data>
+  <data name="PlanPickerSummary" xml:space="preserve">
+    <value>{0}  ·  {1} cr  ·  {2} course(s)  ·  {3}</value>
+  </data>
+  <data name="EditCourseInLibrary" xml:space="preserve">
+    <value>Edit library course</value>
+  </data>
+  <data name="LibraryCourseSynced" xml:space="preserve">
+    <value>Library course saved and synced to plans that use it.</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="MeetingTimeFormat" xml:space="preserve">
+    <value>{0} periods {1}-{2}, weeks {3}</value>
+  </data>
+  <data name="PlanTextWeekLine" xml:space="preserve">
+    <value>Week {0}: {1}</value>
+  </data>
+  <data name="PlanTextSummaryLine" xml:space="preserve">
+    <value>Credits: {0:0.##}; Courses: {1}</value>
+  </data>
+  <data name="PlanTextCourseHeader" xml:space="preserve">
+    <value>- {0} ({1:0.##} credits)</value>
+  </data>
+  <data name="PlanTextTeacherLine" xml:space="preserve">
+    <value>  Teacher: {0}</value>
+  </data>
+  <data name="PlanTextLocationLine" xml:space="preserve">
+    <value>  Location: {0}</value>
+  </data>
+  <data name="PlanTextTimeLine" xml:space="preserve">
+    <value>  Time: {0}</value>
+  </data>
+  <data name="PlanTextCapacityLine" xml:space="preserve">
+    <value>  Capacity: {0}</value>
+  </data>
+  <data name="PlanTextNotesLine" xml:space="preserve">
+    <value>  Notes: {0}</value>
+  </data>
+  <data name="ImportPreviewReportTitle" xml:space="preserve">
+    <value>Import preview: {0}, schema {1}</value>
+  </data>
+  <data name="ImportPreviewVisibleItems" xml:space="preserve">
+    <value>Visible items: {0} / {1}</value>
+  </data>
+  <data name="ImportPreviewDisplayLimit" xml:space="preserve">
+    <value>The preview displays the first {0} of {1} matching items. Save the report to include every item.</value>
+  </data>
+  <data name="ImportPreviewReportItem" xml:space="preserve">
+    <value>- {0}: {1} ({2})</value>
+  </data>
+  <data name="ImportPreviewReportWarning" xml:space="preserve">
+    <value>  warning: {0}</value>
+  </data>
+  <data name="ImportPreviewReportError" xml:space="preserve">
+    <value>  error: {0}</value>
+  </data>
+  <data name="ImportStatus.Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="ImportStatus.Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="ImportStatus.Skipped" xml:space="preserve">
+    <value>Skipped</value>
+  </data>
+  <data name="ImportStatus.Conflict" xml:space="preserve">
+    <value>Conflict</value>
+  </data>
+  <data name="ImportStatus.Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="ImportStatus.NotImportable" xml:space="preserve">
+    <value>Not importable</value>
+  </data>
+  <data name="ImportKind.courseLibrary" xml:space="preserve">
+    <value>Course library</value>
+  </data>
+  <data name="ImportKind.selectionPlan" xml:space="preserve">
+    <value>Selection plan</value>
+  </data>
+  <data name="ImportKind.file" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ImportKind.semester" xml:space="preserve">
+    <value>Semester</value>
+  </data>
+  <data name="ImportKind.label" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="ImportKind.course" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="ImportKind.plan" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="ImportKind.planCourse" xml:space="preserve">
+    <value>Plan course</value>
+  </data>
+  <data name="Import.UnknownJsonKind" xml:space="preserve">
+    <value>JSON kind must be courseLibrary or selectionPlan.</value>
+  </data>
+  <data name="Import.InvalidJson" xml:space="preserve">
+    <value>This file is not valid Course Planner JSON.</value>
+  </data>
+  <data name="Import.FileTooLarge" xml:space="preserve">
+    <value>The import file is too large.</value>
+  </data>
+  <data name="Import.UnsupportedSchemaVersion" xml:space="preserve">
+    <value>This import package version is not supported.</value>
+  </data>
+  <data name="Import.PackageTooLarge" xml:space="preserve">
+    <value>This import package contains too many items or oversized fields.</value>
+  </data>
+  <data name="Import.SemesterIdentityConflict" xml:space="preserve">
+    <value>A local semester named '{0}' has the same hidden identity. Forced merge will import into the local semester name.</value>
+  </data>
+  <data name="Import.SemesterSettingsDiffer" xml:space="preserve">
+    <value>Imported semester settings differ from local settings.</value>
+  </data>
+  <data name="Import.CourseMissingSemester" xml:space="preserve">
+    <value>Course references a missing semester.</value>
+  </data>
+  <data name="Import.CourseSemesterNameConflict" xml:space="preserve">
+    <value>This course belongs to a semester name conflict and requires forced merge.</value>
+  </data>
+  <data name="Import.PlanNameExists" xml:space="preserve">
+    <value>A plan with this name already exists in the target semester.</value>
+  </data>
+  <data name="Import.PlanSemesterNameConflict" xml:space="preserve">
+    <value>This plan belongs to a semester name conflict and requires forced merge.</value>
+  </data>
+  <data name="Import.PlanCoursePackageIncomplete" xml:space="preserve">
+    <value>The plan package is missing course data: {0}</value>
+  </data>
+  <data name="Import.PlanCourseNotImportable" xml:space="preserve">
+    <value>The plan requires course data that cannot be imported safely: {0}</value>
+  </data>
+  <data name="Import.PlanSemesterInvalid" xml:space="preserve">
+    <value>The plan semester is invalid.</value>
+  </data>
+  <data name="Validation.SemesterRequired" xml:space="preserve">
+    <value>A semester is required.</value>
+  </data>
+  <data name="Validation.SemesterEditSourceMissing" xml:space="preserve">
+    <value>The semester being edited no longer exists. Reload the list and try again.</value>
+  </data>
+  <data name="Validation.SemesterNameRequired" xml:space="preserve">
+    <value>Semester name is required.</value>
+  </data>
+  <data name="Validation.SemesterNameDuplicate" xml:space="preserve">
+    <value>Semester names must be globally unique.</value>
+  </data>
+  <data name="Validation.SemesterDateRange" xml:space="preserve">
+    <value>Semester end date cannot be before start date.</value>
+  </data>
+  <data name="Validation.SemesterDateSupportedRange" xml:space="preserve">
+    <value>Semester dates must be between {0} and {1}.</value>
+  </data>
+  <data name="Validation.SemesterWeekCount" xml:space="preserve">
+    <value>Week count must be at least 1.</value>
+  </data>
+  <data name="Validation.PeriodScheduleRequired" xml:space="preserve">
+    <value>At least one period definition is required.</value>
+  </data>
+  <data name="Validation.SemesterEndDateWeekCountMismatch" xml:space="preserve">
+    <value>End date and week count are inconsistent.</value>
+  </data>
+  <data name="Validation.PeriodNumber" xml:space="preserve">
+    <value>Period number must be positive.</value>
+  </data>
+  <data name="Validation.PeriodTimeRange" xml:space="preserve">
+    <value>Period end time must be after start time.</value>
+  </data>
+  <data name="Validation.PeriodNumberSequence" xml:space="preserve">
+    <value>Period numbers must be consecutive starting from 1.</value>
+  </data>
+  <data name="Validation.CourseNameRequired" xml:space="preserve">
+    <value>Course name is required.</value>
+  </data>
+  <data name="Validation.CreditsNonNegative" xml:space="preserve">
+    <value>Credits cannot be negative.</value>
+  </data>
+  <data name="Validation.MeetingTimeRequired" xml:space="preserve">
+    <value>At least one meeting time is required.</value>
+  </data>
+  <data name="Validation.InvalidCourseColor" xml:space="preserve">
+    <value>Course color must be #RRGGBB.</value>
+  </data>
+  <data name="Validation.InvalidCourseColorRegenerated" xml:space="preserve">
+    <value>Invalid course color will be replaced with a recommended color.</value>
+  </data>
+  <data name="Validation.InvalidWeekday" xml:space="preserve">
+    <value>Weekday must be 1 (Monday) through 7 (Sunday).</value>
+  </data>
+  <data name="Validation.InvalidWeekParity" xml:space="preserve">
+    <value>Week parity must be every week, odd weeks, or even weeks.</value>
+  </data>
+  <data name="Validation.InvalidPeriodRange" xml:space="preserve">
+    <value>Start period cannot be after end period.</value>
+  </data>
+  <data name="Validation.PeriodOutOfRange" xml:space="preserve">
+    <value>Some periods are outside the semester schedule.</value>
+  </data>
+  <data name="Validation.InvalidWeeks" xml:space="preserve">
+    <value>Invalid week expression: {0}</value>
+  </data>
+  <data name="Validation.WeeksOutOfRange" xml:space="preserve">
+    <value>Some meeting weeks are outside the semester range.</value>
+  </data>
+  <data name="Validation.WeeksParsingBounded" xml:space="preserve">
+    <value>The week expression was too large and was parsed with safety limits.</value>
+  </data>
+  <data name="Validation.CourseCompletelyInvisible" xml:space="preserve">
+    <value>All meeting times are outside visible semester weeks or periods.</value>
+  </data>
+  <data name="Validation.FileNameRequired" xml:space="preserve">
+    <value>Name is required.</value>
+  </data>
+  <data name="Validation.FileNameTrailing" xml:space="preserve">
+    <value>Names used for exports cannot end with a space or dot.</value>
+  </data>
+  <data name="Validation.FileNameIllegalCharacters" xml:space="preserve">
+    <value>Names used for exports cannot contain: &lt; &gt; : " / \ | ? *</value>
+  </data>
+  <data name="Validation.FileNameReserved" xml:space="preserve">
+    <value>This name is reserved by Windows.</value>
+  </data>
+  <data name="Validation.FileNameTooLong" xml:space="preserve">
+    <value>Names used for exports cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.LabelKindInUse" xml:space="preserve">
+    <value>A label used by one or more courses cannot change category. Remove its course references first.</value>
+  </data>
+  <data name="Validation.LabelEditSourceMissing" xml:space="preserve">
+    <value>The label being edited no longer exists. Reload the list and try again.</value>
+  </data>
+  <data name="Validation.PeriodTimeOverlap" xml:space="preserve">
+    <value>Class period times must be ordered and cannot overlap adjacent periods.</value>
+  </data>
+  <data name="Validation.MeetingTimesOverlap" xml:space="preserve">
+    <value>Meeting times for the same course cannot overlap.</value>
+  </data>
+  <data name="Validation.InvalidWeekStartDay" xml:space="preserve">
+    <value>The selected week start day is invalid.</value>
+  </data>
+  <data name="Validation.ReferencedCourseSemesterChange" xml:space="preserve">
+    <value>A course used by a plan cannot be moved to another semester. Copy it to the target semester instead.</value>
+  </data>
+  <data name="Validation.CourseEditNotActive" xml:space="preserve">
+    <value>There is no active course edit to save.</value>
+  </data>
+  <data name="Validation.CourseEditSourceMissing" xml:space="preserve">
+    <value>The course being edited no longer exists. Reopen the course library before saving.</value>
+  </data>
+  <data name="Validation.CourseIdentityDuplicate" xml:space="preserve">
+    <value>Another course already has the same semester, name, teacher, location, and meeting times.</value>
+  </data>
+  <data name="Validation.LabelNameRequired" xml:space="preserve">
+    <value>Label name is required.</value>
+  </data>
+  <data name="Validation.LabelNameDuplicate" xml:space="preserve">
+    <value>Label names must be globally unique.</value>
+  </data>
+  <data name="Validation.PlanNameUnique" xml:space="preserve">
+    <value>Plan names must be unique within the same semester.</value>
+  </data>
+  <data name="Validation.CreditsRequired" xml:space="preserve">
+    <value>Credits must be a finite number.</value>
+  </data>
+  <data name="Validation.CreditsMaximum" xml:space="preserve">
+    <value>Credits cannot exceed {0}.</value>
+  </data>
+  <data name="Validation.EnrolledNonNegative" xml:space="preserve">
+    <value>Enrollment cannot be negative.</value>
+  </data>
+  <data name="Validation.EnrolledMaximum" xml:space="preserve">
+    <value>Enrollment cannot exceed {0}.</value>
+  </data>
+  <data name="Validation.EnrolledWholeNumber" xml:space="preserve">
+    <value>Enrollment must be a whole number.</value>
+  </data>
+  <data name="Validation.CapacityNonNegative" xml:space="preserve">
+    <value>Capacity cannot be negative.</value>
+  </data>
+  <data name="Validation.CapacityMaximum" xml:space="preserve">
+    <value>Capacity cannot exceed {0}.</value>
+  </data>
+  <data name="Validation.CapacityWholeNumber" xml:space="preserve">
+    <value>Capacity must be a whole number.</value>
+  </data>
+  <data name="Validation.EnrolledExceedsCapacity" xml:space="preserve">
+    <value>Enrollment exceeds the positive capacity.</value>
+  </data>
+  <data name="Validation.CourseNameTooLong" xml:space="preserve">
+    <value>Course name cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.TeacherTooLong" xml:space="preserve">
+    <value>Teacher cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.LocationTooLong" xml:space="preserve">
+    <value>Location cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.CourseGroupTypeTooLong" xml:space="preserve">
+    <value>Course group type cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.StudyTypeTooLong" xml:space="preserve">
+    <value>Study type cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.CourseNotesTooLong" xml:space="preserve">
+    <value>Course notes cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.CourseColorTooLong" xml:space="preserve">
+    <value>Course color text cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.CourseLabelTooLong" xml:space="preserve">
+    <value>Each course label cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.CourseLabelsMaximum" xml:space="preserve">
+    <value>A course can contain at most {0} ordinary labels.</value>
+  </data>
+  <data name="Validation.MeetingTimesMaximum" xml:space="preserve">
+    <value>A course can contain at most {0} meeting times.</value>
+  </data>
+  <data name="Validation.MeetingWeeksTooLong" xml:space="preserve">
+    <value>A meeting week expression cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.SemesterNameTooLong" xml:space="preserve">
+    <value>Semester name cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.PeriodScheduleMaximum" xml:space="preserve">
+    <value>A semester can contain at most {0} class periods.</value>
+  </data>
+  <data name="Validation.InvalidLabelKind" xml:space="preserve">
+    <value>The selected label category is invalid.</value>
+  </data>
+  <data name="Validation.LabelNameTooLong" xml:space="preserve">
+    <value>Label name cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.LabelCatalogMaximum" xml:space="preserve">
+    <value>The label catalog can contain at most {0} labels.</value>
+  </data>
+  <data name="Validation.PlanNameRequired" xml:space="preserve">
+    <value>Plan name is required.</value>
+  </data>
+  <data name="Validation.PlanNameTooLong" xml:space="preserve">
+    <value>Plan name cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.PlanSnapshotsMaximum" xml:space="preserve">
+    <value>A plan can contain at most {0} courses.</value>
+  </data>
+  <data name="Validation.PlanCatalogMaximum" xml:space="preserve">
+    <value>The plan catalog can contain at most {0} plans.</value>
+  </data>
+  <data name="Validation.OpenPlanTabsMaximum" xml:space="preserve">
+    <value>At most {0} plan tabs can be open at once. Close a plan tab before opening another.</value>
+  </data>
+  <data name="Validation.PlanUnavailable" xml:space="preserve">
+    <value>The selected plan is no longer available.</value>
+  </data>
+  <data name="Validation.SemesterCatalogMaximum" xml:space="preserve">
+    <value>The semester catalog can contain at most {0} semesters.</value>
+  </data>
+  <data name="Validation.CourseCatalogMaximum" xml:space="preserve">
+    <value>The course library can contain at most {0} courses.</value>
+  </data>
+  <data name="Validation.TotalSnapshotsMaximum" xml:space="preserve">
+    <value>All plans together can contain at most {0} course references.</value>
+  </data>
+  <data name="Validation.TotalLabelReferencesMaximum" xml:space="preserve">
+    <value>All courses together can contain at most {0} label references.</value>
+  </data>
+  <data name="Validation.AggregateTextMaximum" xml:space="preserve">
+    <value>The total stored text cannot exceed {0} characters.</value>
+  </data>
+  <data name="Validation.PlanMeetingRowsMaximum" xml:space="preserve">
+    <value>A plan can reference at most {0} meeting rows across its distinct courses.</value>
+  </data>
+  <data name="TimetableDenseModeTitle" xml:space="preserve">
+    <value>Dense timetable · virtualized list</value>
+  </data>
+  <data name="TimetableDenseModeMessage" xml:space="preserve">
+    <value>All {0} visible course blocks are listed below. A full grid would create about {1} interface elements, so the virtualized list keeps the app responsive without omitting courses.</value>
+  </data>
+  <data name="ExportLimit.CourseBlocks" xml:space="preserve">
+    <value>This export would render {0} course blocks; the safe limit is {1}. Choose a smaller week range.</value>
+  </data>
+  <data name="ExportLimit.TextCharacters" xml:space="preserve">
+    <value>This export would lay out {0} text characters; the safe limit is {1}. Choose fewer weeks or course fields.</value>
+  </data>
+  <data name="ExportLimit.ConflictLanes" xml:space="preserve">
+    <value>A timetable cell requires {0} conflict lanes; the safe limit is {1}. Export a less dense plan.</value>
+  </data>
+  <data name="ExportLimit.BitmapMemory" xml:space="preserve">
+    <value>The PNG needs about {0} bytes of peak bitmap and encoder memory; the safe limit is {1}. Lower the clarity or use PDF.</value>
+  </data>
+  <data name="ExportLimit.SurfaceDimension" xml:space="preserve">
+    <value>The PNG dimension is {0} pixels; the supported limit is {1}. Lower the clarity or use PDF.</value>
+  </data>
+  <data name="ExportLimit.VectorDimension" xml:space="preserve">
+    <value>The timetable dimension is {0} logical pixels; the supported limit is {1}. Choose fewer weeks or course fields.</value>
+  </data>
+</root>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="AppTimetableBackgroundBrush" Color="#FBFDFC" />
+            <SolidColorBrush x:Key="AppTimetableHeaderBrush" Color="#F0F6F3" />
+            <SolidColorBrush x:Key="AppFlashBorderBrush" Color="#C96A10" />
+            <SolidColorBrush x:Key="AppStatusCriticalBrush" Color="#A4262C" />
+            <SolidColorBrush x:Key="AppStatusCautionBrush" Color="#724E00" />
+            <SolidColorBrush x:Key="AppStatusCurrentBrush" Color="#00857A" />
+            <SolidColorBrush x:Key="AppCourseBlockBrush" Color="#E7F1ED" />
+            <SolidColorBrush x:Key="AppCourseBlockHoverBrush" Color="#D6E7E0" />
+            <SolidColorBrush x:Key="AppCourseBlockAddedBrush" Color="#DFF4E7" />
+            <SolidColorBrush x:Key="AppCourseBlockRemovedBrush" Color="#F8E2E2" />
+            <SolidColorBrush x:Key="AppCourseBlockModifiedBrush" Color="#F7EDCF" />
+            <SolidColorBrush x:Key="AppCourseBlockAddedHoverBrush" Color="#CBE8D5" />
+            <SolidColorBrush x:Key="AppCourseBlockRemovedHoverBrush" Color="#EDCACA" />
+            <SolidColorBrush x:Key="AppCourseBlockModifiedHoverBrush" Color="#E9DDAF" />
+            <SolidColorBrush x:Key="AppSemesterOverviewCardBrush" Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="AppSemesterOverviewCardHoverBrush" Color="#E4F1EC" />
+            <SolidColorBrush x:Key="AppSemesterOverviewCardPressedBrush" Color="#D2E6DE" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="AppTimetableBackgroundBrush" Color="#202725" />
+            <SolidColorBrush x:Key="AppTimetableHeaderBrush" Color="#29322F" />
+            <SolidColorBrush x:Key="AppFlashBorderBrush" Color="#F2A23A" />
+            <SolidColorBrush x:Key="AppStatusCriticalBrush" Color="#FFBAB5" />
+            <SolidColorBrush x:Key="AppStatusCautionBrush" Color="#F4C76E" />
+            <SolidColorBrush x:Key="AppStatusCurrentBrush" Color="#72DED0" />
+            <SolidColorBrush x:Key="AppCourseBlockBrush" Color="#313D3A" />
+            <SolidColorBrush x:Key="AppCourseBlockHoverBrush" Color="#3B4B47" />
+            <SolidColorBrush x:Key="AppCourseBlockAddedBrush" Color="#204336" />
+            <SolidColorBrush x:Key="AppCourseBlockRemovedBrush" Color="#4D3136" />
+            <SolidColorBrush x:Key="AppCourseBlockModifiedBrush" Color="#4A4129" />
+            <SolidColorBrush x:Key="AppCourseBlockAddedHoverBrush" Color="#2A5946" />
+            <SolidColorBrush x:Key="AppCourseBlockRemovedHoverBrush" Color="#653E45" />
+            <SolidColorBrush x:Key="AppCourseBlockModifiedHoverBrush" Color="#615332" />
+            <SolidColorBrush x:Key="AppSemesterOverviewCardBrush" Color="#2D312F" />
+            <SolidColorBrush x:Key="AppSemesterOverviewCardHoverBrush" Color="#33423E" />
+            <SolidColorBrush x:Key="AppSemesterOverviewCardPressedBrush" Color="#3D504B" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="HighContrast">
+            <StaticResource x:Key="AppTimetableBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppTimetableHeaderBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppFlashBorderBrush" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="AppStatusCriticalBrush" ResourceKey="SystemColorHotlightColorBrush" />
+            <StaticResource x:Key="AppStatusCautionBrush" ResourceKey="SystemColorHotlightColorBrush" />
+            <StaticResource x:Key="AppStatusCurrentBrush" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="AppCourseBlockBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppCourseBlockHoverBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppCourseBlockAddedBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppCourseBlockRemovedBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppCourseBlockModifiedBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppCourseBlockAddedHoverBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppCourseBlockRemovedHoverBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppCourseBlockModifiedHoverBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppSemesterOverviewCardBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppSemesterOverviewCardHoverBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppSemesterOverviewCardPressedBrush" ResourceKey="SystemColorWindowColorBrush" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="AppMaterialWindowBackdropBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="AppMaterialChromeBrush" Color="#E8F1F4F3" />
+            <SolidColorBrush x:Key="AppMaterialNavigationRailBrush" Color="#E4F3ED" />
+            <SolidColorBrush x:Key="AppMaterialPageBrush" Color="#EAF8FBFA" />
+            <SolidColorBrush x:Key="AppMaterialCommandBarBrush" Color="#F7FCFDFC" />
+            <SolidColorBrush x:Key="AppMaterialDockedPaneBrush" Color="#FFF9FBFA" />
+            <AcrylicBrush
+                x:Key="AppMaterialOverlayPaneBrush"
+                FallbackColor="#FFF8FAF9"
+                TintColor="#F8FBFA"
+                TintLuminosityOpacity="0.90"
+                TintOpacity="0.72" />
+            <SolidColorBrush x:Key="AppMaterialCardBrush" Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="AppMaterialCardStrokeBrush" Color="#1F000000" />
+            <SolidColorBrush x:Key="AppMaterialDividerBrush" Color="#14000000" />
+
+            <SolidColorBrush x:Key="AppTextPrimaryBrush" Color="#1A1A1A" />
+            <SolidColorBrush x:Key="AppTextSecondaryBrush" Color="#575F5C" />
+
+            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="AppMaterialNavigationRailBrush" />
+            <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="AppMaterialNavigationRailBrush" />
+            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="AppMaterialNavigationRailBrush" />
+            <StaticResource x:Key="NavigationViewContentBackground" ResourceKey="AppMaterialPageBrush" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="AppMaterialWindowBackdropBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="AppMaterialChromeBrush" Color="#E81B1F1E" />
+            <SolidColorBrush x:Key="AppMaterialNavigationRailBrush" Color="#1B2A26" />
+            <SolidColorBrush x:Key="AppMaterialPageBrush" Color="#ED1E2321" />
+            <SolidColorBrush x:Key="AppMaterialCommandBarBrush" Color="#F4292E2C" />
+            <SolidColorBrush x:Key="AppMaterialDockedPaneBrush" Color="#FF202422" />
+            <AcrylicBrush
+                x:Key="AppMaterialOverlayPaneBrush"
+                FallbackColor="#FF2B302E"
+                TintColor="#2B302E"
+                TintLuminosityOpacity="0.84"
+                TintOpacity="0.70" />
+            <SolidColorBrush x:Key="AppMaterialCardBrush" Color="#FF2D312F" />
+            <SolidColorBrush x:Key="AppMaterialCardStrokeBrush" Color="#3DFFFFFF" />
+            <SolidColorBrush x:Key="AppMaterialDividerBrush" Color="#20FFFFFF" />
+
+            <SolidColorBrush x:Key="AppTextPrimaryBrush" Color="#F5F7F6" />
+            <SolidColorBrush x:Key="AppTextSecondaryBrush" Color="#C5CECB" />
+
+            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="AppMaterialNavigationRailBrush" />
+            <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="AppMaterialNavigationRailBrush" />
+            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="AppMaterialNavigationRailBrush" />
+            <StaticResource x:Key="NavigationViewContentBackground" ResourceKey="AppMaterialPageBrush" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="HighContrast">
+            <StaticResource x:Key="AppMaterialWindowBackdropBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppMaterialChromeBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppMaterialNavigationRailBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppMaterialPageBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppMaterialCommandBarBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppMaterialDockedPaneBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppMaterialOverlayPaneBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppMaterialCardBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppMaterialCardStrokeBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+            <StaticResource x:Key="AppMaterialDividerBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+
+            <StaticResource x:Key="AppTextPrimaryBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+            <StaticResource x:Key="AppTextSecondaryBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+
+            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="NavigationViewContentBackground" ResourceKey="SystemColorWindowColorBrush" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
