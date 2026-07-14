@@ -777,7 +777,8 @@ public sealed class UiMotionAndMaterialArchitectureTests
         Assert.Contains("DifferenceAdded", planner);
         Assert.Contains("DifferenceRemoved", planner);
         Assert.Contains("DifferenceModified", planner);
-        Assert.Contains("SetHelpText(block, differenceLabel)", planner);
+        Assert.Contains("stateLabels.Add(differenceLabel)", planner);
+        Assert.Contains("SetHelpText(block, string.Join", planner);
         Assert.Contains("CoursePlanStatusIndicator", tree);
         Assert.Contains("SymbolForStatus", tree);
         Assert.Contains("_services!.Navigation.RequestPlanner()", plans);

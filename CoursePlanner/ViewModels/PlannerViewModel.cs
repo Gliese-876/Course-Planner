@@ -1614,10 +1614,11 @@ public sealed class PlannerViewModel : ObservableObject
             return false;
 
         var expectedSnapshotIds = plan.Snapshots
+            .Where(snapshot => !snapshot.IsLocked)
             .Select(snapshot => snapshot.SnapshotId)
             .ToHashSet(StringComparer.Ordinal);
         var requestedSnapshotIds = orderedSnapshotIds.ToHashSet(StringComparer.Ordinal);
-        if (orderedSnapshotIds.Count != plan.Snapshots.Count ||
+        if (orderedSnapshotIds.Count != expectedSnapshotIds.Count ||
             requestedSnapshotIds.Count != orderedSnapshotIds.Count ||
             !requestedSnapshotIds.SetEquals(expectedSnapshotIds))
         {
@@ -1643,6 +1644,23 @@ public sealed class PlannerViewModel : ObservableObject
             ObserveTabCreatedPlanModifications();
         if (!notify && string.Equals(CurrentPlan?.PlanId, plan.PlanId, StringComparison.Ordinal))
             OnPropertyChanged(nameof(CurrentPlan));
+        return true;
+    }
+
+    public bool SetCurrentPlanCourseLocked(string offeringId, bool isLocked)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(offeringId);
+        var plan = CurrentPlan;
+        var snapshot = plan?.Snapshots.FirstOrDefault(candidate =>
+            string.Equals(candidate.CourseOfferingId, offeringId, StringComparison.Ordinal));
+        if (plan is null || snapshot is null || snapshot.IsLocked == isLocked)
+            return false;
+
+        _documents.CaptureUndo();
+        snapshot.IsLocked = isLocked;
+        RegistrationPriorityService.NormalizeOrders(plan);
+        plan.ModifiedAt = DateTimeOffset.UtcNow;
+        _documents.Save(isLocked ? "plan.lock-course" : "plan.unlock-course");
         return true;
     }
 

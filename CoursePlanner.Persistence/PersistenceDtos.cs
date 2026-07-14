@@ -128,7 +128,9 @@ internal sealed class PlanCourseSnapshotDto
     [JsonRequired]
     public string CourseOfferingId { get; set; } = "";
     [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int? RegistrationOrder { get; set; }
+    public bool IsLocked { get; set; }
     [JsonRequired]
     public DateTimeOffset SnapshotAt { get; set; } = DateTimeOffset.UtcNow;
 }
@@ -303,6 +305,7 @@ internal static class PersistenceDocumentMapper
         SnapshotId = snapshot.SnapshotId,
         CourseOfferingId = snapshot.CourseOfferingId,
         RegistrationOrder = snapshot.RegistrationOrder,
+        IsLocked = snapshot.IsLocked,
         SnapshotAt = snapshot.SnapshotAt
     };
 
@@ -311,6 +314,7 @@ internal static class PersistenceDocumentMapper
         SnapshotId = dto.SnapshotId,
         CourseOfferingId = dto.CourseOfferingId,
         RegistrationOrder = dto.RegistrationOrder,
+        IsLocked = dto.IsLocked,
         SnapshotAt = dto.SnapshotAt
     };
 

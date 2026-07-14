@@ -160,6 +160,24 @@ public sealed class RequestedUiBehaviorArchitectureTests
         Assert.Equal(2, coordinator.Split("InfoBarSeverity.Success, path", StringSplitOptions.None).Length - 1);
     }
 
+    [Fact]
+    public void CourseLockingInactiveWeekStylingAndTwoDecimalCreditPrecisionStayWired()
+    {
+        var page = Read("CoursePlanner", "Pages", "PlannerPage.xaml.cs");
+        var mainWindow = Read("CoursePlanner", "MainWindow.xaml.cs");
+        var colors = Read("CoursePlanner", "Styles", "DomainColorResources.xaml");
+        var chineseResources = Read("CoursePlanner.Application", "Resources", "zh-Hans", "Resources.resw");
+
+        Assert.Contains("ToggleCourseLockAsync", page, StringComparison.Ordinal);
+        Assert.Contains("SetCurrentPlanCourseLocked", page, StringComparison.Ordinal);
+        Assert.Contains("includeInactiveMeetings: true", page, StringComparison.Ordinal);
+        Assert.Contains("CourseNotThisWeekTitlePrefix", page, StringComparison.Ordinal);
+        Assert.Contains("AppCourseBlockLockedBrush", colors, StringComparison.Ordinal);
+        Assert.Contains("AppCourseBlockOutOfWeekBrush", colors, StringComparison.Ordinal);
+        Assert.Contains("<value>非本周</value>", chineseResources, StringComparison.Ordinal);
+        Assert.Contains("metrics.TotalCredits:0.##", mainWindow, StringComparison.Ordinal);
+    }
+
     private static string ElementStartTag(string xaml, string name)
     {
         var nameIndex = xaml.IndexOf($"x:Name=\"{name}\"", StringComparison.Ordinal);

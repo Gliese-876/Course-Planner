@@ -489,7 +489,8 @@ public sealed partial class PlannerPage : Page
         var busy = _services?.BackgroundOperations.IsBusy == true;
         ToggleLibraryButton.IsEnabled = editablePlanner;
         NewCourseButton.IsEnabled = editablePlanner;
-        RegistrationOrderButton.IsEnabled = !busy && ViewModel.CurrentPlan?.Snapshots.Count > 0;
+        RegistrationOrderButton.IsEnabled = !busy &&
+                                            ViewModel.CurrentPlan?.Snapshots.Any(snapshot => !snapshot.IsLocked) == true;
         CompareButton.IsEnabled = !busy && ViewModel.CanOpenSelectedComparison;
         ImportButton.IsEnabled = !busy;
         ExportButton.IsEnabled = !busy;
@@ -828,12 +829,14 @@ public sealed partial class PlannerPage : Page
             semester,
             ViewModel.CurrentWeek,
             differences,
-            includeConflictLayout: false);
+            includeConflictLayout: false,
+            includeInactiveMeetings: true);
         var currentBlocks = TimetableRenderModelService.BuildWeekCourseBlocks(
             PlanCourseResolver.Courses(currentPlan, Documents.Document.CourseLibrary),
             semester,
             ViewModel.CurrentWeek,
-            differences);
+            differences,
+            includeInactiveMeetings: true);
         var materialization = TimetableUiMaterializationPolicy.Evaluate(
             semester.PeriodSchedule.Count,
             baseBlocks.Count,
@@ -991,7 +994,8 @@ public sealed partial class PlannerPage : Page
             semester,
             ViewModel.CurrentWeek,
             options.Differences,
-            includeConflictLayout: options.Role != WeekGridRole.CompareBase);
+            includeConflictLayout: options.Role != WeekGridRole.CompareBase,
+            includeInactiveMeetings: true);
         var materialization = options.MaterializationDecision ?? TimetableUiMaterializationPolicy.Evaluate(
             periodRows.Count,
             courseBlocks.Count);
@@ -1154,7 +1158,7 @@ public sealed partial class PlannerPage : Page
                 .Where(value => !string.IsNullOrWhiteSpace(value));
             denseItems.Add(new DenseTimetableItem
             {
-                DisplayText = $"{block.Course.CourseName} · {string.Join(" · ", details)}",
+                DisplayText = $"{CourseBlockTitle(block.Course, block.IsInRequestedWeek)} · {string.Join(" · ", details)}",
                 Snapshot = snapshot
             });
         }
@@ -1193,13 +1197,17 @@ public sealed partial class PlannerPage : Page
         var conflictIndex = courseBlock.ConflictIndex;
         var conflictCount = courseBlock.ConflictCount;
         var decorativeColor = CourseDecorativeColor(course);
-        var background = CourseBlockBackgroundBrush(diff, role);
-        var hoverBackground = CourseBlockHoverBackgroundBrush(diff, role);
+        var isLocked = snapshot.IsLocked;
+        var isInRequestedWeek = courseBlock.IsInRequestedWeek;
+        var background = CourseBlockBackgroundBrush(diff, role, isLocked, isInRequestedWeek);
+        var hoverBackground = CourseBlockHoverBackgroundBrush(diff, role, isLocked, isInRequestedWeek);
         var leftMargin = conflictCount > 1 ? 4 + (conflictIndex * 10) : 4;
         var rightMargin = conflictCount > 1 ? 4 + ((conflictCount - conflictIndex - 1) * 10) : 4;
-        var isConflict = conflictCount > 1;
+        var isConflict = courseBlock.HasConflictInRequestedWeek;
         var differenceLabel = ComparisonDifferenceLabel(diff);
-        var foreground = RoleBrush(AppColorRole.TextPrimary, Colors.Black);
+        var foreground = isLocked
+            ? RoleBrush(AppColorRole.TextSecondary, Colors.DimGray)
+            : RoleBrush(AppColorRole.TextPrimary, Colors.Black);
         var secondaryForeground = RoleBrush(AppColorRole.TextSecondary, Colors.Gray);
         var courseBlockCornerRadius = (CornerRadius)Application.Current.Resources["ControlCornerRadius"];
         var block = new Button
@@ -1219,13 +1227,20 @@ public sealed partial class PlannerPage : Page
             UseLayoutRounding = true
         };
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(block, role == WeekGridRole.Standard ? "CourseBlock" : $"CourseBlock{role}");
+        var stateLabels = new List<string>();
+        if (isLocked)
+            stateLabels.Add(ViewModel.T["CourseLocked"]);
+        if (!isInRequestedWeek)
+            stateLabels.Add(ViewModel.T["CourseNotThisWeek"]);
+        if (differenceLabel is not null)
+            stateLabels.Add(differenceLabel);
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(
             block,
-            differenceLabel is null
+            stateLabels.Count == 0
                 ? course.CourseName
-                : $"{course.CourseName}, {differenceLabel}");
-        if (differenceLabel is not null)
-            Microsoft.UI.Xaml.Automation.AutomationProperties.SetHelpText(block, differenceLabel);
+                : $"{course.CourseName}, {string.Join(", ", stateLabels)}");
+        if (stateLabels.Count > 0)
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetHelpText(block, string.Join(", ", stateLabels));
         var layout = new Grid
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -1238,14 +1253,16 @@ public sealed partial class PlannerPage : Page
         };
         layout.Children.Add(new Border
         {
-            Background = AppBrushes.FromHex(decorativeColor),
+            Background = isLocked || !isInRequestedWeek
+                ? RoleBrush(AppColorRole.TextSecondary, Colors.Gray)
+                : AppBrushes.FromHex(decorativeColor),
             CornerRadius = new CornerRadius(courseBlockCornerRadius.TopLeft, 0, 0, courseBlockCornerRadius.BottomLeft)
         });
         var content = new StackPanel { Spacing = 2 };
         var title = CreateCourseBlockText(
             differenceLabel is null
-                ? course.CourseName
-                : $"{differenceLabel}: {course.CourseName}",
+                ? CourseBlockTitle(course, isInRequestedWeek)
+                : $"{differenceLabel}: {CourseBlockTitle(course, isInRequestedWeek)}",
             foreground,
             bold: true);
         content.Children.Add(title);
@@ -1326,8 +1343,16 @@ public sealed partial class PlannerPage : Page
                 CourseNameBox.Focus(FocusState.Programmatic);
         };
         if (role == WeekGridRole.Standard)
-            block.RightTapped += (_, e) => ShowCourseContextMenu(block, snapshot, e.GetPosition(block));
+            block.RightTapped += (_, e) =>
+            {
+                ShowCourseContextMenu(block, snapshot, e.GetPosition(block));
+                e.Handled = true;
+            };
         var tooltip = Display.CourseTooltipText(course);
+        if (!isInRequestedWeek)
+            tooltip = $"{ViewModel.T["CourseNotThisWeek"]}: {tooltip}";
+        if (isLocked)
+            tooltip = $"{ViewModel.T["CourseLocked"]}: {tooltip}";
         if (differenceLabel is not null)
             tooltip = $"{differenceLabel}: {tooltip}";
         if (diff?.Kind == DifferenceKind.Replaced && diff.BaseCourse is not null && diff.BaseCourse.OfferingId != course.OfferingId)
@@ -1648,16 +1673,42 @@ public sealed partial class PlannerPage : Page
                 return;
             await OpenDetailsAsync(() => ViewModel.BeginEditPlanSnapshot(snapshot));
         }));
+        var course = PlanCourseResolver.CourseForSnapshot(snapshot, Documents.Document.CourseLibrary);
+        menu.Items.Add(MenuItem(
+            ViewModel.T[snapshot.IsLocked ? "UnlockCourse" : "LockCourse"],
+            new FontIcon { Glyph = "\uE72E" },
+            async (_, _) => await ToggleCourseLockAsync(snapshot, course?.CourseName ?? snapshot.CourseOfferingId)));
+        menu.Items.Add(new MenuFlyoutSeparator());
         menu.Items.Add(MenuItem(ViewModel.T["Delete"], Symbol.Delete, async (_, _) =>
         {
             if (!await ConfirmUnsavedCourseEditAsync())
                 return;
-            var course = PlanCourseResolver.CourseForSnapshot(snapshot, Documents.Document.CourseLibrary);
             var courseName = course?.CourseName ?? snapshot.CourseOfferingId;
             if (await ConfirmAsync(ViewModel.T["Delete"], string.Format(ViewModel.T["RemoveFromCurrentPlanConfirm"], courseName)))
                 ViewModel.RemoveCourseFromCurrentPlan(snapshot.CourseOfferingId);
         }));
         menu.ShowAt(target, point);
+    }
+
+    private async Task ToggleCourseLockAsync(PlanCourseSnapshot snapshot, string courseName)
+    {
+        if (!await ConfirmUnsavedCourseEditAsync())
+            return;
+
+        var liveSnapshot = ViewModel.CurrentPlan?.Snapshots.FirstOrDefault(candidate =>
+            string.Equals(candidate.CourseOfferingId, snapshot.CourseOfferingId, StringComparison.Ordinal));
+        if (liveSnapshot is null)
+            return;
+
+        var isLocking = !liveSnapshot.IsLocked;
+        if (!ViewModel.SetCurrentPlanCourseLocked(liveSnapshot.CourseOfferingId, isLocking))
+            return;
+
+        ShowStatus(
+            string.Format(
+                ViewModel.T[isLocking ? "CourseLockedStatusFormat" : "CourseUnlockedStatusFormat"],
+                courseName),
+            InfoBarSeverity.Success);
     }
 
     private async Task OpenDetailsAsync(Action beginEdit)
@@ -2110,8 +2161,21 @@ public sealed partial class PlannerPage : Page
 
     private static string CourseDecorativeColor(CourseOffering course) => course.Color;
 
-    private Brush CourseBlockBackgroundBrush(SlotDifference? diff, WeekGridRole role)
+    private string CourseBlockTitle(CourseOffering course, bool isInRequestedWeek) =>
+        isInRequestedWeek
+            ? course.CourseName
+            : $"[{ViewModel.T["CourseNotThisWeekTitlePrefix"]}] {course.CourseName}";
+
+    private Brush CourseBlockBackgroundBrush(
+        SlotDifference? diff,
+        WeekGridRole role,
+        bool isLocked,
+        bool isInRequestedWeek)
     {
+        if (isLocked)
+            return RoleBrush(AppColorRole.CourseBlockLocked, Colors.Gray);
+        if (!isInRequestedWeek)
+            return RoleBrush(AppColorRole.CourseBlockOutOfWeek, Colors.LightGray);
         if (role == WeekGridRole.Standard || diff is null)
             return RoleBrush(AppColorRole.CourseBlock, Colors.Transparent);
 
@@ -2124,8 +2188,16 @@ public sealed partial class PlannerPage : Page
         };
     }
 
-    private Brush CourseBlockHoverBackgroundBrush(SlotDifference? diff, WeekGridRole role)
+    private Brush CourseBlockHoverBackgroundBrush(
+        SlotDifference? diff,
+        WeekGridRole role,
+        bool isLocked,
+        bool isInRequestedWeek)
     {
+        if (isLocked)
+            return RoleBrush(AppColorRole.CourseBlockLockedHover, Colors.DarkGray);
+        if (!isInRequestedWeek)
+            return RoleBrush(AppColorRole.CourseBlockOutOfWeekHover, Colors.Gray);
         if (role == WeekGridRole.Standard || diff is null)
             return RoleBrush(AppColorRole.CourseBlockHover, Colors.Transparent);
 
@@ -2235,7 +2307,7 @@ public sealed partial class PlannerPage : Page
             return;
         }
 
-        if (!await ConfirmUnsavedCourseEditAsync() || plan.Snapshots.Count == 0)
+        if (!await ConfirmUnsavedCourseEditAsync() || !plan.Snapshots.Any(snapshot => !snapshot.IsLocked))
             return;
 
         await registrationOrders.ToggleAsync(plan.PlanId);
@@ -2755,6 +2827,15 @@ public sealed partial class PlannerPage : Page
         addMenu.Items.Add(MenuItem(ViewModel.T["AllOpenPlans"], Symbol.Library, async (_, _) => await AddCourseToOpenPlansAsync(course)));
         addMenu.Items.Add(MenuItem(ViewModel.T["OtherPlans"], Symbol.Find, async (_, _) => await AddCourseToSelectedPlansAsync(course)));
         menu.Items.Add(addMenu);
+        var currentSnapshot = ViewModel.CurrentPlan?.Snapshots.FirstOrDefault(snapshot =>
+            string.Equals(snapshot.CourseOfferingId, course.OfferingId, StringComparison.Ordinal));
+        if (currentSnapshot is not null)
+        {
+            menu.Items.Add(MenuItem(
+                ViewModel.T[currentSnapshot.IsLocked ? "UnlockCourse" : "LockCourse"],
+                new FontIcon { Glyph = "\uE72E" },
+                async (_, _) => await ToggleCourseLockAsync(currentSnapshot, course.CourseName)));
+        }
         menu.Items.Add(MenuItem(ViewModel.T["Details"], Symbol.Edit, async (_, _) =>
         {
             if (!await ConfirmUnsavedCourseEditAsync())

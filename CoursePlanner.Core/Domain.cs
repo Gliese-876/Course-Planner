@@ -134,6 +134,7 @@ public sealed class PlanCourseSnapshot
     public string SnapshotId { get; set; } = Guid.NewGuid().ToString("N");
     public string CourseOfferingId { get; set; } = "";
     public int? RegistrationOrder { get; set; }
+    public bool IsLocked { get; set; }
     public DateTimeOffset SnapshotAt { get; set; } = DateTimeOffset.UtcNow;
 }
 
@@ -322,6 +323,8 @@ public sealed class TimetableCourseBlock
     public int EndPeriod { get; init; }
     public int ConflictIndex { get; init; }
     public int ConflictCount { get; init; } = 1;
+    public bool IsInRequestedWeek { get; init; } = true;
+    public bool HasConflictInRequestedWeek { get; init; }
     public SlotDifference? Difference { get; init; }
 }
 

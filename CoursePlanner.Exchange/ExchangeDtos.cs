@@ -146,7 +146,9 @@ internal sealed class PlanCourseSnapshotDto
     [JsonRequired]
     public string CourseOfferingId { get; set; } = "";
     [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int? RegistrationOrder { get; set; }
+    public bool IsLocked { get; set; }
     [JsonRequired]
     public DateTimeOffset SnapshotAt { get; set; } = DateTimeOffset.UtcNow;
 }
@@ -328,6 +330,7 @@ internal static class ExchangePackageMapper
         SnapshotId = snapshot.SnapshotId,
         CourseOfferingId = snapshot.CourseOfferingId,
         RegistrationOrder = snapshot.RegistrationOrder,
+        IsLocked = snapshot.IsLocked,
         SnapshotAt = snapshot.SnapshotAt
     };
 
@@ -336,6 +339,7 @@ internal static class ExchangePackageMapper
         SnapshotId = RequiredText(dto.SnapshotId, nameof(dto.SnapshotId)),
         CourseOfferingId = RequiredText(dto.CourseOfferingId, nameof(dto.CourseOfferingId)),
         RegistrationOrder = dto.RegistrationOrder,
+        IsLocked = dto.IsLocked,
         SnapshotAt = dto.SnapshotAt
     };
 

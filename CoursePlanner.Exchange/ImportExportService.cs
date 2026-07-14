@@ -1446,11 +1446,17 @@ public static class ImportExportService
                    course.MeetingTimes.Any(meeting => !Enum.IsDefined(meeting.WeekParity)));
     }
 
-    private static bool HasInvalidRegistrationOrder(SelectionPlan plan) =>
-        !plan.Snapshots
+    private static bool HasInvalidRegistrationOrder(SelectionPlan plan)
+    {
+        var unlockedSnapshots = plan.Snapshots
+            .Where(snapshot => !snapshot.IsLocked)
+            .ToList();
+        return plan.Snapshots.Any(snapshot => snapshot.IsLocked && snapshot.RegistrationOrder is not null) ||
+               !unlockedSnapshots
             .Select(snapshot => snapshot.RegistrationOrder)
             .OrderBy(order => order)
-            .SequenceEqual(Enumerable.Range(0, plan.Snapshots.Count).Select(index => (int?)index));
+            .SequenceEqual(Enumerable.Range(0, unlockedSnapshots.Count).Select(index => (int?)index));
+    }
 
     private static bool HasInvalidOrdinaryLabelReferences(CourseOffering course)
     {
