@@ -548,7 +548,8 @@ public sealed class ProjectConfigurationTests
         Assert.Contains("EXPECTED_STAGED_SHA256", workflow, StringComparison.Ordinal);
         Assert.Contains("package_revision:", workflow, StringComparison.Ordinal);
         Assert.Contains("PACKAGE_REVISION_INPUT", workflow, StringComparison.Ordinal);
-        Assert.Contains("$packageVersion = \"$($Matches.version).$packageRevision\"", workflow, StringComparison.Ordinal);
+        Assert.Contains("$releaseVersion = $Matches.version", workflow, StringComparison.Ordinal);
+        Assert.Contains("$packageVersion = \"$releaseVersion.$packageRevision\"", workflow, StringComparison.Ordinal);
         Assert.Contains("Get-FileHash", workflow, StringComparison.Ordinal);
         Assert.Contains("X509ContentType]::Cert", workflow, StringComparison.Ordinal);
         Assert.Contains("Remove signing material", workflow, StringComparison.Ordinal);
