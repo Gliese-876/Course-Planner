@@ -90,8 +90,6 @@ public sealed partial class RegistrationOrderWindow : Window
     private const double PlacementMarginDip = 16;
     private const double PlacementTopOffsetDip = 52;
     private static readonly TimeSpan ResizeLayoutTimeout = TimeSpan.FromMilliseconds(500);
-    private const int GwlHwndParent = -8;
-
     private readonly DocumentSession _documents;
     private readonly LocalizationService _localization;
     private readonly ThemeService _theme;
@@ -113,7 +111,7 @@ public sealed partial class RegistrationOrderWindow : Window
         PlannerViewModel planner,
         ToolWindowPlacementState placement,
         string planId,
-        nint mainWindowHandle)
+        nint placementAnchorWindowHandle)
     {
         ArgumentNullException.ThrowIfNull(documents);
         ArgumentNullException.ThrowIfNull(localization);
@@ -132,7 +130,6 @@ public sealed partial class RegistrationOrderWindow : Window
         InitializeComponent();
         DisabledButtonHoverLayer.Attach(this, WindowRoot);
         var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
-        SetWindowOwner(windowHandle, mainWindowHandle);
         ApplyTheme(_theme.RequestedTheme);
         SystemBackdrop = new MicaBackdrop
         {
@@ -141,9 +138,9 @@ public sealed partial class RegistrationOrderWindow : Window
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBarDragRegion);
 
-        _presenter = OverlappedPresenter.CreateForToolWindow();
+        _presenter = OverlappedPresenter.Create();
         _presenter.IsMaximizable = false;
-        _presenter.IsMinimizable = false;
+        _presenter.IsMinimizable = true;
         _presenter.IsResizable = true;
         var scale = DpiScale(windowHandle);
         _presenter.PreferredMinimumWidth = PhysicalPixels(MinimumWindowWidthDip, scale);
@@ -155,7 +152,7 @@ public sealed partial class RegistrationOrderWindow : Window
         AppWindow.SetIcon("Assets/AppIcon.ico");
 
         WindowRoot.SizeChanged += WindowRoot_SizeChanged;
-        ResizeAndPlace(mainWindowHandle);
+        ResizeAndPlace(placementAnchorWindowHandle);
         ApplyText();
         ReplaceRows(CurrentAnalysis());
         Rows.CollectionChanged += Rows_CollectionChanged;
@@ -170,7 +167,8 @@ public sealed partial class RegistrationOrderWindow : Window
 
     public string PlanId => _planId;
 
-    internal bool IsMinimized { get; private set; }
+    internal bool IsMinimized =>
+        _presenter.State == OverlappedPresenterState.Minimized;
 
     public ObservableCollection<RegistrationOrderRow> Rows { get; } = new();
 
@@ -181,7 +179,6 @@ public sealed partial class RegistrationOrderWindow : Window
     {
         if (_presenter.State == OverlappedPresenterState.Minimized)
             _presenter.Restore();
-        IsMinimized = false;
         AppWindow.Show(true);
         AppWindow.MoveInZOrderAtTop();
     }
@@ -383,8 +380,7 @@ public sealed partial class RegistrationOrderWindow : Window
             return;
 
         RememberPlacement();
-        IsMinimized = true;
-        AppWindow.Hide();
+        _presenter.Minimize();
     }
 
     private async void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -432,6 +428,7 @@ public sealed partial class RegistrationOrderWindow : Window
         var isPinned = PinButton.IsChecked == true;
         var label = _localization.Localizer[isPinned ? "UnpinWindow" : "PinWindow"];
         PinFillIcon.Visibility = isPinned ? Visibility.Visible : Visibility.Collapsed;
+        PinIcon.Visibility = Visibility.Visible;
         AutomationProperties.SetName(PinButton, label);
         AutomationProperties.SetHelpText(PinButton, label);
         ToolTipService.SetToolTip(PinButton, label);
@@ -678,7 +675,7 @@ public sealed partial class RegistrationOrderWindow : Window
         }
     }
 
-    private void ResizeAndPlace(nint mainWindowHandle)
+    private void ResizeAndPlace(nint placementAnchorWindowHandle)
     {
         ResizeClientToDefault();
         _defaultWindowSize = AppWindow.Size;
@@ -686,10 +683,10 @@ public sealed partial class RegistrationOrderWindow : Window
         if (_placement.TryGet(out var remembered) && TryRestoreRememberedBounds(remembered))
             return;
 
-        if (mainWindowHandle == 0)
+        if (placementAnchorWindowHandle == 0)
             return;
 
-        var mainWindowId = Win32Interop.GetWindowIdFromWindow(mainWindowHandle);
+        var mainWindowId = Win32Interop.GetWindowIdFromWindow(placementAnchorWindowHandle);
         var mainAppWindow = AppWindow.GetFromWindowId(mainWindowId);
         var workArea = DisplayArea.GetFromWindowId(mainWindowId, DisplayAreaFallback.Nearest)?.WorkArea;
         if (mainAppWindow is null || workArea is null)
@@ -786,25 +783,6 @@ public sealed partial class RegistrationOrderWindow : Window
     private static int PhysicalPixels(double dip, double scale) =>
         Math.Max(1, (int)Math.Round(dip * scale));
 
-    private static void SetWindowOwner(nint windowHandle, nint ownerHandle)
-    {
-        if (windowHandle == 0 || ownerHandle == 0)
-            return;
-
-        _ = SetWindowLongPtr(windowHandle, GwlHwndParent, ownerHandle);
-    }
-
-    private static nint SetWindowLongPtr(nint windowHandle, int index, nint value) =>
-        nint.Size == 8
-            ? SetWindowLongPtr64(windowHandle, index, value)
-            : new nint(SetWindowLong32(windowHandle, index, value.ToInt32()));
-
     [DllImport("user32.dll")]
     private static extern uint GetDpiForWindow(nint windowHandle);
-
-    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
-    private static extern nint SetWindowLongPtr64(nint windowHandle, int index, nint value);
-
-    [DllImport("user32.dll", EntryPoint = "SetWindowLongW", SetLastError = true)]
-    private static extern int SetWindowLong32(nint windowHandle, int index, int value);
 }

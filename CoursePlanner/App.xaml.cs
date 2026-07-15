@@ -35,7 +35,6 @@ public partial class App : global::Microsoft.UI.Xaml.Application
             AppTypography.InitializeResources();
             var services = new ApplicationServices(() => _window);
             _window = new MainWindow(services);
-            _window.Closed += (_, _) => services.RegistrationOrders.Close();
             _window.Activate();
         }
         catch (Exception exception) when (RuntimeOperationExceptionPolicy.IsRecoverable(exception))

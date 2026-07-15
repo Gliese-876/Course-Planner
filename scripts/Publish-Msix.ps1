@@ -4,7 +4,7 @@ param(
     [ValidateSet("x64")]
     [string]$Platform = "x64",
     [ValidatePattern("^\d+\.\d+\.\d+\.\d+$")]
-    [string]$PackageVersion = "1.0.1.0",
+    [string]$PackageVersion = "1.0.1.1",
     [string]$Publisher = "CN=AppPublisher",
     [string]$PfxPath = "$PSScriptRoot\..\CoursePlanner\Packaging\CoursePlanner-Sideload.pfx",
     [securestring]$PfxPassword,
