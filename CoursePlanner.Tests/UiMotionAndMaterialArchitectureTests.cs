@@ -404,13 +404,16 @@ public sealed class UiMotionAndMaterialArchitectureTests
         var service = Read("CoursePlanner", "Services", "RegistrationOrderWindowService.cs");
         var planner = Read("CoursePlanner", "Pages", "PlannerPage.xaml.cs");
         var animation = Read("CoursePlanner", "Services", "AppAnimationLayer.cs");
+        var app = Read("CoursePlanner", "App.xaml.cs");
 
         Assert.Contains("AppWindow.Closing += AppWindow_Closing;", code);
         Assert.Contains("private void AppWindow_Closing(", code);
         Assert.Contains("sender.Hide();", code);
-        Assert.Contains("SetWindowOwner(windowHandle, mainWindowHandle);", code);
-        Assert.Contains("GwlHwndParent", code);
-        Assert.Contains("SetWindowLongPtr(", code);
+        Assert.DoesNotContain("SetWindowOwner", code);
+        Assert.DoesNotContain("GwlHwndParent", code);
+        Assert.DoesNotContain("SetWindowLongPtr", code);
+        Assert.DoesNotContain("RegistrationOrders.Close()", app);
+        Assert.Contains("_presenter = OverlappedPresenter.Create();", code);
         Assert.Contains("SetBorderAndTitleBar(hasBorder: true, hasTitleBar: false);", code);
         Assert.Contains("_presenter.IsResizable = true;", code);
         Assert.Contains("x:Name=\"AnimatedContentRoot\"", xaml);
@@ -490,16 +493,18 @@ public sealed class UiMotionAndMaterialArchitectureTests
     }
 
     [Fact]
-    public void RegistrationOrderToolWindowUsesHiddenMinimizeStateInsteadOfIconicToolWindow()
+    public void RegistrationOrderWindowUsesIndependentPresenterAndNativeMinimizeState()
     {
         var window = Read("CoursePlanner", "Windows", "RegistrationOrderWindow.xaml.cs");
         var service = Read("CoursePlanner", "Services", "RegistrationOrderWindowService.cs");
 
-        Assert.Contains("_presenter.IsMinimizable = false;", window);
-        Assert.Contains("internal bool IsMinimized { get; private set; }", window);
-        Assert.Contains("IsMinimized = true;", window);
-        Assert.Contains("AppWindow.Hide();", window);
-        Assert.DoesNotContain("MinimizeButton_Click(object sender, RoutedEventArgs e) => _presenter.Minimize()", window);
+        Assert.Contains("_presenter = OverlappedPresenter.Create();", window);
+        Assert.DoesNotContain("CreateForToolWindow", window);
+        Assert.Contains("_presenter.IsMinimizable = true;", window);
+        Assert.Contains("internal bool IsMinimized =>", window);
+        Assert.Contains("_presenter.State == OverlappedPresenterState.Minimized", window);
+        Assert.Contains("_presenter.Minimize();", window);
+        Assert.DoesNotContain("IsMinimized = true;", window);
         Assert.Contains("if (window.IsMinimized)", service);
         Assert.Contains("window.BringToFront();", service);
     }
@@ -747,10 +752,15 @@ public sealed class UiMotionAndMaterialArchitectureTests
         Assert.Contains("DisabledButtonHoverLayer.Attach(this, WindowRoot);", toolWindow);
         Assert.Contains("DisabledButtonHoverLayer.Detach(WindowRoot);", toolWindow);
         Assert.Contains("PinFillIcon.Visibility = isPinned ? Visibility.Visible : Visibility.Collapsed", toolWindow);
+        Assert.Contains("PinIcon.Visibility = Visibility.Visible", toolWindow);
         Assert.DoesNotContain("Symbol.UnPin", toolWindow);
-        Assert.Contains("Glyph=\"&#xE840;\"", Read("CoursePlanner", "Windows", "RegistrationOrderWindow.xaml"));
-        Assert.Contains("Glyph=\"&#xE842;\"", Read("CoursePlanner", "Windows", "RegistrationOrderWindow.xaml"));
-        Assert.Contains("ToggleButtonBackgroundChecked\" ResourceKey=\"ControlFillColorTransparentBrush", Read("CoursePlanner", "Windows", "RegistrationOrderWindow.xaml"));
+        var registrationOrderXaml = Read("CoursePlanner", "Windows", "RegistrationOrderWindow.xaml");
+        Assert.Contains("Glyph=\"&#xE840;\"", registrationOrderXaml);
+        Assert.Contains("Glyph=\"&#xE842;\"", registrationOrderXaml);
+        Assert.Contains("Canvas.ZIndex=\"1\"", registrationOrderXaml);
+        Assert.Contains("Foreground=\"{ThemeResource AppInteractiveTextBrush}\"", registrationOrderXaml);
+        Assert.Contains("x:Name=\"PinFillIcon\"", registrationOrderXaml);
+        Assert.Contains("ToggleButtonBackgroundChecked\" ResourceKey=\"ControlFillColorTransparentBrush", registrationOrderXaml);
     }
 
     [Fact]

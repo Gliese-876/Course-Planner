@@ -546,6 +546,9 @@ public sealed class ProjectConfigurationTests
         Assert.Contains("secrets.COURSE_PLANNER_PFX_BASE64", workflow, StringComparison.Ordinal);
         Assert.Contains("secrets.COURSE_PLANNER_PFX_PASSWORD", workflow, StringComparison.Ordinal);
         Assert.Contains("EXPECTED_STAGED_SHA256", workflow, StringComparison.Ordinal);
+        Assert.Contains("package_revision:", workflow, StringComparison.Ordinal);
+        Assert.Contains("PACKAGE_REVISION_INPUT", workflow, StringComparison.Ordinal);
+        Assert.Contains("$packageVersion = \"$($Matches.version).$packageRevision\"", workflow, StringComparison.Ordinal);
         Assert.Contains("Get-FileHash", workflow, StringComparison.Ordinal);
         Assert.Contains("X509ContentType]::Cert", workflow, StringComparison.Ordinal);
         Assert.Contains("Remove signing material", workflow, StringComparison.Ordinal);
@@ -564,6 +567,8 @@ public sealed class ProjectConfigurationTests
         Assert.Contains("Publish-Msix.ps1", stagingScript, StringComparison.Ordinal);
         Assert.Contains("RandomNumberGenerator", stagingScript, StringComparison.Ordinal);
         Assert.Contains("\"workflow\", \"run\", \"release.yml\"", stagingScript, StringComparison.Ordinal);
+        Assert.Contains("[int]$PackageRevision = 0", stagingScript, StringComparison.Ordinal);
+        Assert.Contains("\"-f\", \"package_revision=$PackageRevision\"", stagingScript, StringComparison.Ordinal);
         Assert.Contains("\"--draft\"", stagingScript, StringComparison.Ordinal);
         Assert.Contains("Remove-Item -LiteralPath $pfxPath -Force", stagingScript, StringComparison.Ordinal);
     }

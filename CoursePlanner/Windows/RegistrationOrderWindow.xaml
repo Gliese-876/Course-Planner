@@ -115,12 +115,15 @@
                             x:Name="PinFillIcon"
                             AutomationProperties.AccessibilityView="Raw"
                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Foreground="{ThemeResource AppInteractiveTextBrush}"
                             Glyph="&#xE842;"
                             Visibility="Collapsed" />
                         <FontIcon
                             x:Name="PinIcon"
                             AutomationProperties.AccessibilityView="Raw"
+                            Canvas.ZIndex="1"
                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Foreground="{ThemeResource AppInteractiveTextBrush}"
                             Glyph="&#xE840;" />
                     </Grid>
                 </Viewbox>

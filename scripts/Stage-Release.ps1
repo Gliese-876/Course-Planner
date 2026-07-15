@@ -2,6 +2,8 @@ param(
     [Parameter(Mandatory = $true)]
     [ValidatePattern("^v\d+\.\d+\.\d+$")]
     [string]$Tag,
+    [ValidateRange(0, 65535)]
+    [int]$PackageRevision = 0,
     [string]$Repository = "Gliese-876/Course-Planner"
 )
 
@@ -60,7 +62,7 @@ try {
         }
 
         $version = $Tag.Substring(1)
-        $packageVersion = "$version.0"
+        $packageVersion = "$version.$PackageRevision"
 
         & "$PSScriptRoot\Test-Ci.ps1"
 
@@ -132,6 +134,7 @@ try {
             "--repo", $Repository,
             "--ref", "main",
             "-f", "release_tag=$Tag",
+            "-f", "package_revision=$PackageRevision",
             "-f", "staged_sha256=$stagedHash")
 
         Write-Host "Locally built package staged for signing: $Tag"

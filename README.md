@@ -119,7 +119,7 @@ pwsh .\scripts\Test-Ci.ps1
 - 不要把 PFX、私钥、密码、临时签名目录或构建产物提交到仓库。
 - 后续版本必须继续使用同一发布证书；更换证书会要求现有用户重新信任新的发布者。
 - 发布机还需要已登录的 GitHub CLI（`gh`）和位于 `PATH` 中的 WinApp CLI（`winapp`）。
-- 从干净的发布提交创建并推送 `vMAJOR.MINOR.PATCH` 标签，然后运行 `pwsh .\scripts\Stage-Release.ps1 -Tag v版本号`。脚本会在本地执行完整验证、使用一次性证书构建暂存包，并触发仅签名工作流；固定私钥不会被下载到本机。
+- 从干净的发布提交创建并推送 `vMAJOR.MINOR.PATCH` 标签，然后运行 `pwsh .\scripts\Stage-Release.ps1 -Tag v版本号`。脚本会在本地执行完整验证、使用一次性证书构建暂存包，并触发仅签名工作流；固定私钥不会被下载到本机。若必须把修订合并回同一个三段版本，应先将既有 Release 转为草稿、把同名标签更新到新的干净发布提交，再用递增的第四段包修订号运行，例如 `pwsh .\scripts\Stage-Release.ps1 -Tag v1.0.1 -PackageRevision 1`；Release 名称仍是 `v1.0.1`，但已安装的旧包可以原位升级。
 
 ## 参与贡献
 
