@@ -283,10 +283,10 @@
     <value>Details</value>
   </data>
   <data name="LockCourse" xml:space="preserve">
-    <value>Lock course</value>
+    <value>Lock</value>
   </data>
   <data name="UnlockCourse" xml:space="preserve">
-    <value>Unlock course</value>
+    <value>Unlock</value>
   </data>
   <data name="CourseLockedStatusFormat" xml:space="preserve">
     <value>Locked “{0}” and hid it from registration order.</value>
@@ -870,6 +870,15 @@
   <data name="ImportPreview" xml:space="preserve">
     <value>Import preview</value>
   </data>
+  <data name="ConfirmImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="ImportMergeResultsTitle" xml:space="preserve">
+    <value>Parse and merge results</value>
+  </data>
+  <data name="ImportMergeOptionsTitle" xml:space="preserve">
+    <value>Merge options</value>
+  </data>
   <data name="ImportChangesTitle" xml:space="preserve">
     <value>Review the changes</value>
   </data>
@@ -1271,6 +1280,24 @@
   </data>
   <data name="ImportPreviewReportError" xml:space="preserve">
     <value>  error: {0}</value>
+  </data>
+  <data name="ImportMergeReportTitle" xml:space="preserve">
+    <value>== {0} · schema {1} ==</value>
+  </data>
+  <data name="ImportMergeSummaryFormat" xml:space="preserve">
+    <value>Parsed {0} items | + {1} added | ~ {2} updated | = {3} skipped | ! {4} conflicts | ? {5} warnings | x {6} errors</value>
+  </data>
+  <data name="ImportMergeSectionFormat" xml:space="preserve">
+    <value>-- {0} ({1}) --</value>
+  </data>
+  <data name="ImportMergeReportItem" xml:space="preserve">
+    <value>{0} {1}: {2}{3}</value>
+  </data>
+  <data name="ImportMergeSemesterSuffixFormat" xml:space="preserve">
+    <value> · {0}</value>
+  </data>
+  <data name="ImportMergeDisplayLimit" xml:space="preserve">
+    <value>Important items are shown first: displaying {0} / {1}. Save the report to review everything.</value>
   </data>
   <data name="ImportStatus.Added" xml:space="preserve">
     <value>Added</value>

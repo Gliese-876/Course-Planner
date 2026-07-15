@@ -1205,10 +1205,15 @@ public sealed partial class PlannerPage : Page
         var rightMargin = conflictCount > 1 ? 4 + ((conflictCount - conflictIndex - 1) * 10) : 4;
         var isConflict = courseBlock.HasConflictInRequestedWeek;
         var differenceLabel = ComparisonDifferenceLabel(diff);
-        var foreground = isLocked
-            ? RoleBrush(AppColorRole.TextSecondary, Colors.DimGray)
-            : RoleBrush(AppColorRole.TextPrimary, Colors.Black);
-        var secondaryForeground = RoleBrush(AppColorRole.TextSecondary, Colors.Gray);
+        var outOfWeekForeground = RoleBrush(AppColorRole.CourseBlockOutOfWeekText, Colors.DimGray);
+        var foreground = !isInRequestedWeek
+            ? outOfWeekForeground
+            : isLocked
+                ? RoleBrush(AppColorRole.TextSecondary, Colors.DimGray)
+                : RoleBrush(AppColorRole.TextPrimary, Colors.Black);
+        var secondaryForeground = !isInRequestedWeek
+            ? outOfWeekForeground
+            : RoleBrush(AppColorRole.TextSecondary, Colors.Gray);
         var courseBlockCornerRadius = (CornerRadius)Application.Current.Resources["ControlCornerRadius"];
         var block = new Button
         {
@@ -1271,9 +1276,19 @@ public sealed partial class PlannerPage : Page
         var detailTexts = new List<TextBlock>();
         AddCourseBlockDetail(details, detailTexts, course.Teacher, secondaryForeground);
         AddCourseBlockDetail(details, detailTexts, course.Location, secondaryForeground);
-        AddCourseBlockDetail(details, detailTexts, CourseDerivedValues.CapacityText(course), CapacityBrush(course));
+        AddCourseBlockDetail(
+            details,
+            detailTexts,
+            CourseDerivedValues.CapacityText(course),
+            isInRequestedWeek ? CapacityBrush(course) : outOfWeekForeground);
         if (isConflict)
-            AddCourseBlockDetail(details, detailTexts, ViewModel.T["Conflict"], RoleBrush(AppColorRole.StatusCritical, Colors.IndianRed));
+            AddCourseBlockDetail(
+                details,
+                detailTexts,
+                ViewModel.T["Conflict"],
+                isInRequestedWeek
+                    ? RoleBrush(AppColorRole.StatusCritical, Colors.IndianRed)
+                    : outOfWeekForeground);
         FrameworkElement? detailClip = null;
         if (detailTexts.Count > 0)
         {
@@ -1676,7 +1691,7 @@ public sealed partial class PlannerPage : Page
         var course = PlanCourseResolver.CourseForSnapshot(snapshot, Documents.Document.CourseLibrary);
         menu.Items.Add(MenuItem(
             ViewModel.T[snapshot.IsLocked ? "UnlockCourse" : "LockCourse"],
-            new FontIcon { Glyph = "\uE72E" },
+            CourseLockActionIcon(snapshot.IsLocked),
             async (_, _) => await ToggleCourseLockAsync(snapshot, course?.CourseName ?? snapshot.CourseOfferingId)));
         menu.Items.Add(new MenuFlyoutSeparator());
         menu.Items.Add(MenuItem(ViewModel.T["Delete"], Symbol.Delete, async (_, _) =>
@@ -1689,6 +1704,9 @@ public sealed partial class PlannerPage : Page
         }));
         menu.ShowAt(target, point);
     }
+
+    private static FontIcon CourseLockActionIcon(bool isLocked) =>
+        new() { Glyph = isLocked ? "\uE785" : "\uE72E" };
 
     private async Task ToggleCourseLockAsync(PlanCourseSnapshot snapshot, string courseName)
     {
@@ -2172,10 +2190,10 @@ public sealed partial class PlannerPage : Page
         bool isLocked,
         bool isInRequestedWeek)
     {
-        if (isLocked)
-            return RoleBrush(AppColorRole.CourseBlockLocked, Colors.Gray);
         if (!isInRequestedWeek)
             return RoleBrush(AppColorRole.CourseBlockOutOfWeek, Colors.LightGray);
+        if (isLocked)
+            return RoleBrush(AppColorRole.CourseBlockLocked, Colors.Gray);
         if (role == WeekGridRole.Standard || diff is null)
             return RoleBrush(AppColorRole.CourseBlock, Colors.Transparent);
 
@@ -2194,10 +2212,10 @@ public sealed partial class PlannerPage : Page
         bool isLocked,
         bool isInRequestedWeek)
     {
-        if (isLocked)
-            return RoleBrush(AppColorRole.CourseBlockLockedHover, Colors.DarkGray);
         if (!isInRequestedWeek)
             return RoleBrush(AppColorRole.CourseBlockOutOfWeekHover, Colors.Gray);
+        if (isLocked)
+            return RoleBrush(AppColorRole.CourseBlockLockedHover, Colors.DarkGray);
         if (role == WeekGridRole.Standard || diff is null)
             return RoleBrush(AppColorRole.CourseBlockHover, Colors.Transparent);
 
@@ -2833,7 +2851,7 @@ public sealed partial class PlannerPage : Page
         {
             menu.Items.Add(MenuItem(
                 ViewModel.T[currentSnapshot.IsLocked ? "UnlockCourse" : "LockCourse"],
-                new FontIcon { Glyph = "\uE72E" },
+                CourseLockActionIcon(currentSnapshot.IsLocked),
                 async (_, _) => await ToggleCourseLockAsync(currentSnapshot, course.CourseName)));
         }
         menu.Items.Add(MenuItem(ViewModel.T["Details"], Symbol.Edit, async (_, _) =>

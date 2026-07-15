@@ -155,6 +155,7 @@ public sealed class TimetableExportPalette
     public TimetableExportColor PrimaryText { get; init; }
     public TimetableExportColor SecondaryText { get; init; }
     public TimetableExportColor CourseBlockBackground { get; init; }
+    public TimetableExportColor LockedCourseBlockBackground { get; init; }
     public TimetableExportColor MatrixCardBackground { get; init; }
     public TimetableExportColor DifferenceAddedBackground { get; init; }
     public TimetableExportColor DifferenceRemovedBackground { get; init; }
@@ -172,6 +173,7 @@ public sealed class TimetableExportPalette
         PrimaryText = TimetableExportColor.FromHex("#1A1A1A"),
         SecondaryText = TimetableExportColor.FromHex("#575F5C"),
         CourseBlockBackground = TimetableExportColor.FromHex("#E7F1ED"),
+        LockedCourseBlockBackground = TimetableExportColor.FromHex("#D2D5D4"),
         MatrixCardBackground = TimetableExportColor.FromHex("#FFFFFF"),
         DifferenceAddedBackground = TimetableExportColor.FromHex("#DFF4E7"),
         DifferenceRemovedBackground = TimetableExportColor.FromHex("#F8E2E2"),
@@ -190,6 +192,7 @@ public sealed class TimetableExportPalette
         PrimaryText = TimetableExportColor.FromHex("#F5F7F6"),
         SecondaryText = TimetableExportColor.FromHex("#C5CECB"),
         CourseBlockBackground = TimetableExportColor.FromHex("#313D3A"),
+        LockedCourseBlockBackground = TimetableExportColor.FromHex("#484C4B"),
         MatrixCardBackground = TimetableExportColor.FromHex("#2D312F"),
         DifferenceAddedBackground = TimetableExportColor.FromHex("#204336"),
         DifferenceRemovedBackground = TimetableExportColor.FromHex("#4D3136"),

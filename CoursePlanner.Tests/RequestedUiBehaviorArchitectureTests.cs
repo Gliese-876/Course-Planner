@@ -166,15 +166,56 @@ public sealed class RequestedUiBehaviorArchitectureTests
         var page = Read("CoursePlanner", "Pages", "PlannerPage.xaml.cs");
         var mainWindow = Read("CoursePlanner", "MainWindow.xaml.cs");
         var colors = Read("CoursePlanner", "Styles", "DomainColorResources.xaml");
+        var materialLayer = Read("CoursePlanner", "Services", "AppMaterialLayer.cs");
         var chineseResources = Read("CoursePlanner.Application", "Resources", "zh-Hans", "Resources.resw");
+        var englishResources = Read("CoursePlanner.Application", "Resources", "en-US", "Resources.resw");
 
         Assert.Contains("ToggleCourseLockAsync", page, StringComparison.Ordinal);
         Assert.Contains("SetCurrentPlanCourseLocked", page, StringComparison.Ordinal);
+        Assert.Contains("CourseLockActionIcon(snapshot.IsLocked)", page, StringComparison.Ordinal);
+        Assert.Contains("CourseLockActionIcon(currentSnapshot.IsLocked)", page, StringComparison.Ordinal);
+        Assert.Contains("isLocked ? \"\\uE785\" : \"\\uE72E\"", page, StringComparison.Ordinal);
+        Assert.Equal(1, page.Split("new() { Glyph = isLocked ? \"\\uE785\" : \"\\uE72E\" }", StringSplitOptions.None).Length - 1);
         Assert.Contains("includeInactiveMeetings: true", page, StringComparison.Ordinal);
         Assert.Contains("CourseNotThisWeekTitlePrefix", page, StringComparison.Ordinal);
         Assert.Contains("AppCourseBlockLockedBrush", colors, StringComparison.Ordinal);
         Assert.Contains("AppCourseBlockOutOfWeekBrush", colors, StringComparison.Ordinal);
+        Assert.Equal(3, colors.Split("x:Key=\"AppCourseBlockOutOfWeekTextBrush\"", StringSplitOptions.None).Length - 1);
+        Assert.Contains("AppCourseBlockOutOfWeekBrush\" Color=\"#EAEFF2\"", colors, StringComparison.Ordinal);
+        Assert.Contains("AppCourseBlockOutOfWeekHoverBrush\" Color=\"#D8E1E6\"", colors, StringComparison.Ordinal);
+        Assert.Contains("AppCourseBlockOutOfWeekTextBrush\" Color=\"#98A09E\"", colors, StringComparison.Ordinal);
+        Assert.Contains("AppCourseBlockOutOfWeekBrush\" Color=\"#46535B\"", colors, StringComparison.Ordinal);
+        Assert.Contains("AppCourseBlockOutOfWeekHoverBrush\" Color=\"#54646E\"", colors, StringComparison.Ordinal);
+        Assert.Contains("AppCourseBlockOutOfWeekTextBrush\" Color=\"#C2C9C7\"", colors, StringComparison.Ordinal);
+        Assert.Contains("AppCourseBlockOutOfWeekTextBrush\" ResourceKey=\"SystemColorWindowTextColorBrush\"", colors, StringComparison.Ordinal);
+        Assert.DoesNotContain("SystemColorGrayTextColorBrush", colors, StringComparison.Ordinal);
+        Assert.Contains("AppColorRole.CourseBlockOutOfWeekText => \"AppCourseBlockOutOfWeekTextBrush\"", materialLayer, StringComparison.Ordinal);
+        Assert.Contains("var outOfWeekForeground = RoleBrush(AppColorRole.CourseBlockOutOfWeekText", page, StringComparison.Ordinal);
+        Assert.Contains("var foreground = !isInRequestedWeek", page, StringComparison.Ordinal);
+        Assert.Contains("var secondaryForeground = !isInRequestedWeek", page, StringComparison.Ordinal);
+        Assert.Contains("isInRequestedWeek ? CapacityBrush(course) : outOfWeekForeground", page, StringComparison.Ordinal);
+        var backgroundStart = page.IndexOf("private Brush CourseBlockBackgroundBrush", StringComparison.Ordinal);
+        var hoverStart = page.IndexOf("private Brush CourseBlockHoverBackgroundBrush", backgroundStart, StringComparison.Ordinal);
+        var capacityStart = page.IndexOf("private Brush CapacityBrush", hoverStart, StringComparison.Ordinal);
+        Assert.True(backgroundStart >= 0 && hoverStart > backgroundStart && capacityStart > hoverStart);
+        var backgroundMethod = page[backgroundStart..hoverStart];
+        var hoverMethod = page[hoverStart..capacityStart];
+        Assert.True(
+            backgroundMethod.IndexOf("if (!isInRequestedWeek)", StringComparison.Ordinal) <
+            backgroundMethod.IndexOf("if (isLocked)", StringComparison.Ordinal));
+        Assert.True(
+            hoverMethod.IndexOf("if (!isInRequestedWeek)", StringComparison.Ordinal) <
+            hoverMethod.IndexOf("if (isLocked)", StringComparison.Ordinal));
+        Assert.DoesNotContain("IsEnabled = isInRequestedWeek", page, StringComparison.Ordinal);
         Assert.Contains("<value>非本周</value>", chineseResources, StringComparison.Ordinal);
+        Assert.Contains("<value>非本周课程</value>", chineseResources, StringComparison.Ordinal);
+        Assert.Contains("<value>Not this week</value>", englishResources, StringComparison.Ordinal);
+        Assert.Contains("<value>Not scheduled this week</value>", englishResources, StringComparison.Ordinal);
+        Assert.Equal("锁定", ResourceValue(chineseResources, "LockCourse"));
+        Assert.Equal("解锁", ResourceValue(chineseResources, "UnlockCourse"));
+        Assert.Equal("Lock", ResourceValue(englishResources, "LockCourse"));
+        Assert.Equal("Unlock", ResourceValue(englishResources, "UnlockCourse"));
+        Assert.Equal("已锁定", ResourceValue(chineseResources, "CourseLocked"));
         Assert.Contains("metrics.TotalCredits:0.##", mainWindow, StringComparison.Ordinal);
     }
 
@@ -199,6 +240,14 @@ public sealed class RequestedUiBehaviorArchitectureTests
     }
 
     private static string Read(params string[] segments) => File.ReadAllText(ReadPath(segments));
+
+    private static string ResourceValue(string resources, string name) =>
+        XDocument.Parse(resources)
+            .Root!
+            .Elements("data")
+            .Single(element => string.Equals((string?)element.Attribute("name"), name, StringComparison.Ordinal))
+            .Element("value")!
+            .Value;
 
     private static string ReadPath(params string[] segments) => RepositoryPaths.FromRoot(segments);
 }

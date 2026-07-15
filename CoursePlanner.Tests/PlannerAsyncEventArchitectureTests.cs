@@ -19,21 +19,23 @@ public sealed class PlannerAsyncEventArchitectureTests
     }
 
     [Fact]
-    public void ImportPreviewFilterEventsObserveUpdatesAndDetachBeforeTheDialogIsReleased()
+    public void ImportMergePreviewAwaitsOneProjectionAndHasNoRemovedFilterEvents()
     {
         var source = File.ReadAllText(ProjectFilePath(
             "CoursePlanner",
             "Services",
             "ImportExportCoordinator.cs"));
 
-        Assert.DoesNotContain(
-            "async void QueueReportUpdate",
+        Assert.Contains("var projection = await Task.Run", source, StringComparison.Ordinal);
+        Assert.Contains(
+            "ImportMergePreviewProjectionService.Create(preview, display)",
             source,
             StringComparison.Ordinal);
-        Assert.Contains("reportUpdateObservers.Add", source, StringComparison.Ordinal);
-        Assert.Contains("await Task.WhenAll(reportUpdateObservers)", source, StringComparison.Ordinal);
-        Assert.Contains("statusBox.SelectionChanged -=", source, StringComparison.Ordinal);
-        Assert.Contains("searchBox.TextChanged -=", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("_ = Task.Run", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("QueueReportUpdate", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("reportUpdateObservers", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("statusBox.SelectionChanged", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("searchBox.TextChanged", source, StringComparison.Ordinal);
     }
 
     private static string ProjectFilePath(params string[] parts) =>

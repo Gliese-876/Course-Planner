@@ -205,6 +205,7 @@ public static class TimetableExportService
                     layout.Fields,
                     wrapCourseText: false,
                     layout.BlocksByWeek[request.Week],
+                    layout.LockedCourseOfferingIds,
                     resources);
                 break;
             case ExportContentKind.WeekRange:
@@ -303,6 +304,7 @@ public static class TimetableExportService
                 layout.Fields,
                 wrapCourseText: layout.ContentKind == ExportContentKind.DetailedSemester,
                 layout.BlocksByWeek[week],
+                layout.LockedCourseOfferingIds,
                 resources);
         }
     }
@@ -317,6 +319,7 @@ public static class TimetableExportService
         CourseBlockFields fields,
         bool wrapCourseText,
         IReadOnlyList<TimetableCourseBlock> blocks,
+        IReadOnlySet<string> lockedCourseOfferingIds,
         RenderResources resources)
     {
         var semester = request.Semester;
@@ -435,6 +438,7 @@ public static class TimetableExportService
                 blockHeight,
                 fields,
                 wrapCourseText,
+                lockedCourseOfferingIds.Contains(block.Course.OfferingId),
                 resources);
         }
     }
@@ -449,13 +453,15 @@ public static class TimetableExportService
         float height,
         CourseBlockFields fields,
         bool wrapCourseText,
+        bool isLocked,
         RenderResources resources)
     {
         var palette = request.Palette;
-        var fill = DifferenceFill(block.Difference, palette);
+        var fill = CourseBlockFill(isLocked, block.Difference, palette);
         var rect = new SKRect(x, y, x + width, y + height);
         canvas.DrawRoundRect(rect, 4, 4, resources.Paint(fill));
-        canvas.DrawRoundRect(new SKRect(x, y, x + 5, y + height), 4, 4, resources.Paint(ParseCourseColor(block.Course.Color)));
+        var decorativeColor = isLocked ? palette.SecondaryText : ParseCourseColor(block.Course.Color);
+        canvas.DrawRoundRect(new SKRect(x, y, x + 5, y + height), 4, 4, resources.Paint(decorativeColor));
 
         canvas.Save();
         canvas.ClipRoundRect(new SKRoundRect(rect, 4, 4));
@@ -476,7 +482,9 @@ public static class TimetableExportService
 
             var color = line.Field == CourseBlockFields.Capacity
                 ? CapacityColor(block.Course, palette)
-                : line.IsTitle ? palette.PrimaryText : palette.SecondaryText;
+                : isLocked || !line.IsTitle
+                    ? palette.SecondaryText
+                    : palette.PrimaryText;
             if (wrapCourseText)
             {
                 DrawText(
@@ -524,7 +532,14 @@ public static class TimetableExportService
             exportCourses,
             request.Semester,
             weeks,
-            request.Differences);
+            request.Differences,
+            includeConflictLayout: true,
+            includeInactiveMeetings: false);
+        var lockedCourseOfferingIds = request.Plan.Snapshots
+            .Where(snapshot => snapshot.IsLocked)
+            .Select(snapshot => snapshot.CourseOfferingId)
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .ToHashSet(StringComparer.Ordinal);
         var workload = AnalyzeWorkload(blocksByWeek, fields);
         EnsureSafeWorkload(workload);
         var typography = request.Typography;
@@ -565,6 +580,7 @@ public static class TimetableExportService
                 weekMetrics.Height,
                 weekMetrics,
                 blocksByWeek,
+                lockedCourseOfferingIds,
                 workload);
         }
 
@@ -585,6 +601,7 @@ public static class TimetableExportService
             matrixPanelHeight,
             weekMetrics,
             blocksByWeek,
+            lockedCourseOfferingIds,
             workload);
     }
 
@@ -1038,8 +1055,13 @@ public static class TimetableExportService
             throw new FileNotFoundException("Export semibold font file was not found.", fonts.SemiboldFilePath);
     }
 
-    private static TimetableExportColor DifferenceFill(SlotDifference? difference, TimetableExportPalette palette) =>
-        difference?.Kind switch
+    internal static TimetableExportColor CourseBlockFill(
+        bool isLocked,
+        SlotDifference? difference,
+        TimetableExportPalette palette) =>
+        isLocked
+            ? palette.LockedCourseBlockBackground
+            : difference?.Kind switch
         {
             DifferenceKind.Added => palette.DifferenceAddedBackground,
             DifferenceKind.Removed => palette.DifferenceRemovedBackground,
@@ -1215,6 +1237,7 @@ public static class TimetableExportService
         float PanelHeight,
         WeekGridMetrics WeekMetrics,
         IReadOnlyDictionary<int, IReadOnlyList<TimetableCourseBlock>> BlocksByWeek,
+        IReadOnlySet<string> LockedCourseOfferingIds,
         TimetableExportWorkload Workload);
 
     private sealed class RenderResources : IDisposable

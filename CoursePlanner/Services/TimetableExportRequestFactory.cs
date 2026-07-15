@@ -159,6 +159,10 @@ public static class TimetableExportRequestFactory
             PrimaryText = RoleColor(AppColorRole.TextPrimary, theme, fallback.PrimaryText),
             SecondaryText = RoleColor(AppColorRole.TextSecondary, theme, fallback.SecondaryText),
             CourseBlockBackground = RoleColor(AppColorRole.CourseBlock, theme, fallback.CourseBlockBackground),
+            LockedCourseBlockBackground = RoleColor(
+                AppColorRole.CourseBlockLocked,
+                theme,
+                fallback.LockedCourseBlockBackground),
             MatrixCardBackground = SurfaceColor(
                 AppMaterialSurface.SemesterOverviewCard,
                 theme,

@@ -188,9 +188,12 @@ public sealed class UiMotionAndMaterialArchitectureTests
         Assert.Contains("Color.FromArgb(255, 0x1E, 0x23, 0x21)", exportFactory);
         Assert.Contains("Color.FromArgb(255, 0xF8, 0xFB, 0xFA)", exportFactory);
         Assert.Contains("SecondaryText = TimetableExportColor.FromHex(\"#575F5C\")", exportContracts);
+        Assert.Contains("LockedCourseBlockBackground = TimetableExportColor.FromHex(\"#D2D5D4\")", exportContracts);
         Assert.Contains("PrimaryText = TimetableExportColor.FromHex(\"#F5F7F6\")", exportContracts);
         Assert.Contains("SecondaryText = TimetableExportColor.FromHex(\"#C5CECB\")", exportContracts);
+        Assert.Contains("LockedCourseBlockBackground = TimetableExportColor.FromHex(\"#484C4B\")", exportContracts);
         Assert.Contains("MatrixCardBackground = TimetableExportColor.FromHex(\"#2D312F\")", exportContracts);
+        Assert.Contains("AppColorRole.CourseBlockLocked", exportFactory);
     }
 
     [Fact]

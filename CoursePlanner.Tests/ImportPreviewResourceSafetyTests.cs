@@ -62,20 +62,76 @@ public sealed class ImportPreviewResourceSafetyTests
     }
 
     [Fact]
-    public void ImportPreviewUiDebouncesBackgroundProjectionAndKeepsFullReportExport()
+    public void MergePreviewPrioritizesErrorsAndConflictsWithinTheUiBound()
+    {
+        var preview = new ImportPreview
+        {
+            Kind = PlannerSchemas.CourseLibraryKind,
+            SchemaVersion = PlannerSchemas.Current,
+            Items = Enumerable.Range(0, 250)
+                .Select(index => new ImportPreviewItem
+                {
+                    Kind = "course",
+                    DisplayName = $"Added {index:D3}",
+                    Status = ImportPreviewStatus.Added
+                })
+                .Append(new ImportPreviewItem
+                {
+                    Kind = "semester",
+                    DisplayName = "Conflicting semester",
+                    Status = ImportPreviewStatus.Conflict,
+                    Warnings =
+                    {
+                        new ValidationIssue
+                        {
+                            Code = "Import.SemesterIdentityConflict",
+                            Parameters = ["Local semester"]
+                        }
+                    }
+                })
+                .Append(new ImportPreviewItem
+                {
+                    Kind = "file",
+                    DisplayName = "Broken input",
+                    Status = ImportPreviewStatus.NotImportable,
+                    Errors = { new ValidationIssue { Code = "Import.InvalidJson" } }
+                })
+                .ToList()
+        };
+        var formatter = new CourseDisplayFormatter(new AppLocalizer(
+            LanguageMode.English,
+            CultureInfo.GetCultureInfo("en-US")));
+
+        var projection = ImportMergePreviewProjectionService.Create(preview, formatter);
+
+        Assert.Equal(252, projection.TotalItemCount);
+        Assert.Equal(ImportMergePreviewProjectionService.MaximumDisplayedItems, projection.DisplayedItemCount);
+        Assert.Contains("Parsed 252 items", projection.Text, StringComparison.Ordinal);
+        Assert.Contains("x File: Broken input", projection.Text, StringComparison.Ordinal);
+        Assert.Contains("! Semester: Conflicting semester", projection.Text, StringComparison.Ordinal);
+        Assert.Contains("error: This file is not valid Course Planner JSON.", projection.Text, StringComparison.Ordinal);
+        Assert.Contains("displaying 200 / 252", projection.Text, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ImportPreviewUiUsesOneMergeConfirmationWithoutAdvancedFilters()
     {
         var coordinator = File.ReadAllText(ProjectFilePath(
             "CoursePlanner",
             "Services",
             "ImportExportCoordinator.cs"));
 
-        Assert.Contains("ImportPreviewFilterDebounce", coordinator, StringComparison.Ordinal);
-        Assert.Contains("new LatestRequestTracker()", coordinator, StringComparison.Ordinal);
-        Assert.Contains("Task.Delay(ImportPreviewFilterDebounce, request.Token)", coordinator, StringComparison.Ordinal);
         Assert.Contains("await Task.Run(", coordinator, StringComparison.Ordinal);
-        Assert.Contains("ImportPreviewTextProjectionService.Create(", coordinator, StringComparison.Ordinal);
-        Assert.Contains("reportRequests.TryExecuteIfCurrent(", coordinator, StringComparison.Ordinal);
+        Assert.Contains("ImportMergePreviewProjectionService.Create(preview, display)", coordinator, StringComparison.Ordinal);
+        Assert.Contains("ImportMergeReportBox", coordinator, StringComparison.Ordinal);
+        Assert.Contains("decision.Options.SynchronizeMissingPlanCourses = preview.RequiresCourseLibrarySync", coordinator, StringComparison.Ordinal);
         Assert.Contains("new CourseDisplayFormatter(Text).ImportPreviewReport(preview)", coordinator, StringComparison.Ordinal);
+        Assert.DoesNotContain("ImportPreviewFilterDebounce", coordinator, StringComparison.Ordinal);
+        Assert.DoesNotContain("LatestRequestTracker", coordinator, StringComparison.Ordinal);
+        Assert.DoesNotContain("ImportStatusFilterBox", coordinator, StringComparison.Ordinal);
+        Assert.DoesNotContain("ImportSemesterFilterBox", coordinator, StringComparison.Ordinal);
+        Assert.DoesNotContain("ImportSearchBox", coordinator, StringComparison.Ordinal);
+        Assert.DoesNotContain("ConfirmCourseLibrarySyncAsync", coordinator, StringComparison.Ordinal);
     }
 
     private static string ProjectFilePath(params string[] parts) =>

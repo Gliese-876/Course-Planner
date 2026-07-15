@@ -82,6 +82,7 @@ public sealed class TimetableExportRenderingTests
             PrimaryText = TimetableExportColor.FromHex("#FFFFFF"),
             SecondaryText = TimetableExportColor.FromHex("#DDDDDD"),
             CourseBlockBackground = TimetableExportColor.FromHex("#456789"),
+            LockedCourseBlockBackground = TimetableExportColor.FromHex("#777777"),
             MatrixCardBackground = TimetableExportColor.FromHex("#56789A"),
             DifferenceAddedBackground = TimetableExportColor.FromHex("#226644"),
             DifferenceRemovedBackground = TimetableExportColor.FromHex("#662244"),
@@ -103,6 +104,66 @@ public sealed class TimetableExportRenderingTests
         Assert.Equal((byte)0x12, pixel.Red);
         Assert.Equal((byte)0x34, pixel.Green);
         Assert.Equal((byte)0x56, pixel.Blue);
+    }
+
+    [Fact]
+    public void LockedCourseFillOverridesComparisonColorWhileUnlockedCoursesKeepIt()
+    {
+        var palette = TimetableExportPalette.Light;
+        var added = new SlotDifference { Kind = DifferenceKind.Added };
+
+        Assert.Equal(
+            palette.LockedCourseBlockBackground,
+            TimetableExportService.CourseBlockFill(isLocked: true, added, palette));
+        Assert.Equal(
+            palette.DifferenceAddedBackground,
+            TimetableExportService.CourseBlockFill(isLocked: false, added, palette));
+        Assert.Equal(
+            palette.CourseBlockBackground,
+            TimetableExportService.CourseBlockFill(isLocked: false, difference: null, palette));
+    }
+
+    [Fact]
+    public void PngUsesLockedCourseColorAndOmitsCoursesNotHeldInTheExportedWeek()
+    {
+        var document = SmallDocument();
+        var plan = document.Plans[0];
+        var activeCourse = document.CourseLibrary[0];
+        foreach (var snapshot in plan.Snapshots.Where(snapshot =>
+                     snapshot.CourseOfferingId == activeCourse.OfferingId))
+        {
+            snapshot.IsLocked = true;
+        }
+
+        var inactiveCourse = JsonDefaults.Clone(activeCourse);
+        inactiveCourse.CourseName = "Inactive export sentinel";
+        inactiveCourse.Color = "#010203";
+        inactiveCourse.MeetingTimes =
+        [
+            new MeetingTime
+            {
+                Weekday = 2,
+                StartPeriod = 1,
+                EndPeriod = 1,
+                Weeks = "2"
+            }
+        ];
+        CourseIdentityService.AssignOfferingId(inactiveCourse);
+        document.CourseLibrary.Add(inactiveCourse);
+        plan.Snapshots.Add(new PlanCourseSnapshot { CourseOfferingId = inactiveCourse.OfferingId });
+        var request = Request(
+            document,
+            ExportContentKind.CurrentWeek,
+            ExportFileFormat.Png,
+            ImageClarity.Standard);
+        using var output = new MemoryStream();
+
+        TimetableExportService.ExportPng(request, output);
+
+        output.Position = 0;
+        using var bitmap = SKBitmap.Decode(output);
+        Assert.True(CountPixels(bitmap, TimetableExportPalette.Light.LockedCourseBlockBackground) > 100);
+        Assert.Equal(0, CountPixels(bitmap, TimetableExportColor.FromHex("#010203")));
     }
 
     [Fact]
@@ -818,6 +879,21 @@ public sealed class TimetableExportRenderingTests
             "Fonts",
             "DreamHanSansSC",
             fileName);
+
+    private static int CountPixels(SKBitmap bitmap, TimetableExportColor color)
+    {
+        var expected = new SKColor(color.R, color.G, color.B, color.A);
+        var count = 0;
+        for (var y = 0; y < bitmap.Height; y++)
+        {
+            for (var x = 0; x < bitmap.Width; x++)
+            {
+                if (bitmap.GetPixel(x, y) == expected)
+                    count++;
+            }
+        }
+        return count;
+    }
 
     private sealed class NonSeekableWriteStream(Stream inner) : Stream
     {

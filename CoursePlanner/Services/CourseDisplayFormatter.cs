@@ -216,9 +216,93 @@ public sealed class CourseDisplayFormatter
         return builder.ToString();
     }
 
+    public string ImportMergePreviewReport(
+        ImportPreview preview,
+        IEnumerable<ImportPreviewItem> displayedItems,
+        int totalItemCount)
+    {
+        ArgumentNullException.ThrowIfNull(preview);
+        ArgumentNullException.ThrowIfNull(displayedItems);
+        if (totalItemCount < 0 || totalItemCount < preview.Items.Count)
+            throw new ArgumentOutOfRangeException(nameof(totalItemCount));
+
+        var visibleItems = displayedItems.ToList();
+        if (visibleItems.Count > totalItemCount)
+            throw new ArgumentOutOfRangeException(nameof(displayedItems));
+
+        var counts = Enum.GetValues<ImportPreviewStatus>()
+            .ToDictionary(
+                status => status,
+                status => preview.Items.Count(item => item.Status == status));
+        var schema = string.IsNullOrWhiteSpace(preview.SchemaVersion)
+            ? _text["Unknown"]
+            : preview.SchemaVersion;
+        var builder = new StringBuilder();
+        builder.AppendLine(string.Format(
+            _text["ImportMergeReportTitle"],
+            ImportKind(preview.Kind),
+            schema));
+        builder.AppendLine(string.Format(
+            _text["ImportMergeSummaryFormat"],
+            totalItemCount,
+            counts[ImportPreviewStatus.Added],
+            counts[ImportPreviewStatus.Updated],
+            counts[ImportPreviewStatus.Skipped],
+            counts[ImportPreviewStatus.Conflict],
+            counts[ImportPreviewStatus.Warning],
+            counts[ImportPreviewStatus.NotImportable]));
+
+        foreach (var group in visibleItems.GroupBy(item => item.Status))
+        {
+            builder.AppendLine();
+            builder.AppendLine(string.Format(
+                _text["ImportMergeSectionFormat"],
+                ImportStatus(group.Key),
+                counts[group.Key]));
+            foreach (var item in group)
+            {
+                var semesterSuffix = string.IsNullOrWhiteSpace(item.SemesterName)
+                    ? ""
+                    : string.Format(_text["ImportMergeSemesterSuffixFormat"], item.SemesterName);
+                builder.AppendLine(string.Format(
+                    _text["ImportMergeReportItem"],
+                    ImportMergeStatusMarker(item.Status),
+                    ImportKind(item.Kind),
+                    string.IsNullOrWhiteSpace(item.DisplayName) ? _text["Unknown"] : item.DisplayName,
+                    semesterSuffix));
+                foreach (var warning in item.Warnings)
+                    builder.AppendLine(string.Format(_text["ImportPreviewReportWarning"], _text.ValidationMessage(warning)));
+                foreach (var error in item.Errors)
+                    builder.AppendLine(string.Format(_text["ImportPreviewReportError"], _text.ValidationMessage(error)));
+            }
+        }
+
+        if (visibleItems.Count < totalItemCount)
+        {
+            builder.AppendLine();
+            builder.AppendLine(string.Format(
+                _text["ImportMergeDisplayLimit"],
+                visibleItems.Count,
+                totalItemCount));
+        }
+
+        return builder.ToString();
+    }
+
     public string ImportStatus(ImportPreviewStatus status) => _text[$"ImportStatus.{status}"];
 
     public string ImportKind(string kind) => _text[$"ImportKind.{kind}"];
+
+    private static string ImportMergeStatusMarker(ImportPreviewStatus status) => status switch
+    {
+        ImportPreviewStatus.Added => "+",
+        ImportPreviewStatus.Updated => "~",
+        ImportPreviewStatus.Skipped => "=",
+        ImportPreviewStatus.Conflict => "!",
+        ImportPreviewStatus.Warning => "?",
+        ImportPreviewStatus.NotImportable => "x",
+        _ => "-"
+    };
 }
 
 public sealed class MeetingDisplayPart

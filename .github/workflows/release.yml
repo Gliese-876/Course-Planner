@@ -228,18 +228,10 @@ jobs:
                 "$($hash.Hash.ToLowerInvariant())  $($_.Name)"
               } | Set-Content -LiteralPath $checksumPath -Encoding ascii
 
-            $releaseNotesPath = Join-Path $env:RUNNER_TEMP "CoursePlanner-Release-Notes.md"
-            @(
-              "## 安装",
-              "",
-              "下载 ``CoursePlanner-$env:RELEASE_TAG-x64.zip``，解压后双击 ``Install-CoursePlanner.cmd``。安装程序会验证包签名，首次安装时通过 UAC 将发布者证书加入本地计算机信任库，再为当前用户安装应用。",
-              "",
-              "## Install",
-              "",
-              "Download ``CoursePlanner-$env:RELEASE_TAG-x64.zip``, extract it, and double-click ``Install-CoursePlanner.cmd``. The installer verifies the package signature, uses UAC on first install to trust the publisher for the local computer, and then installs the app for the current user.",
-              "",
-              "See the repository README files for requirements, checksum verification, and manual installation."
-            ) | Set-Content -LiteralPath $releaseNotesPath -Encoding utf8NoBOM
+            $releaseNotesPath = Join-Path $env:GITHUB_WORKSPACE "docs/releases/$env:RELEASE_TAG.md"
+            if (-not (Test-Path -LiteralPath $releaseNotesPath -PathType Leaf)) {
+              throw "Release notes are missing: $releaseNotesPath"
+            }
 
             "COURSE_PLANNER_RELEASE_DIRECTORY=$releaseDirectory" >> $env:GITHUB_ENV
             "COURSE_PLANNER_RELEASE_NOTES=$releaseNotesPath" >> $env:GITHUB_ENV

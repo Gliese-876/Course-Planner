@@ -283,10 +283,10 @@
     <value>详情</value>
   </data>
   <data name="LockCourse" xml:space="preserve">
-    <value>锁定课程</value>
+    <value>锁定</value>
   </data>
   <data name="UnlockCourse" xml:space="preserve">
-    <value>解锁课程</value>
+    <value>解锁</value>
   </data>
   <data name="CourseLockedStatusFormat" xml:space="preserve">
     <value>已锁定“{0}”，并从抢课顺序中隐藏。</value>
@@ -870,6 +870,15 @@
   <data name="ImportPreview" xml:space="preserve">
     <value>导入预览</value>
   </data>
+  <data name="ConfirmImport" xml:space="preserve">
+    <value>确认导入</value>
+  </data>
+  <data name="ImportMergeResultsTitle" xml:space="preserve">
+    <value>解析与合并结果</value>
+  </data>
+  <data name="ImportMergeOptionsTitle" xml:space="preserve">
+    <value>合并选项</value>
+  </data>
   <data name="ImportChangesTitle" xml:space="preserve">
     <value>请检查将要进行的更改</value>
   </data>
@@ -1271,6 +1280,24 @@
   </data>
   <data name="ImportPreviewReportError" xml:space="preserve">
     <value>  错误：{0}</value>
+  </data>
+  <data name="ImportMergeReportTitle" xml:space="preserve">
+    <value>== {0} · 架构 {1} ==</value>
+  </data>
+  <data name="ImportMergeSummaryFormat" xml:space="preserve">
+    <value>解析 {0} 项 | + {1} 新增 | ~ {2} 更新 | = {3} 跳过 | ! {4} 冲突 | ? {5} 警告 | x {6} 错误</value>
+  </data>
+  <data name="ImportMergeSectionFormat" xml:space="preserve">
+    <value>-- {0}（{1}）--</value>
+  </data>
+  <data name="ImportMergeReportItem" xml:space="preserve">
+    <value>{0} {1}：{2}{3}</value>
+  </data>
+  <data name="ImportMergeSemesterSuffixFormat" xml:space="preserve">
+    <value> · {0}</value>
+  </data>
+  <data name="ImportMergeDisplayLimit" xml:space="preserve">
+    <value>重要条目优先显示：当前为前 {0} / {1} 项；保存报告可查看全部内容。</value>
   </data>
   <data name="ImportStatus.Added" xml:space="preserve">
     <value>新增</value>

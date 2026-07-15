@@ -124,7 +124,15 @@ public sealed class ImportExportUiArchitectureTests
         Assert.DoesNotContain("picker.FileTypeFilter.Add(\".txt\")", coordinator);
         Assert.Contains("PlannerDataLimits.MaxImportFileBytes", coordinator);
         Assert.Contains("preview.RequiresCourseLibrarySync", coordinator);
-        Assert.Contains("SynchronizeMissingPlanCourses = true", coordinator);
+        Assert.Contains(
+            "decision.Options.SynchronizeMissingPlanCourses = preview.RequiresCourseLibrarySync",
+            coordinator);
+        Assert.Contains("ImportMergePreviewProjectionService.Create(preview, display)", coordinator);
+        Assert.Contains("ImportMergeReportBox", coordinator);
+        Assert.DoesNotContain("ConfirmCourseLibrarySyncAsync", coordinator);
+        Assert.DoesNotContain("ImportStatusFilterBox", coordinator);
+        Assert.DoesNotContain("ImportSemesterFilterBox", coordinator);
+        Assert.DoesNotContain("ImportSearchBox", coordinator);
         Assert.Contains("var result = _planner.ApplyImportPreview", coordinator);
         Assert.Contains("result.Applied ? \"ImportCompleted\" : \"ImportNotApplied\"", coordinator);
         Assert.Contains("ApplySelectionPlanImport", exchange);
@@ -151,6 +159,10 @@ public sealed class ImportExportUiArchitectureTests
                      "ExportCourseNameRequired",
                      "ImportCourseSyncRequired",
                      "ImportSyncAndApply",
+                     "ConfirmImport",
+                     "ImportMergeResultsTitle",
+                     "ImportMergeOptionsTitle",
+                     "ImportMergeSummaryFormat",
                      "ImportNotApplied",
                      "ShareTextCopied"
                  })

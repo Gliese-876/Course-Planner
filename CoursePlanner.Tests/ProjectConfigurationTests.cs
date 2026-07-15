@@ -556,6 +556,8 @@ public sealed class ProjectConfigurationTests
         Assert.Contains("Install-CoursePlanner.ps1", workflow, StringComparison.Ordinal);
         Assert.Contains("Install-CoursePlanner.cmd", workflow, StringComparison.Ordinal);
         Assert.Contains("release delete-asset", workflow, StringComparison.Ordinal);
+        Assert.Contains("docs/releases/$env:RELEASE_TAG.md", workflow, StringComparison.Ordinal);
+        Assert.Contains("Release notes are missing", workflow, StringComparison.Ordinal);
         Assert.Contains("--draft=false", workflow, StringComparison.Ordinal);
         Assert.DoesNotContain("actions/setup-dotnet", workflow, StringComparison.Ordinal);
         Assert.DoesNotContain("Test-Ci.ps1", workflow, StringComparison.Ordinal);
@@ -572,6 +574,13 @@ public sealed class ProjectConfigurationTests
         Assert.Contains("\"-f\", \"package_revision=$PackageRevision\"", stagingScript, StringComparison.Ordinal);
         Assert.Contains("\"--draft\"", stagingScript, StringComparison.Ordinal);
         Assert.Contains("Remove-Item -LiteralPath $pfxPath -Force", stagingScript, StringComparison.Ordinal);
+
+        var releaseNotes = File.ReadAllText(ProjectFilePath("docs", "releases", "v1.0.1.md"));
+        Assert.Contains("# Course Planner v1.0.1", releaseNotes, StringComparison.Ordinal);
+        Assert.Contains("课程锁定与抢课顺序", releaseNotes, StringComparison.Ordinal);
+        Assert.Contains("Course locking and registration order", releaseNotes, StringComparison.Ordinal);
+        Assert.Contains("## 安装", releaseNotes, StringComparison.Ordinal);
+        Assert.Contains("## Install", releaseNotes, StringComparison.Ordinal);
     }
 
     [Fact]

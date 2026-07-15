@@ -14,7 +14,7 @@ This guide covers exchange schema `2.0.0` and explains how to author, verify, an
 3. Edit the template in a UTF-8 editor. Keep every field, including nullable fields whose value is `null`.
 4. If you change course identity fields, run the repository ID checker and update `offeringId`.
 5. Choose Import on the Planner toolbar and review every Added, Updated, Skipped, Conflict, and Warning item.
-6. Apply only when the preview matches your intent. If a plan carries courses that are missing locally, choose “Sync and apply”.
+6. Import only when the merge-style confirmation summary matches your intent. If a plan carries courses that are missing locally, choose “Sync courses and import plan”.
 
 You can also start from these validated samples:
 
@@ -104,8 +104,8 @@ The easiest alternative is to create the course in the app, export it, and edit 
 
 1. Open Planner and choose Import from the toolbar.
 2. Select the JSON file. The app checks size, syntax, schema, and domain rules before changing data.
-3. Review Added, Updated, Skipped, Conflict, and Warning items.
-4. For a plan that includes missing local courses, choose “Sync and apply”; otherwise those references cannot be satisfied.
+3. Review the merge-style summary in the confirmation dialog. It lists parse results, conflicts, warnings, and errors together without extra filters.
+4. For a plan that includes missing local courses, choose “Sync courses and import plan”. The app synchronizes those dependencies in the same confirmed import without another prompt.
 5. Use forced semester merging or forced out-of-range import only when you understand the previewed consequences.
 6. After applying, inspect the timetable, conflicts, and registration order.
 
@@ -281,7 +281,7 @@ These are safety limits in the current `2.0.0` implementation and may change in 
 | Period or week out of range | A course references a missing period or week | Correct the course, or force only after reviewing the preview |
 | Label missing or wrong kind | A course reference is absent from root `labels` | Add the label with the correct `kind` |
 | Invalid offering ID | Identity fields changed without updating the hash | Run `Get-CourseOfferingId.ps1` |
-| Plan cannot apply | Local courses are missing or snapshot order/references are inconsistent | Choose “Sync and apply” and inspect snapshots |
+| Plan cannot apply | Local courses are missing or snapshot order/references are inconsistent | Choose “Sync courses and import plan” and inspect snapshots |
 | Illegal name | A semester or plan name contains `/`, `:`, or another reserved character | Use a dash, period, middle dot, or another safe character |
 
 If the issue remains unclear, export a minimal template from the app, keep one course, verify that it imports, and then add data incrementally.

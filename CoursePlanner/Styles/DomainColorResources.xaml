@@ -15,8 +15,9 @@
             <SolidColorBrush x:Key="AppCourseBlockHoverBrush" Color="#D6E7E0" />
             <SolidColorBrush x:Key="AppCourseBlockLockedBrush" Color="#D2D5D4" />
             <SolidColorBrush x:Key="AppCourseBlockLockedHoverBrush" Color="#BEC3C1" />
-            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekBrush" Color="#E1E7EB" />
-            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekHoverBrush" Color="#CDD7DE" />
+            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekBrush" Color="#EAEFF2" />
+            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekHoverBrush" Color="#D8E1E6" />
+            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekTextBrush" Color="#98A09E" />
             <SolidColorBrush x:Key="AppCourseBlockAddedBrush" Color="#DFF4E7" />
             <SolidColorBrush x:Key="AppCourseBlockRemovedBrush" Color="#F8E2E2" />
             <SolidColorBrush x:Key="AppCourseBlockModifiedBrush" Color="#F7EDCF" />
@@ -39,8 +40,9 @@
             <SolidColorBrush x:Key="AppCourseBlockHoverBrush" Color="#3B4B47" />
             <SolidColorBrush x:Key="AppCourseBlockLockedBrush" Color="#484C4B" />
             <SolidColorBrush x:Key="AppCourseBlockLockedHoverBrush" Color="#585E5C" />
-            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekBrush" Color="#35424B" />
-            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekHoverBrush" Color="#43535E" />
+            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekBrush" Color="#46535B" />
+            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekHoverBrush" Color="#54646E" />
+            <SolidColorBrush x:Key="AppCourseBlockOutOfWeekTextBrush" Color="#C2C9C7" />
             <SolidColorBrush x:Key="AppCourseBlockAddedBrush" Color="#204336" />
             <SolidColorBrush x:Key="AppCourseBlockRemovedBrush" Color="#4D3136" />
             <SolidColorBrush x:Key="AppCourseBlockModifiedBrush" Color="#4A4129" />
@@ -65,6 +67,7 @@
             <StaticResource x:Key="AppCourseBlockLockedHoverBrush" ResourceKey="SystemColorHighlightColorBrush" />
             <StaticResource x:Key="AppCourseBlockOutOfWeekBrush" ResourceKey="SystemColorWindowColorBrush" />
             <StaticResource x:Key="AppCourseBlockOutOfWeekHoverBrush" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="AppCourseBlockOutOfWeekTextBrush" ResourceKey="SystemColorWindowTextColorBrush" />
             <StaticResource x:Key="AppCourseBlockAddedBrush" ResourceKey="SystemColorWindowColorBrush" />
             <StaticResource x:Key="AppCourseBlockRemovedBrush" ResourceKey="SystemColorWindowColorBrush" />
             <StaticResource x:Key="AppCourseBlockModifiedBrush" ResourceKey="SystemColorWindowColorBrush" />

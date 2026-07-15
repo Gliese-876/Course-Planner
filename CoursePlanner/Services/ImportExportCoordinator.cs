@@ -3,11 +3,11 @@ using CoursePlanner.Core;
 using CoursePlanner.Exchange;
 using CoursePlanner.Export;
 using CoursePlanner.ViewModels;
-using System.Runtime.ExceptionServices;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.Storage.Pickers;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -19,7 +19,6 @@ namespace CoursePlanner.Services;
 /// </summary>
 public sealed class ImportExportCoordinator
 {
-    private static readonly TimeSpan ImportPreviewFilterDebounce = TimeSpan.FromMilliseconds(150);
     private readonly DocumentSession _documents;
     private readonly PlannerViewModel _planner;
     private readonly LocalizationService _localization;
@@ -94,12 +93,7 @@ public sealed class ImportExportCoordinator
             if (decision.Result != ContentDialogResult.Primary)
                 return;
 
-            if (preview.RequiresCourseLibrarySync)
-            {
-                if (!await ConfirmCourseLibrarySyncAsync(owner, preview))
-                    return;
-                decision.Options.SynchronizeMissingPlanCourses = true;
-            }
+            decision.Options.SynchronizeMissingPlanCourses = preview.RequiresCourseLibrarySync;
 
             var result = _planner.ApplyImportPreview(preview, decision.Options);
             showStatus(
@@ -567,37 +561,22 @@ public sealed class ImportExportCoordinator
         ImportPreview preview)
     {
         var display = new CourseDisplayFormatter(Text);
-        var statusItems = new List<ImportStatusFilterItem>
-        {
-            new() { Text = Text["AllStatuses"] }
-        };
-        statusItems.AddRange(Enum.GetValues<ImportPreviewStatus>()
-            .Select(status => new ImportStatusFilterItem { Status = status, Text = display.ImportStatus(status) }));
-
-        var statusBox = new WheelSafeComboBox
-        {
-            Header = Text["Status"],
-            ItemsSource = statusItems,
-            SelectedIndex = 0,
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        var semesterBox = FilterTextBox("ImportSemesterFilterBox", Text["SemesterFilter"]);
-        var searchBox = FilterTextBox("ImportSearchBox", Text["SearchVisibleFields"]);
-        var groupBox = FilterTextBox("ImportGroupFilterBox", Text["GroupFilter"]);
-        var studyBox = FilterTextBox("ImportStudyFilterBox", Text["StudyFilter"]);
-        var labelBox = FilterTextBox("ImportLabelFilterBox", Text["LabelFilter"]);
-        AutomationProperties.SetAutomationId(statusBox, "ImportStatusFilterBox");
+        var projection = await Task.Run(() =>
+            ImportMergePreviewProjectionService.Create(preview, display));
 
         var reportBox = new TextBox
         {
             AcceptsReturn = true,
             IsReadOnly = true,
-            MinHeight = 240,
-            MaxHeight = 360,
-            TextWrapping = TextWrapping.Wrap
+            MinHeight = 300,
+            MaxHeight = 460,
+            Text = projection.Text,
+            TextWrapping = TextWrapping.Wrap,
+            FontFamily = new FontFamily("Consolas"),
+            FontSize = 12
         };
-        AutomationProperties.SetAutomationId(reportBox, "ImportPreviewReportBox");
-        AutomationProperties.SetName(reportBox, Text["ImportPreview"]);
+        AutomationProperties.SetAutomationId(reportBox, "ImportMergeReportBox");
+        AutomationProperties.SetName(reportBox, Text["ImportMergeResultsTitle"]);
 
         var forceMergeBox = OptionCheckBox(
             "ImportForceSemesterMergeBox",
@@ -612,128 +591,40 @@ public sealed class ImportExportCoordinator
             Text["ForceImportOutOfRangeCourses"],
             preview.Items.Any(x => x.RequiresForceImport));
 
+        var hasMergeDecisions = forceMergeBox.Visibility == Visibility.Visible ||
+                                updateSemesterBox.Visibility == Visibility.Visible ||
+                                forceOutOfRangeBox.Visibility == Visibility.Visible;
+        var impactMessages = new List<string>();
+        if (preview.RequiresCourseLibrarySync)
+            impactMessages.Add(Text["ImportCourseSyncPreviewWarning"]);
+        if (hasMergeDecisions)
+            impactMessages.Add(Text["ImportDecisionWarning"]);
+
         var impactBar = new InfoBar
         {
             Title = Text["ImportChangesTitle"],
-            Message = preview.RequiresCourseLibrarySync
-                ? Text["ImportCourseSyncPreviewWarning"]
-                : Text["ImportDecisionWarning"],
+            Message = string.Join(Environment.NewLine, impactMessages),
             Severity = InfoBarSeverity.Warning,
             IsClosable = false,
-            IsOpen = preview.RequiresCourseLibrarySync ||
-                     preview.Items.Any(x => x.RequiresSemesterSettingsDecision ||
-                                            x.CanApplyWithForcedSemesterMerge ||
-                                            x.RequiresForceImport)
+            IsOpen = impactMessages.Count > 0
         };
         AutomationProperties.SetAutomationId(impactBar, "ImportImpactInfoBar");
 
-        using var reportRequests = new LatestRequestTracker();
-        var reportUpdateObservers = new List<Task>();
-        ExceptionDispatchInfo? reportUpdateFailure = null;
-        ContentDialog? dialog = null;
-        var reportUpdatesActive = true;
-
-        ImportPreviewFilter ReadFilter()
-        {
-            var filter = new ImportPreviewFilter
-            {
-                SearchText = searchBox.Text,
-                SemesterText = semesterBox.Text
-            };
-            if ((statusBox.SelectedItem as ImportStatusFilterItem)?.Status is { } status)
-                filter.Statuses.Add(status);
-            filter.CourseGroupTypes.UnionWith(TextTokenParser.SplitTokens(groupBox.Text));
-            filter.StudyTypes.UnionWith(TextTokenParser.SplitTokens(studyBox.Text));
-            filter.OrdinaryLabels.UnionWith(TextTokenParser.SplitTokens(labelBox.Text));
-            return filter;
-        }
-
-        async Task UpdateReportAsync(bool debounce)
-        {
-            using var request = reportRequests.Begin();
-            try
-            {
-                if (debounce)
-                    await Task.Delay(ImportPreviewFilterDebounce, request.Token);
-                var filter = ReadFilter();
-                var projection = await Task.Run(
-                    () => ImportPreviewTextProjectionService.Create(
-                        preview,
-                        filter,
-                        display,
-                        request.Token),
-                    request.Token);
-                reportRequests.TryExecuteIfCurrent(
-                    request,
-                    () => reportBox.Text = projection.Text);
-            }
-            catch (OperationCanceledException) when (request.Token.IsCancellationRequested)
-            {
-            }
-            catch (Exception exception) when (RuntimeOperationExceptionPolicy.IsRecoverable(exception))
-            {
-                reportRequests.TryExecuteIfCurrent(
-                    request,
-                    () => reportBox.Text = exception.Message);
-            }
-        }
-
-        async Task ObserveReportUpdateAsync(Task update)
-        {
-            try
-            {
-                await update;
-            }
-            catch (Exception exception)
-            {
-                reportUpdateFailure ??= ExceptionDispatchInfo.Capture(exception);
-                reportUpdatesActive = false;
-                reportRequests.Dispose();
-                if (dialog is null)
-                    return;
-
-                try
-                {
-                    dialog.Hide();
-                }
-                catch (Exception hideException)
-                {
-                    reportUpdateFailure = ExceptionDispatchInfo.Capture(
-                        new AggregateException(
-                            "The import preview update and dialog teardown both failed.",
-                            reportUpdateFailure.SourceException,
-                            hideException));
-                }
-            }
-        }
-
-        void QueueReportUpdate()
-        {
-            if (!reportUpdatesActive)
-                return;
-            reportUpdateObservers.Add(
-                ObserveReportUpdateAsync(UpdateReportAsync(debounce: true)));
-        }
-
-        SelectionChangedEventHandler statusFilterChanged = (_, _) => QueueReportUpdate();
-        TextChangedEventHandler textFilterChanged = (_, _) => QueueReportUpdate();
-        await UpdateReportAsync(debounce: false);
-        statusBox.SelectionChanged += statusFilterChanged;
-        semesterBox.TextChanged += textFilterChanged;
-        searchBox.TextChanged += textFilterChanged;
-        groupBox.TextChanged += textFilterChanged;
-        studyBox.TextChanged += textFilterChanged;
-        labelBox.TextChanged += textFilterChanged;
-
-        var filterPanel = new StackPanel
+        var mergeOptionsPanel = new StackPanel
         {
             Spacing = 8,
-            Children = { statusBox, semesterBox, searchBox, groupBox, studyBox, labelBox }
-        };
-        var filterHeader = new TextBlock
-        {
-            Text = Text["AdvancedFilters"],
-            Style = AppTypography.TextStyle(AppTextRole.BodyStrong)
+            Visibility = hasMergeDecisions ? Visibility.Visible : Visibility.Collapsed,
+            Children =
+            {
+                new TextBlock
+                {
+                    Text = Text["ImportMergeOptionsTitle"],
+                    Style = AppTypography.TextStyle(AppTextRole.BodyStrong)
+                },
+                forceMergeBox,
+                updateSemesterBox,
+                forceOutOfRangeBox
+            }
         };
         var panel = new StackPanel
         {
@@ -741,12 +632,13 @@ public sealed class ImportExportCoordinator
             Children =
             {
                 impactBar,
-                filterHeader,
-                filterPanel,
-                forceMergeBox,
-                updateSemesterBox,
-                forceOutOfRangeBox,
-                reportBox
+                new TextBlock
+                {
+                    Text = Text["ImportMergeResultsTitle"],
+                    Style = AppTypography.TextStyle(AppTextRole.BodyStrong)
+                },
+                reportBox,
+                mergeOptionsPanel
             }
         };
         var scroll = new ScrollViewer
@@ -758,33 +650,17 @@ public sealed class ImportExportCoordinator
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             Content = panel
         };
-        dialog = CreateDialog(
+        var dialog = CreateDialog(
             owner,
             $"{Text["Import"]}: {display.ImportKind(preview.Kind)}",
             scroll,
-            preview.CanApply ? Text["Apply"] : "",
+            preview.CanApply
+                ? Text[preview.RequiresCourseLibrarySync ? "ImportSyncAndApply" : "ConfirmImport"]
+                : "",
             Text["SaveReport"],
-            Text["Cancel"]);
+            Text["CancelImport"]);
         dialog.DefaultButton = preview.CanApply ? ContentDialogButton.Primary : ContentDialogButton.Close;
-        ContentDialogResult result;
-        try
-        {
-            result = await ContentDialogCoordinator.ShowAsync(dialog);
-        }
-        finally
-        {
-            reportUpdatesActive = false;
-            statusBox.SelectionChanged -= statusFilterChanged;
-            semesterBox.TextChanged -= textFilterChanged;
-            searchBox.TextChanged -= textFilterChanged;
-            groupBox.TextChanged -= textFilterChanged;
-            studyBox.TextChanged -= textFilterChanged;
-            labelBox.TextChanged -= textFilterChanged;
-            reportRequests.Dispose();
-            if (reportUpdateObservers.Count > 0)
-                await Task.WhenAll(reportUpdateObservers);
-        }
-        reportUpdateFailure?.Throw();
+        var result = await ContentDialogCoordinator.ShowAsync(dialog);
         return new ImportDialogDecision
         {
             Result = result,
@@ -795,49 +671,6 @@ public sealed class ImportExportCoordinator
                 ForceOutOfRangeCourses = forceOutOfRangeBox.IsChecked == true
             }
         };
-    }
-
-    private async Task<bool> ConfirmCourseLibrarySyncAsync(
-        FrameworkElement owner,
-        ImportPreview preview)
-    {
-        var missing = preview.Items
-            .Where(item => item.RequiresCourseLibrarySync)
-            .Select(item => item.DisplayName)
-            .Where(name => !string.IsNullOrWhiteSpace(name))
-            .Distinct(StringComparer.CurrentCultureIgnoreCase)
-            .Order(StringComparer.CurrentCultureIgnoreCase)
-            .ToList();
-        var list = new ListView
-        {
-            ItemsSource = missing,
-            SelectionMode = ListViewSelectionMode.None,
-            MaxHeight = 180,
-            IsTabStop = false
-        };
-        AutomationProperties.SetAutomationId(list, "ImportMissingCoursesList");
-        AutomationProperties.SetName(list, Text["ImportMissingCourses"]);
-        var content = new StackPanel
-        {
-            Spacing = 10,
-            Children =
-            {
-                new TextBlock
-                {
-                    Text = string.Format(Text["ImportCourseSyncRequired"], missing.Count),
-                    TextWrapping = TextWrapping.Wrap
-                },
-                list
-            }
-        };
-        var dialog = CreateDialog(
-            owner,
-            string.Format(Text["ImportCourseSyncTitleFormat"], missing.Count),
-            content,
-            Text["ImportSyncAndApply"],
-            closeText: Text["CancelImport"]);
-        dialog.DefaultButton = ContentDialogButton.Close;
-        return await ContentDialogCoordinator.ShowAsync(dialog) == ContentDialogResult.Primary;
     }
 
     private async Task SaveImportReportAsync(
@@ -1092,18 +925,6 @@ public sealed class ImportExportCoordinator
         return checkBox;
     }
 
-    private static TextBox FilterTextBox(string automationId, string header)
-    {
-        var box = new TextBox
-        {
-            Header = header,
-            MaxLength = PlannerDataLimits.MaxTextFieldLength
-        };
-        AutomationProperties.SetAutomationId(box, automationId);
-        AutomationProperties.SetName(box, header);
-        return box;
-    }
-
     private static Grid TwoColumnGrid(FrameworkElement left, FrameworkElement right)
     {
         var grid = new Grid { ColumnSpacing = 8 };
@@ -1290,13 +1111,6 @@ public sealed class ImportExportCoordinator
     {
         public ContentDialogResult Result { get; init; }
         public ImportApplyOptions Options { get; init; } = new();
-    }
-
-    private sealed class ImportStatusFilterItem
-    {
-        public ImportPreviewStatus? Status { get; init; }
-        public string Text { get; init; } = "";
-        public override string ToString() => Text;
     }
 
 }
