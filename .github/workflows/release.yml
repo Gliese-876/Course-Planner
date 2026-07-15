@@ -41,6 +41,7 @@ jobs:
           if ($env:RELEASE_TAG_INPUT -notmatch '^v(?<version>\d+\.\d+\.\d+)$') {
             throw "Release tags must use vMAJOR.MINOR.PATCH."
           }
+          $releaseVersion = $Matches.version
           if ($env:PACKAGE_REVISION_INPUT -notmatch '^\d{1,5}$') {
             throw "package_revision must be an integer from 0 through 65535."
           }
@@ -48,7 +49,7 @@ jobs:
           if ($packageRevision -gt 65535) {
             throw "package_revision must be an integer from 0 through 65535."
           }
-          $packageVersion = "$($Matches.version).$packageRevision"
+          $packageVersion = "$releaseVersion.$packageRevision"
 
           if ($env:STAGED_SHA256_INPUT -notmatch '^[0-9a-fA-F]{64}$') {
             throw "staged_sha256 must be a 64-character hexadecimal SHA-256 value."
