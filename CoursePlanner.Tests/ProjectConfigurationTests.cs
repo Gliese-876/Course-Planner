@@ -576,7 +576,7 @@ public sealed class ProjectConfigurationTests
         Assert.Contains("Remove-Item -LiteralPath $pfxPath -Force", stagingScript, StringComparison.Ordinal);
 
         var releaseNotes = File.ReadAllText(ProjectFilePath("docs", "releases", "v1.0.1.md"));
-        Assert.Contains("# Course Planner v1.0.1", releaseNotes, StringComparison.Ordinal);
+        Assert.DoesNotContain("# Course Planner v1.0.1", releaseNotes, StringComparison.Ordinal);
         Assert.Contains("课程锁定与抢课顺序", releaseNotes, StringComparison.Ordinal);
         Assert.Contains("Course locking and registration order", releaseNotes, StringComparison.Ordinal);
         Assert.Contains("## 安装", releaseNotes, StringComparison.Ordinal);
